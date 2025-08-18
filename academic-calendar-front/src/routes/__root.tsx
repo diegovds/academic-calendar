@@ -1,6 +1,5 @@
 import type { QueryClient } from '@tanstack/react-query'
 
-import Navbar from '@/components/navbar'
 import { TanstackDevtools } from '@tanstack/react-devtools'
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
@@ -13,7 +12,6 @@ interface MyRouterContext {
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <div className="flex min-h-dvh flex-col">
-      <Navbar />
       <Outlet />
       <TanstackDevtools
         config={{
