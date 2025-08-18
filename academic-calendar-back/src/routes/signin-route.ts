@@ -19,11 +19,14 @@ export const signinRoute: FastifyPluginAsyncZod = async (app) => {
         response: {
           200: z.object({
             token: z.string(),
+            message: z.string().nullable(),
           }),
           404: z.object({
+            token: z.string().nullable(),
             message: z.string(),
           }),
           400: z.object({
+            token: z.string().nullable(),
             message: z.string(),
           }),
         },
@@ -50,21 +53,23 @@ export const signinRoute: FastifyPluginAsyncZod = async (app) => {
             },
           )
 
-          return reply.status(200).send({ token })
+          return reply.status(200).send({ token, message: null })
         }
 
         return reply.status(404).send({
+          token:null,
           message: 'Usuário não encontrado.',
         })
       }
 
       if (!user) {
         return reply.status(404).send({
+          token:null,
           message: 'Usuário não encontrado.',
         })
       }
 
-      return reply.status(400).send({ message: 'Ocorreu um erro no servidor.' })
+      return reply.status(400).send({token:null, message: 'Ocorreu um erro no servidor.' })
     },
   )
 }
