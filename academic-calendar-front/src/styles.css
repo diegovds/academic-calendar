@@ -10,7 +10,7 @@ body {
   font-family: 'Noto Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply bg-slate-800;
+  background-color: #f3f4f8;
 }
 
 /* Fonte para códigos */
@@ -21,4 +21,9 @@ code {
 /* Fonte para títulos */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Merriweather Sans', sans-serif;
+}
+
+@theme {
+  --color-background: #fff;
+  --color-foreground: oklch(37.4% 0.01 67.558);
 }
