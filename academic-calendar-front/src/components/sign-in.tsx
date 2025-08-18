@@ -2,8 +2,11 @@ import { Form } from '@/components/form'
 import { FormError } from '@/components/form/form-error'
 import { FormInput } from '@/components/form/form-input'
 import { FormItem } from '@/components/form/form-item'
+import { postSignin } from '@/http/api'
+import { sonnerConfig } from '@/libs/sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import * as z from 'zod'
 
 const formSchema = z.object({
@@ -26,8 +29,12 @@ export function SignIn({ formMessage }: SignInProps) {
     resolver: zodResolver(formSchema),
   })
 
-  const onSubmit = (data: FormData) => {
-    console.log('Dados enviados:', data)
+  const onSubmit = async (data: FormData) => {
+    const response = await postSignin(data)
+
+    if (response.message) {
+      toast(response.message, sonnerConfig)
+    }
   }
 
   return (
