@@ -7,7 +7,7 @@ export function FormInput({ className, ...props }: InputProps) {
   return (
     <input
       className={cn(
-        'border p-2 rounded w-full outline-none bg-slate-100 text-slate-900',
+        'p-2 rounded w-full outline-none bg-[#f3f4f8] text-foreground shadow shadow-gray-300',
         className
       )}
       {...props}
