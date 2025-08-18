@@ -1,0 +1,79 @@
+import { Form } from '@/components/form'
+import { FormError } from '@/components/form/form-error'
+import { FormInput } from '@/components/form/form-input'
+import { FormItem } from '@/components/form/form-item'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+
+const formSchema = z.object({
+  email: z.email('Email inválido'),
+  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
+})
+
+type FormData = z.infer<typeof formSchema>
+
+type SignInProps = {
+  formMessage: (formReturn: 'signin' | 'signup') => void
+}
+
+export function SignIn({ formMessage }: SignInProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  })
+
+  const onSubmit = (data: FormData) => {
+    console.log('Dados enviados:', data)
+  }
+
+  return (
+    <Form onSubmit={handleSubmit(onSubmit)} className="flex-1">
+      <FormItem>
+        <FormInput
+          id="email"
+          type="email"
+          placeholder="E-mail"
+          {...register('email')}
+        />
+        <FormError error={errors.email?.message}>
+          {errors.email?.message || '.'}
+        </FormError>
+      </FormItem>
+
+      <FormItem>
+        <FormInput
+          id="password"
+          type="password"
+          placeholder="Senha"
+          {...register('password')}
+        />
+        <FormError error={errors.password?.message}>
+          {errors.password?.message || '.'}
+        </FormError>
+      </FormItem>
+
+      <button
+        type="submit"
+        className="bg-green-700 duration-300 hover:bg-green-800 cursor-pointer text-white p-2 rounded w-full mt-2 mb-8"
+        disabled={isSubmitting}
+      >
+        Entrar
+      </button>
+
+      <FormItem className="flex gap-2 justify-center text-sm">
+        <span>Ainda não possui uma conta?</span>
+        <button
+          type="button"
+          onClick={() => formMessage('signup')}
+          className="cursor-pointer hover:opacity-90 duration-300 font-medium"
+        >
+          Clique aqui!
+        </button>
+      </FormItem>
+    </Form>
+  )
+}
