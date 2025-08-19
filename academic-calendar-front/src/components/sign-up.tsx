@@ -3,14 +3,13 @@ import { FormError } from '@/components/form/form-error'
 import { FormInput } from '@/components/form/form-input'
 import { FormItem } from '@/components/form/form-item'
 import { postSignup } from '@/http/api'
-import { sonnerConfig } from '@/libs/sonner'
 import { useAuthStore } from '@/stores/useAuthStore'
 import type { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
+import toast from 'react-hot-toast'
 import * as z from 'zod'
 import { Button } from './button'
 
@@ -46,7 +45,7 @@ export function SignUp({ formMessage }: SignUpProps) {
     const response = await postSignup(data)
 
     if (response.message) {
-      toast(response.message, sonnerConfig)
+      toast.error(response.message)
     }
 
     if (response.token) {
