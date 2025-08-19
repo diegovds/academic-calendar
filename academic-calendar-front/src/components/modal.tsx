@@ -1,14 +1,15 @@
+import { useModalStore } from '@/stores/useModalStore'
 import { useEffect, useState } from 'react'
 import { Button } from './button'
 
 type ModalProps = {
-  isOpen: boolean
   onClose: () => void
   title?: string
   children: React.ReactNode
 }
 
-export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export function Modal({ onClose, title, children }: ModalProps) {
+  const { isOpen } = useModalStore()
   const [show, setShow] = useState(isOpen)
   const [exiting, setExiting] = useState(false)
 
