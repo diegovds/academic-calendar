@@ -4,7 +4,11 @@ import { FormInput } from '@/components/form/form-input'
 import { FormItem } from '@/components/form/form-item'
 import { postSignin } from '@/http/api'
 import { sonnerConfig } from '@/libs/sonner'
+import { useAuthStore } from '@/stores/useAuthStore'
+import type { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
@@ -21,6 +25,7 @@ type SignInProps = {
 }
 
 export function SignIn({ formMessage }: SignInProps) {
+  const { setName, setSub, setToken } = useAuthStore()
   const {
     register,
     handleSubmit,
@@ -34,6 +39,22 @@ export function SignIn({ formMessage }: SignInProps) {
 
     if (response.message) {
       toast(response.message, sonnerConfig)
+    }
+
+    if (response.token) {
+      const token = response.token
+      const cookieExpiresInSeconds = 60 * 60 * 24 * 30
+
+      Cookies.set('token', token, {
+        expires: cookieExpiresInSeconds,
+        path: '/',
+      })
+
+      const user: User = jwtDecode(token)
+
+      setName(user.name)
+      setSub(user.sub)
+      setToken(token)
     }
   }
 

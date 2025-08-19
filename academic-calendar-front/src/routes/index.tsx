@@ -1,8 +1,9 @@
 import { Page } from '@/components/page'
 import { SignIn } from '@/components/sign-in'
 import { SignUp } from '@/components/sign-up'
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 import { HiAcademicCap } from 'react-icons/hi2'
 import { LiaBookSolid } from 'react-icons/lia'
 import { PiStudentFill } from 'react-icons/pi'
@@ -13,6 +14,14 @@ export const Route = createFileRoute('/')({
 
 function Homepage() {
   const [form, setForm] = useState<'signin' | 'signup'>('signin')
+  const navigate = useNavigate()
+  const { token } = useAuthStore()
+
+  useEffect(() => {
+    if (token !== '') {
+      navigate({ to: '/my-calendar' })
+    }
+  }, [token, navigate])
 
   function handleForm(formReturn: 'signin' | 'signup') {
     setForm(formReturn === 'signin' ? 'signin' : 'signup')
