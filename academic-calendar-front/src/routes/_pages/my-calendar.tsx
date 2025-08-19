@@ -45,12 +45,23 @@ function MyCalendarComponent() {
 
   return (
     <Page className="flex flex-col">
-      <div>
+      <div className="flex items-center justify-between">
         <h1 className="text-foreground">Olá, {name}</h1>
+        {courses && courses.length > 0 && (
+          <Button
+            type="button"
+            className="w-fit px-3 p-2 mb-0"
+            onClick={() => setIsOpen(true)}
+          >
+            Cadastrar curso
+          </Button>
+        )}
       </div>
 
       {isLoading ? (
-        <p>Carregando cursos...</p>
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <p className="text-foreground">Carregando cursos...</p>
+        </div>
       ) : courses?.length === 0 ? (
         <div className="flex-1 flex flex-col items-center justify-center">
           <p className="text-foreground">Você não possui cursos</p>
