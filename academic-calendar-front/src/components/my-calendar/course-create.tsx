@@ -1,8 +1,7 @@
-import { postCourses } from '@/http/api'
+import { postCourses, postSemesters } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { getLocalTimeZone, today } from '@internationalized/date'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import z from 'zod'
@@ -12,14 +11,20 @@ import { FormError } from '../form/form-error'
 import { FormInput } from '../form/form-input'
 import { FormItem } from '../form/form-item'
 
-const formSchema = z.object({
-  description: z.string().min(2, {
-    message: 'a descrição deve ter pelo menos 2 caracteres',
-  }),
-  title: z
-    .string()
-    .min(6, { message: 'o título deve ter pelo menos 6 caracteres' }),
-})
+const formSchema = z
+  .object({
+    description: z.string().min(2, {
+      message: 'A descrição deve ter pelo menos 2 caracteres',
+    }),
+    title: z
+      .string()
+      .min(6, { message: 'O título deve ter pelo menos 6 caracteres' }),
+    semester: z.enum(['first', 'second']).optional(),
+  })
+  .refine(data => !!data.semester, {
+    message: 'Selecione o semestre',
+    path: ['semester'],
+  })
 
 type FormData = z.infer<typeof formSchema>
 
@@ -29,15 +34,18 @@ type CourseCreateProps = {
 
 export function CourseCreate({ reload }: CourseCreateProps) {
   const { token } = useAuthStore()
-  const { month } = today(getLocalTimeZone())
   const { setIsOpen } = useModalStore()
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   })
+
+  const selectedSemester = watch('semester')
 
   const onSubmit = async (data: FormData) => {
     const { course } = await toast.promise(
@@ -52,6 +60,22 @@ export function CourseCreate({ reload }: CourseCreateProps) {
         error: 'Erro ao cadastrar curso.',
       }
     )
+
+    if (data.semester) {
+      const { semester } = await postSemesters(
+        {
+          courseId: course.id,
+          semester: data.semester,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      console.log(semester)
+    }
 
     if (course) {
       setIsOpen(false)
@@ -74,9 +98,9 @@ export function CourseCreate({ reload }: CourseCreateProps) {
       </FormItem>
 
       <FormItem>
-        <FormInput
+        <textarea
           id="description"
-          type="text"
+          className="p-2 rounded w-full outline-none bg-[#f3f4f8] text-foreground shadow shadow-gray-300 resize-none h-30"
           placeholder="Descrição"
           {...register('description')}
         />
@@ -85,7 +109,52 @@ export function CourseCreate({ reload }: CourseCreateProps) {
         </FormError>
       </FormItem>
 
-      <Button type="submit" disabled={isSubmitting} className="mb-0">
+      <div className="flex flex-col">
+        <div className="flex gap-6">
+          <FormItem className="space-x-2 flex items-center">
+            <FormInput
+              id="first"
+              type="checkbox"
+              checked={selectedSemester === 'first'}
+              onChange={() =>
+                setValue(
+                  'semester',
+                  selectedSemester === 'first' ? undefined : 'first',
+                  { shouldValidate: true }
+                )
+              }
+              className="w-fit shadow-none"
+            />
+            <label className="text-sm" htmlFor="first">
+              1º semestre
+            </label>
+          </FormItem>
+
+          <FormItem className="space-x-2 flex items-center">
+            <FormInput
+              id="second"
+              type="checkbox"
+              checked={selectedSemester === 'second'}
+              onChange={() =>
+                setValue(
+                  'semester',
+                  selectedSemester === 'second' ? undefined : 'second',
+                  { shouldValidate: true }
+                )
+              }
+              className="w-fit shadow-none"
+            />
+            <label className="text-sm" htmlFor="second">
+              2º semestre
+            </label>
+          </FormItem>
+        </div>
+        <FormError error={errors.semester?.message}>
+          {errors.semester?.message || '.'}
+        </FormError>
+      </div>
+
+      <Button type="submit" disabled={isSubmitting} className="mb-0 mt-0">
         Cadastrar
       </Button>
     </Form>

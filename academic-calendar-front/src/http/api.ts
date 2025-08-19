@@ -120,12 +120,29 @@ export type GetCourses401 = {
   message: string
 }
 
+export type PostSemestersBodySemester =
+  (typeof PostSemestersBodySemester)[keyof typeof PostSemestersBodySemester]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSemestersBodySemester = {
+  first: 'first',
+  second: 'second',
+} as const
+
 export type PostSemestersBody = {
-  /** @minLength 2 */
-  title: string
+  semester: PostSemestersBodySemester
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   courseId: string
 }
+
+export type PostSemesters201SemesterSemester =
+  (typeof PostSemesters201SemesterSemester)[keyof typeof PostSemesters201SemesterSemester]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSemesters201SemesterSemester = {
+  first: 'first',
+  second: 'second',
+} as const
 
 export type PostSemesters201SemesterCreatedAt = string | null
 
@@ -134,7 +151,7 @@ export type PostSemesters201SemesterUpdatedAt = string | null
 export type PostSemesters201Semester = {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   id: string
-  title: string
+  semester: PostSemesters201SemesterSemester
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   courseId: string
   createdAt: PostSemesters201SemesterCreatedAt
@@ -184,6 +201,15 @@ export type PostDisciplines404 = {
   message: string
 }
 
+export type GetCoursesCourseIdSemesters200SemestersItemSemester =
+  (typeof GetCoursesCourseIdSemesters200SemestersItemSemester)[keyof typeof GetCoursesCourseIdSemesters200SemestersItemSemester]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCoursesCourseIdSemesters200SemestersItemSemester = {
+  first: 'first',
+  second: 'second',
+} as const
+
 export type GetCoursesCourseIdSemesters200SemestersItemCreatedAt = string | null
 
 export type GetCoursesCourseIdSemesters200SemestersItemUpdatedAt = string | null
@@ -191,7 +217,7 @@ export type GetCoursesCourseIdSemesters200SemestersItemUpdatedAt = string | null
 export type GetCoursesCourseIdSemesters200SemestersItem = {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   id: string
-  title: string
+  semester: GetCoursesCourseIdSemesters200SemestersItemSemester
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   courseId: string
   createdAt: GetCoursesCourseIdSemesters200SemestersItemCreatedAt
