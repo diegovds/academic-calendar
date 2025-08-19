@@ -12,6 +12,7 @@ import { jwtDecode } from 'jwt-decode'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
+import { Button } from './button'
 
 const formSchema = z
   .object({
@@ -114,13 +115,9 @@ export function SignUp({ formMessage }: SignUpProps) {
         </FormError>
       </FormItem>
 
-      <button
-        type="submit"
-        className="bg-green-700 duration-300 hover:bg-green-800 cursor-pointer text-white p-2 rounded w-full mt-2 mb-8"
-        disabled={isSubmitting}
-      >
+      <Button type="submit" disabled={isSubmitting}>
         Cadastrar
-      </button>
+      </Button>
 
       <FormItem className="flex gap-2 justify-center text-sm">
         <span>Já possui uma conta?</span>
