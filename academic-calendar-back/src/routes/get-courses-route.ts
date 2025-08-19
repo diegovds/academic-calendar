@@ -15,9 +15,6 @@ export const getCoursesRoute: FastifyPluginAsyncZod = async (app) => {
           200: z.object({
             courses: z.array(courseSchema),
           }),
-          404: z.object({
-            message: z.string(),
-          }),
           401: z.object({
             message: z.string(),
           }),
@@ -29,12 +26,6 @@ export const getCoursesRoute: FastifyPluginAsyncZod = async (app) => {
       const userId = request.user.sub
 
       const { courses } = await getCoursesByUser({ userId })
-
-      if (courses.length === 0) {
-        return reply.status(404).send({
-          message: 'Nenhum curso encontrado para este usuário.',
-        })
-      }
 
       return reply.status(200).send({ courses })
     },
