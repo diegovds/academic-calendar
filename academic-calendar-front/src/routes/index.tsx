@@ -28,11 +28,11 @@ function Homepage() {
   }
 
   return (
-    <Page className="flex items-center px-4 gap-8 flex-col md:flex-row">
-      <div className="flex-1 rounded bg-background text-foreground shadow shadow-gray-300 space-y-5 p-10">
+    <Page className="flex items-center px-4 md:px-10 gap-8 flex-col md:flex-row">
+      <div className="flex-1 rounded text-foreground  space-y-5">
         <div className="flex gap-2 items-center text-blue-500">
-          <HiAcademicCap size={42} />
-          <h1 className="text-2xl">Agenda Acadêmica</h1>
+          <HiAcademicCap size={52} />
+          <h1 className="text-4xl">Agenda Acadêmica</h1>
         </div>
         <div className="space-y-5 text-base">
           <p className="text-foreground">
@@ -41,25 +41,23 @@ function Homepage() {
             eficiente.
           </p>
           <div className="flex gap-6 flex-col md:flex-row">
-            <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-[#f3f4f8]">
-              <p className="text-foreground text-sm">
+            <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-background shadow shadow-gray-300">
+              <p className="text-foreground text-sm text-center">
                 Cadastre seus cursos, semestres, disciplinas e não perca nenhum
                 trabalho ou prova.
               </p>
-              <LiaBookSolid
-                size={32}
-                className="text-blue-500 place-self-center"
-              />
+              <div className="bg-blue-200 w-fit place-self-center p-2.5 rounded-full">
+                <LiaBookSolid size={32} className="text-blue-600" />
+              </div>
             </div>
-            <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-[#f3f4f8]">
-              <p className="text-foreground text-sm">
+            <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-background shadow shadow-gray-300">
+              <p className="text-foreground text-sm text-center">
                 Você tem tudo em um só lugar para estudar com mais foco e menos
                 estresse.
               </p>
-              <PiStudentFill
-                size={32}
-                className="text-blue-500 place-self-center"
-              />
+              <div className="bg-blue-200 w-fit place-self-center p-2.5 rounded-full">
+                <PiStudentFill size={32} className="text-blue-600" />
+              </div>
             </div>
           </div>
         </div>
