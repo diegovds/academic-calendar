@@ -1,4 +1,5 @@
 import { Button } from '@/components/button'
+import { EmptyMessage } from '@/components/empty-message'
 import { Modal } from '@/components/modal'
 import { Page } from '@/components/page'
 import { type GetCourses200CoursesItem, getCourses } from '@/http/api'
@@ -62,12 +63,9 @@ function MyCalendarComponent() {
       </div>
 
       {isLoading ? (
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <p className="text-foreground">Carregando cursos...</p>
-        </div>
+        <EmptyMessage text="Carregando cursos..." />
       ) : courses?.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <p className="text-foreground">Você não possui cursos</p>
+        <EmptyMessage text="Você não possui cursos">
           <Button
             type="button"
             className="w-fit px-3 p-2"
@@ -75,7 +73,7 @@ function MyCalendarComponent() {
           >
             Cadastrar curso
           </Button>
-        </div>
+        </EmptyMessage>
       ) : (
         <div className="grid md:grid-cols-2 gap-4 mt-10 md:gap-10 items-center">
           {courses?.map(course => (
