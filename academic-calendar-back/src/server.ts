@@ -19,7 +19,6 @@ import { getCoursesRoute } from './routes/get-courses-route'
 import { getDisciplinesRoute } from './routes/get-disciplines-route'
 import { getSemestersRoute } from './routes/get-semesters-route'
 import { getTasksRoute } from './routes/get-tasks-route'
-import { getUserWithCoursesAndSemestersRoute } from './routes/get-user-with-courses-and-semesters-route'
 import { semesterCreationRoute } from './routes/semester-creation-route'
 import { signinRoute } from './routes/signin-route'
 import { signupRoute } from './routes/signup-route'
@@ -96,7 +95,6 @@ app.register(fastifySwaggerUi, {
 app.register(signupRoute)
 app.register(signinRoute)
 app.register(courseCreationRoute)
-app.register(getUserWithCoursesAndSemestersRoute)
 app.register(semesterCreationRoute)
 app.register(disciplineCreationRoute)
 app.register(getSemestersRoute)
