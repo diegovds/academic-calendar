@@ -1,6 +1,6 @@
 import { useModalStore } from '@/stores/useModalStore'
 import { useEffect, useState } from 'react'
-import { Button } from './button'
+import { MdClose } from 'react-icons/md'
 
 type ModalProps = {
   onClose: () => void
@@ -54,15 +54,17 @@ export function Modal({ onClose, title, children }: ModalProps) {
         }`}
         onAnimationEnd={handleAnimationEnd}
       >
+        <MdClose
+          size={30}
+          onClick={onClose}
+          className="absolute right-3 top-3 cursor-pointer bg-foreground text-white rounded-full p-1 hover:opacity-95 duration-300"
+        />
         {title && (
-          <h2 className="text-xl font-semibold mb-4 text-foreground">
+          <h2 className="text-xl mb-4 font-semibold text-foreground">
             {title}
           </h2>
         )}
-        <div className="mb-4">{children}</div>
-        <Button type="button" className="mb-0" onClick={onClose}>
-          Fechar
-        </Button>
+        <div>{children}</div>
       </div>
     </div>
   )
