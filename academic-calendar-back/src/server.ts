@@ -15,6 +15,7 @@ import { courseCreationRoute } from './routes/course-creation-route'
 import { createTaskRoute } from './routes/create-task'
 import { deleteTaskRoute } from './routes/delete-task-route'
 import { disciplineCreationRoute } from './routes/discipline-creation-route'
+import { getCourseRoute } from './routes/get-course-route'
 import { getCoursesRoute } from './routes/get-courses-route'
 import { getDisciplinesRoute } from './routes/get-disciplines-route'
 import { getSemestersRoute } from './routes/get-semesters-route'
@@ -99,6 +100,7 @@ app.register(semesterCreationRoute)
 app.register(disciplineCreationRoute)
 app.register(getSemestersRoute)
 app.register(getCoursesRoute)
+app.register(getCourseRoute)
 app.register(getDisciplinesRoute)
 app.register(getTasksRoute)
 app.register(createTaskRoute)
