@@ -1,7 +1,7 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { semesterCreation } from '../functions/semester-creation'
-import { semesterSchema } from '../types/zod'
+import { semesterSchema, semesterTypeEnum } from '../types/zod'
 
 export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
   app.post(
@@ -12,9 +12,7 @@ export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
         tags: ['semesters'],
         security: [{ bearerAuth: [] }], // Isso mostra que a rota exige token
         body: z.object({
-          title: z.string().min(2, {
-            message: 'o title deve ter pelo menos 2 caracteres',
-          }),
+          semester: semesterTypeEnum,
           courseId: z.uuid(),
         }),
         response: {
@@ -32,18 +30,18 @@ export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
       preHandler: [app.authenticate], // Protegendo a rota
     },
     async (request, reply) => {
-      const { courseId, title } = request.body
+      const { courseId, semester } = request.body
 
-      const { semester } = await semesterCreation({
+      const { semester: _semester } = await semesterCreation({
         courseId,
-        title,
+        semester,
       })
 
-      if (semester) {
-        return reply.status(201).send({ semester })
+      if (_semester) {
+        return reply.status(201).send({ semester: _semester })
       }
 
-      if (!semester) {
+      if (!_semester) {
         return reply.status(404).send({
           message: 'Semestre não cadastrado.',
         })

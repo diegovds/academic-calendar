@@ -8,9 +8,11 @@ export const disciplineSchema = z.object({
   semesterId: z.string(),
 })
 
+export const semesterTypeEnum = z.enum(['first', 'second'])
+
 export const semesterSchema = z.object({
   id: z.uuid(),
-  title: z.string(),
+  semester: semesterTypeEnum,
   courseId: z.uuid(),
   createdAt: z.date().nullable(),
   updatedAt: z.date().nullable(),

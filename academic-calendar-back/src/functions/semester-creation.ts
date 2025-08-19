@@ -2,17 +2,17 @@ import { db } from '../drizzle/drizzle'
 import { semesters } from '../drizzle/schema/schema'
 
 interface semesterCreationProps {
-  title: string
+  semester: 'first' | 'second'
   courseId: string
 }
 
 export async function semesterCreation({
-  title,
+  semester,
   courseId,
 }: semesterCreationProps) {
   const newSemester = await db
     .insert(semesters)
-    .values({ courseId, title })
+    .values({ courseId, semester })
     .returning()
 
   return {
