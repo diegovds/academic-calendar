@@ -25,7 +25,7 @@ type SignInProps = {
 }
 
 export function SignIn({ formMessage }: SignInProps) {
-  const { setName, setSub, setToken } = useAuthStore()
+  const { setName, setToken } = useAuthStore()
   const {
     register,
     handleSubmit,
@@ -53,7 +53,6 @@ export function SignIn({ formMessage }: SignInProps) {
       const user: User = jwtDecode(token)
 
       setName(user.name)
-      setSub(user.sub)
       setToken(token)
     }
   }

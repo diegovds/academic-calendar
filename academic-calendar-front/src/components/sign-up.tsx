@@ -32,7 +32,7 @@ type SignUpProps = {
 }
 
 export function SignUp({ formMessage }: SignUpProps) {
-  const { setName, setSub, setToken } = useAuthStore()
+  const { setName, setToken } = useAuthStore()
   const {
     register,
     handleSubmit,
@@ -60,7 +60,6 @@ export function SignUp({ formMessage }: SignUpProps) {
       const user: User = jwtDecode(token)
 
       setName(user.name)
-      setSub(user.sub)
       setToken(token)
     }
   }
