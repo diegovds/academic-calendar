@@ -5,8 +5,9 @@ import { type GetCourses200CoursesItem, getCourses } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { CourseCreate } from './-components/course-create'
+import { CourseItem } from './-components/course-item'
 
 export const Route = createFileRoute('/_pages/my-calendar/')({
   component: MyCalendarComponent,
@@ -77,21 +78,13 @@ function MyCalendarComponent() {
       ) : (
         <div className="grid md:grid-cols-2 gap-4 mt-10 md:gap-10 items-center">
           {courses?.map(course => (
-            <Link
-              to="/course/$id"
-              params={{
-                id: course.id,
-              }}
+            <CourseItem
               key={course.id}
-              className="bg-background text-foreground p-4 rounded"
-            >
-              <h3 className="text-base md:text-lg line-clamp-1">
-                {course.title}
-              </h3>
-              <p className="text-xs md:text-sm line-clamp-3">
-                {course.description}
-              </p>
-            </Link>
+              description={course.description}
+              id={course.id}
+              title={course.title}
+              to="/course/$id"
+            />
           ))}
         </div>
       )}
