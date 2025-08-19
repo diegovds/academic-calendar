@@ -53,7 +53,11 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
         }`}
         onAnimationEnd={handleAnimationEnd}
       >
-        {title && <h2 className="text-xl font-semibold mb-4">{title}</h2>}
+        {title && (
+          <h2 className="text-xl font-semibold mb-4 text-foreground">
+            {title}
+          </h2>
+        )}
         <div className="mb-4">{children}</div>
         <Button type="button" className="mb-0" onClick={onClose}>
           Fechar
