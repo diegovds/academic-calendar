@@ -1,7 +1,17 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { getCourseByUser } from '../functions/get-course-by-user'
-import { courseSchema } from '../types/zod'
+import { semesterSchema } from '../types/zod'
+
+const courseSchema = z.object({
+  id: z.uuid(),
+  title: z.string(),
+  description: z.string(),
+  userId: z.uuid(),
+  createdAt: z.date().nullable(),
+  updatedAt: z.date().nullable(),
+  semesters: z.array(semesterSchema),
+})
 
 export const getCourseRoute: FastifyPluginAsyncZod = async (app) => {
   app.get(
@@ -16,7 +26,7 @@ export const getCourseRoute: FastifyPluginAsyncZod = async (app) => {
         }),
         response: {
           200: z.object({
-            course: z.nullish(courseSchema),
+            course: courseSchema.nullish(),
           }),
           401: z.object({
             message: z.string(),

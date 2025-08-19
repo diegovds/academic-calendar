@@ -10,6 +10,9 @@ export async function getCourseByUser({ userId, courseId }: GetCoursesByUserProp
   const course = await db.query.courses.findFirst({
   where: (fields) =>
     and(eq(fields.id, courseId), eq(fields.userId, userId)),
+    with: {
+      semesters: true,
+    }
   })
 
   return { course }
