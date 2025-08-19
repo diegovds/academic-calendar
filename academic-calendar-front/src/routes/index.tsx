@@ -28,7 +28,7 @@ function Homepage() {
   }
 
   return (
-    <Page className="flex items-center px-4 md:px-10 gap-8 flex-col md:flex-row">
+    <Page className="flex items-center gap-8 flex-col md:flex-row">
       <div className="flex-1 rounded text-foreground  space-y-5">
         <div className="flex gap-2 items-center text-blue-500">
           <HiAcademicCap size={52} />
