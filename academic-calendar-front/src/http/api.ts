@@ -120,10 +120,6 @@ export type GetCourses401 = {
   message: string
 }
 
-export type GetCourses404 = {
-  message: string
-}
-
 export type PostSemestersBody = {
   /** @minLength 2 */
   title: string
