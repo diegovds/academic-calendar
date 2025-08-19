@@ -2,6 +2,7 @@ import { postCourses } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { getLocalTimeZone, today } from '@internationalized/date'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import z from 'zod'
@@ -28,6 +29,7 @@ type CourseCreateProps = {
 
 export function CourseCreate({ reload }: CourseCreateProps) {
   const { token } = useAuthStore()
+  const { month } = today(getLocalTimeZone())
   const { setIsOpen } = useModalStore()
   const {
     register,
