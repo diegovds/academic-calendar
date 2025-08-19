@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PagesRouteImport } from './routes/_pages'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
-import { Route as PagesMyCalendarRouteImport } from './routes/_pages/my-calendar'
+import { Route as PagesMyCalendarIndexRouteImport } from './routes/_pages/my-calendar/index'
+import { Route as PagesCourseIdRouteImport } from './routes/_pages/course/$id'
 
 const PagesRoute = PagesRouteImport.update({
   id: '/_pages',
@@ -23,51 +23,50 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
+const PagesMyCalendarIndexRoute = PagesMyCalendarIndexRouteImport.update({
+  id: '/my-calendar/',
+  path: '/my-calendar/',
+  getParentRoute: () => PagesRoute,
 } as any)
-const PagesMyCalendarRoute = PagesMyCalendarRouteImport.update({
-  id: '/my-calendar',
-  path: '/my-calendar',
+const PagesCourseIdRoute = PagesCourseIdRouteImport.update({
+  id: '/course/$id',
+  path: '/course/$id',
   getParentRoute: () => PagesRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/my-calendar': typeof PagesMyCalendarRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/course/$id': typeof PagesCourseIdRoute
+  '/my-calendar': typeof PagesMyCalendarIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/my-calendar': typeof PagesMyCalendarRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/course/$id': typeof PagesCourseIdRoute
+  '/my-calendar': typeof PagesMyCalendarIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_pages': typeof PagesRouteWithChildren
-  '/_pages/my-calendar': typeof PagesMyCalendarRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/_pages/course/$id': typeof PagesCourseIdRoute
+  '/_pages/my-calendar/': typeof PagesMyCalendarIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/my-calendar' | '/demo/tanstack-query'
+  fullPaths: '/' | '/course/$id' | '/my-calendar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/my-calendar' | '/demo/tanstack-query'
+  to: '/' | '/course/$id' | '/my-calendar'
   id:
     | '__root__'
     | '/'
     | '/_pages'
-    | '/_pages/my-calendar'
-    | '/demo/tanstack-query'
+    | '/_pages/course/$id'
+    | '/_pages/my-calendar/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PagesRoute: typeof PagesRouteWithChildren
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -86,29 +85,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_pages/my-calendar': {
-      id: '/_pages/my-calendar'
+    '/_pages/my-calendar/': {
+      id: '/_pages/my-calendar/'
       path: '/my-calendar'
       fullPath: '/my-calendar'
-      preLoaderRoute: typeof PagesMyCalendarRouteImport
+      preLoaderRoute: typeof PagesMyCalendarIndexRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/course/$id': {
+      id: '/_pages/course/$id'
+      path: '/course/$id'
+      fullPath: '/course/$id'
+      preLoaderRoute: typeof PagesCourseIdRouteImport
       parentRoute: typeof PagesRoute
     }
   }
 }
 
 interface PagesRouteChildren {
-  PagesMyCalendarRoute: typeof PagesMyCalendarRoute
+  PagesCourseIdRoute: typeof PagesCourseIdRoute
+  PagesMyCalendarIndexRoute: typeof PagesMyCalendarIndexRoute
 }
 
 const PagesRouteChildren: PagesRouteChildren = {
-  PagesMyCalendarRoute: PagesMyCalendarRoute,
+  PagesCourseIdRoute: PagesCourseIdRoute,
+  PagesMyCalendarIndexRoute: PagesMyCalendarIndexRoute,
 }
 
 const PagesRouteWithChildren = PagesRoute._addFileChildren(PagesRouteChildren)
@@ -116,7 +117,6 @@ const PagesRouteWithChildren = PagesRoute._addFileChildren(PagesRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PagesRoute: PagesRouteWithChildren,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
