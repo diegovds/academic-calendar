@@ -131,6 +131,7 @@ export const PostSemestersBodySemester = {
 
 export type PostSemestersBody = {
   semester: PostSemestersBodySemester
+  year: string
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   courseId: string
 }
@@ -152,6 +153,7 @@ export type PostSemesters201Semester = {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   id: string
   semester: PostSemesters201SemesterSemester
+  year: string
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   courseId: string
   createdAt: PostSemesters201SemesterCreatedAt
@@ -218,6 +220,7 @@ export type GetCoursesCourseIdSemesters200SemestersItem = {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   id: string
   semester: GetCoursesCourseIdSemesters200SemestersItemSemester
+  year: string
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
   courseId: string
   createdAt: GetCoursesCourseIdSemesters200SemestersItemCreatedAt
@@ -233,6 +236,61 @@ export type GetCoursesCourseIdSemesters401 = {
 }
 
 export type GetCoursesCourseIdSemesters404 = {
+  message: string
+}
+
+export type GetCoursesCourseId200CourseAnyOfCreatedAt = string | null
+
+export type GetCoursesCourseId200CourseAnyOfUpdatedAt = string | null
+
+export type GetCoursesCourseId200CourseAnyOfSemestersItemSemester =
+  (typeof GetCoursesCourseId200CourseAnyOfSemestersItemSemester)[keyof typeof GetCoursesCourseId200CourseAnyOfSemestersItemSemester]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCoursesCourseId200CourseAnyOfSemestersItemSemester = {
+  first: 'first',
+  second: 'second',
+} as const
+
+export type GetCoursesCourseId200CourseAnyOfSemestersItemCreatedAt =
+  | string
+  | null
+
+export type GetCoursesCourseId200CourseAnyOfSemestersItemUpdatedAt =
+  | string
+  | null
+
+export type GetCoursesCourseId200CourseAnyOfSemestersItem = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
+  id: string
+  semester: GetCoursesCourseId200CourseAnyOfSemestersItemSemester
+  year: string
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
+  courseId: string
+  createdAt: GetCoursesCourseId200CourseAnyOfSemestersItemCreatedAt
+  updatedAt: GetCoursesCourseId200CourseAnyOfSemestersItemUpdatedAt
+}
+
+export type GetCoursesCourseId200CourseAnyOf = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
+  id: string
+  title: string
+  description: string
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
+  userId: string
+  createdAt: GetCoursesCourseId200CourseAnyOfCreatedAt
+  updatedAt: GetCoursesCourseId200CourseAnyOfUpdatedAt
+  semesters: GetCoursesCourseId200CourseAnyOfSemestersItem[]
+}
+
+export type GetCoursesCourseId200Course =
+  GetCoursesCourseId200CourseAnyOf | null
+
+export type GetCoursesCourseId200 = {
+  course?: GetCoursesCourseId200Course
+}
+
+export type GetCoursesCourseId401 = {
   message: string
 }
 
@@ -561,6 +619,28 @@ export const getCoursesCourseIdSemesters = async (
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text()
   const data: GetCoursesCourseIdSemesters200 = body ? JSON.parse(body) : {}
+
+  return data
+}
+
+/**
+ * @summary Get course from authenticated user
+ */
+export const getGetCoursesCourseIdUrl = (courseId: string) => {
+  return `http://localhost:3333/courses/${courseId}`
+}
+
+export const getCoursesCourseId = async (
+  courseId: string,
+  options?: RequestInit
+): Promise<GetCoursesCourseId200> => {
+  const res = await fetch(getGetCoursesCourseIdUrl(courseId), {
+    ...options,
+    method: 'GET',
+  })
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: GetCoursesCourseId200 = body ? JSON.parse(body) : {}
 
   return data
 }
