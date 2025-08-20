@@ -56,7 +56,7 @@ function MyCalendarComponent() {
         {courses && courses.length > 0 && (
           <Button
             type="button"
-            className="md:w-fit w-full px-3 p-2 mb-0 mt-0 text-base"
+            className="md:w-fit w-full px-3 p-2 mb-0 mt-0 text-sm md:text-base"
             onClick={() => setIsOpen(true)}
           >
             Cadastrar curso
@@ -76,7 +76,7 @@ function MyCalendarComponent() {
         </EmptyMessage>
       ) : (
         <>
-          <h3 className="md:text-xl text-foreground mt-10 mb-5">Cursos:</h3>
+          <h3 className="md:text-xl text-foreground my-4">Cursos:</h3>
           <div className="grid md:grid-cols-2 gap-4 md:gap-10 items-center">
             {courses?.map(course => (
               <CourseItem
