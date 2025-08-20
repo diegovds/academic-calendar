@@ -45,6 +45,8 @@ function MyCalendarComponent() {
     }
   }
 
+  if (isLoading) return <EmptyMessage text="Carregando cursos..." />
+
   return (
     <Page className="flex flex-col">
       <div className="flex md:items-center md:gap-0 gap-2 md:justify-between flex-col md:flex-row">
@@ -62,9 +64,7 @@ function MyCalendarComponent() {
         )}
       </div>
 
-      {isLoading ? (
-        <EmptyMessage text="Carregando cursos..." />
-      ) : courses?.length === 0 ? (
+      {courses?.length === 0 ? (
         <EmptyMessage text="Você não possui cursos">
           <Button
             type="button"
@@ -75,17 +75,20 @@ function MyCalendarComponent() {
           </Button>
         </EmptyMessage>
       ) : (
-        <div className="grid md:grid-cols-2 gap-4 mt-10 md:gap-10 items-center">
-          {courses?.map(course => (
-            <CourseItem
-              key={course.id}
-              description={course.description}
-              id={course.id}
-              title={course.title}
-              to="/course/$id"
-            />
-          ))}
-        </div>
+        <>
+          <h3 className="md:text-xl text-foreground mt-10 mb-5">Cursos:</h3>
+          <div className="grid md:grid-cols-2 gap-4 md:gap-10 items-center">
+            {courses?.map(course => (
+              <CourseItem
+                key={course.id}
+                description={course.description}
+                id={course.id}
+                title={course.title}
+                to="/course/$id"
+              />
+            ))}
+          </div>
+        </>
       )}
 
       <Modal onClose={() => setIsOpen(false)} title="Cadastro de curso">
