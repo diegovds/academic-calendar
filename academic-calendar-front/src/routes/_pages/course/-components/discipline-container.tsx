@@ -56,7 +56,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
           className="md:w-fit w-full px-3 p-2 mb-0 mt-0 text-base"
           onClick={() => {
             setIsOpen(true)
-            setWhoOpened('son')
+            setWhoOpened('discipline')
           }}
         >
           Cadastrar disciplina
@@ -75,7 +75,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
         </div>
       )}
 
-      {whoOpened === 'son' && (
+      {whoOpened === 'discipline' && (
         <Modal onClose={() => setIsOpen(false)} title="Cadastro de disciplina">
           <DisciplineCreate semesterId={semesterId} reload={handleReload} />
         </Modal>
