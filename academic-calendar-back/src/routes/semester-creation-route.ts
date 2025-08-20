@@ -13,7 +13,7 @@ export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
         security: [{ bearerAuth: [] }], // Isso mostra que a rota exige token
         body: z.object({
           semester: semesterTypeEnum,
-          year: z.string(),
+          year: z.number().int().gte(new Date().getFullYear()).lte(new Date().getFullYear() + 1).transform((val) => String(val)),
           courseId: z.uuid(),
         }),
         response: {
