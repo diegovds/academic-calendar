@@ -1,14 +1,19 @@
+import { Button } from '@/components/button'
 import { EmptyMessage } from '@/components/empty-message'
+import { Modal } from '@/components/modal'
 import { Page } from '@/components/page'
 import {
   type GetCoursesCourseId200Course,
   getCoursesCourseId,
 } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
-import { useQuery } from '@tanstack/react-query'
+import { useModalStore } from '@/stores/useModalStore'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { z } from 'zod'
+import { SemesterCreate } from './-components/semester-create'
+import { SemesterGrid } from './-components/semester-grid'
 
 const courseIdSchema = z.object({
   id: z.uuid('O id do curso deve ser um UUID válido'),
@@ -32,6 +37,7 @@ function CoursePage() {
   const { courseId } = Route.useRouteContext()
   const navigate = useNavigate()
   const { token } = useAuthStore()
+  const { setIsOpen } = useModalStore()
 
   const courseQuery = useQuery<GetCoursesCourseId200Course | null>({
     queryKey: ['course', token, courseId],
@@ -47,6 +53,14 @@ function CoursePage() {
 
   const { data: course, isLoading } = courseQuery
 
+  const queryClient = useQueryClient()
+
+  function handleReload(reload: boolean) {
+    if (reload) {
+      queryClient.invalidateQueries({ queryKey: ['course', token, courseId] })
+    }
+  }
+
   useEffect(() => {
     if (!token) navigate({ to: '/' })
   }, [token, navigate])
@@ -59,11 +73,27 @@ function CoursePage() {
 
   return (
     <Page>
-      <h1>Curso: {course.title}</h1>
-      <p>{course.description}</p>
-      {course.semesters?.map(semester => (
-        <div key={semester.id}>{semester.semester}</div>
-      ))}
+      <h1 className="text-foreground text-lg line-clamp-1 md:text-2xl">
+        Curso: {course.title}
+      </h1>
+      <p className="md:text-base text-foreground mt-1 mb-4">
+        {course.description}
+      </p>
+      {course.semesters.length < 2 && (
+        <Button
+          type="button"
+          className="md:w-fit w-full px-3 p-2 mb-4 mt-0 text-base"
+          onClick={() => setIsOpen(true)}
+        >
+          Cadastrar semestre
+        </Button>
+      )}
+
+      <SemesterGrid semesters={course.semesters} />
+
+      <Modal onClose={() => setIsOpen(false)} title="Cadastro de semestre">
+        <SemesterCreate courseId={course.id} reload={handleReload} />
+      </Modal>
     </Page>
   )
 }
