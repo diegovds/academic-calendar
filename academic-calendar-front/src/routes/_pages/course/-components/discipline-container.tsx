@@ -7,6 +7,7 @@ import {
 } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
+import { useTaskStore } from '@/stores/useTaskStore'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { DisciplineCreate } from './discipline-create'
 
@@ -16,6 +17,7 @@ type DisciplineContainerProps = {
 
 export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
   const { token } = useAuthStore()
+  const { setTask, setName } = useTaskStore()
   const { setIsOpen, whoOpened, setWhoOpened, toggleWhoOpened } =
     useModalStore()
 
@@ -65,12 +67,17 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
       {disciplines && (
         <div className="grid grid-cols-4 gap-4">
           {disciplines.map(discipline => (
-            <div
+            <button
+              type="button"
               key={discipline.id}
-              className="flex items-center justify-center text-center bg-background p-4 rounded text-foreground"
+              onClick={() => {
+                setTask(discipline.id)
+                setName(discipline.title)
+              }}
+              className="flex cursor-pointer items-center justify-center text-center bg-background p-4 rounded text-foreground"
             >
               {discipline.title}
-            </div>
+            </button>
           ))}
         </div>
       )}
