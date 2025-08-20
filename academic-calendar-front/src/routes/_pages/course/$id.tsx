@@ -81,18 +81,17 @@ function CoursePage() {
       <p className="md:text-base text-foreground mt-1 mb-4">
         {course.description}
       </p>
-      {course.semesters.length < 2 && (
-        <Button
-          type="button"
-          className="md:w-fit w-full px-3 p-2 mb-4 mt-0 text-base"
-          onClick={() => {
-            setIsOpen(true)
-            setWhoOpened('father')
-          }}
-        >
-          Cadastrar semestre
-        </Button>
-      )}
+
+      <Button
+        type="button"
+        className="md:w-fit w-full px-3 p-2 mb-4 mt-0 text-base"
+        onClick={() => {
+          setIsOpen(true)
+          setWhoOpened('father')
+        }}
+      >
+        Cadastrar semestre
+      </Button>
 
       <SemesterGrid semesters={course.semesters} />
 
