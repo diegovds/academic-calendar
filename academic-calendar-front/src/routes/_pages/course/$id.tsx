@@ -37,7 +37,8 @@ function CoursePage() {
   const { courseId } = Route.useRouteContext()
   const navigate = useNavigate()
   const { token } = useAuthStore()
-  const { setIsOpen } = useModalStore()
+  const { setIsOpen, whoOpened, setWhoOpened, toggleWhoOpened } =
+    useModalStore()
 
   const courseQuery = useQuery<GetCoursesCourseId200Course | null>({
     queryKey: ['course', token, courseId],
@@ -58,6 +59,7 @@ function CoursePage() {
   function handleReload(reload: boolean) {
     if (reload) {
       queryClient.invalidateQueries({ queryKey: ['course', token, courseId] })
+      toggleWhoOpened()
     }
   }
 
@@ -83,7 +85,10 @@ function CoursePage() {
         <Button
           type="button"
           className="md:w-fit w-full px-3 p-2 mb-4 mt-0 text-base"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setIsOpen(true)
+            setWhoOpened('father')
+          }}
         >
           Cadastrar semestre
         </Button>
@@ -91,9 +96,11 @@ function CoursePage() {
 
       <SemesterGrid semesters={course.semesters} />
 
-      <Modal onClose={() => setIsOpen(false)} title="Cadastro de semestre">
-        <SemesterCreate courseId={course.id} reload={handleReload} />
-      </Modal>
+      {whoOpened === 'father' && (
+        <Modal onClose={() => setIsOpen(false)} title="Cadastro de semestre">
+          <SemesterCreate courseId={course.id} reload={handleReload} />
+        </Modal>
+      )}
     </Page>
   )
 }
