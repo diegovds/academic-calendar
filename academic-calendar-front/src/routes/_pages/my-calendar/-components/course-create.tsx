@@ -62,10 +62,11 @@ export function CourseCreate({ reload }: CourseCreateProps) {
     )
 
     if (data.semester) {
-      const { semester } = await postSemesters(
+      await postSemesters(
         {
           courseId: course.id,
           semester: data.semester,
+          year: '2025',
         },
         {
           headers: {
@@ -73,8 +74,6 @@ export function CourseCreate({ reload }: CourseCreateProps) {
           },
         }
       )
-
-      console.log(semester)
     }
 
     if (course) {
