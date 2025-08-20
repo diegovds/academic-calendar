@@ -52,7 +52,7 @@ export function Modal({ onClose, title, children }: ModalProps) {
         onAnimationEnd={handleAnimationEnd}
       />
       <div
-        className={`relative z-10 w-full max-w-lg rounded-2xl bg-background text-foreground shadow-xl p-10 ${
+        className={`relative z-10 w-full max-w-lg rounded-2xl bg-background text-foreground shadow-xl mx-4 p-5 md:p-8 ${
           exiting ? 'modal-exit' : 'modal-animate'
         }`}
         onAnimationEnd={handleAnimationEnd}
