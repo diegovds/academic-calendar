@@ -37,13 +37,6 @@ export const getDisciplinesRoute: FastifyPluginAsyncZod = async (app) => {
         semesterId,
       })
 
-      if (disciplines.length === 0) {
-        return reply.status(404).send({
-          message:
-            'Nenhuma disciplina encontrada para este semestre e usuário.',
-        })
-      }
-
       return reply.status(200).send({ disciplines })
     },
   )
