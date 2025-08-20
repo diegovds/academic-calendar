@@ -1,0 +1,1 @@
+ALTER TABLE "semesters" ADD COLUMN "year" text NOT NULL;

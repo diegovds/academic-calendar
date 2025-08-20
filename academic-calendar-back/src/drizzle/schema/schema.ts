@@ -42,6 +42,7 @@ export const semesterTypeEnum = pgEnum('semester_type', ['first', 'second'])
 export const semesters = pgTable('semesters', {
   id: uuid('id').primaryKey().defaultRandom(),
   semester: semesterTypeEnum('type').notNull(),
+  year: text('year').notNull(),
   courseId: uuid('course_id')
     .notNull()
     .references(() => courses.id, { onDelete: 'cascade' }),

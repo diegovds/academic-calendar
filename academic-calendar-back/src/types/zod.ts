@@ -13,6 +13,7 @@ export const semesterTypeEnum = z.enum(['first', 'second'])
 export const semesterSchema = z.object({
   id: z.uuid(),
   semester: semesterTypeEnum,
+  year: z.string(),
   courseId: z.uuid(),
   createdAt: z.date().nullable(),
   updatedAt: z.date().nullable(),

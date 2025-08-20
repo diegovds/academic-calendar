@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { semesterCreation } from '../functions/semester-creation'
+import { SemesterCreation } from '../functions/semester-creation'
 import { semesterSchema, semesterTypeEnum } from '../types/zod'
 
 export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
@@ -13,6 +13,7 @@ export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
         security: [{ bearerAuth: [] }], // Isso mostra que a rota exige token
         body: z.object({
           semester: semesterTypeEnum,
+          year: z.string(),
           courseId: z.uuid(),
         }),
         response: {
@@ -30,11 +31,14 @@ export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
       preHandler: [app.authenticate], // Protegendo a rota
     },
     async (request, reply) => {
-      const { courseId, semester } = request.body
+      const userId = request.user.sub
+      const { courseId, semester, year } = request.body
 
-      const { semester: _semester } = await semesterCreation({
+      const { semester: _semester } = await SemesterCreation({
         courseId,
         semester,
+        year,
+        userId,
       })
 
       if (_semester) {
