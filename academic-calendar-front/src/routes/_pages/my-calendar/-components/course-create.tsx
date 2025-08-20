@@ -48,20 +48,15 @@ export function CourseCreate({ reload }: CourseCreateProps) {
   const selectedSemester = watch('semester')
 
   const onSubmit = async (data: FormData) => {
-    const { course } = await toast.promise(
-      postCourses(data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      {
-        loading: 'Cadastrando...',
-        success: 'Curso cadastrado!',
-        error: 'Erro ao cadastrar curso.',
-      }
-    )
+    const toastId = toast.loading('Cadastrando...')
 
-    if (data.semester) {
+    const { course } = await postCourses(data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    if (data.semester && course) {
       await postSemesters(
         {
           courseId: course.id,
@@ -76,9 +71,14 @@ export function CourseCreate({ reload }: CourseCreateProps) {
       )
     }
 
+    toast.dismiss(toastId)
+
     if (course) {
+      toast.success('Curso cadastrado!')
       setIsOpen(false)
       reload(true)
+    } else {
+      toast.error('Erro ao cadastrar curso.')
     }
   }
 
