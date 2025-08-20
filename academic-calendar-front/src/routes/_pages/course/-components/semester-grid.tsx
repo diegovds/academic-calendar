@@ -8,7 +8,7 @@ type SemesterGridProps = {
 
 export function SemesterGrid({ semesters }: SemesterGridProps) {
   const [selectedSemester, setSelectedSemester] = useState<string | null>(
-    semesters ? semesters[semesters.length - 1].id : null
+    semesters ? semesters[0].id : null
   )
 
   return (
