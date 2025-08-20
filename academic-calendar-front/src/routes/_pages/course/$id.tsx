@@ -87,7 +87,7 @@ function CoursePage() {
         className="md:w-fit w-full px-3 p-2 mb-6 mt-0 text-base"
         onClick={() => {
           setIsOpen(true)
-          setWhoOpened('father')
+          setWhoOpened('semester')
         }}
       >
         Cadastrar semestre
@@ -97,7 +97,7 @@ function CoursePage() {
         <SemesterGrid semesters={course.semesters} />
       )}
 
-      {whoOpened === 'father' && (
+      {whoOpened === 'semester' && (
         <Modal onClose={() => setIsOpen(false)} title="Cadastro de semestre">
           <SemesterCreate courseId={course.id} reload={handleReload} />
         </Modal>
