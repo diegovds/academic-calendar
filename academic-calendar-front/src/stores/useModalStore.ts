@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-interface AuthState {
+interface ModalState {
   isOpen: boolean
   whoOpened: string
   setIsOpen: (isOpen: boolean) => void
@@ -9,7 +9,7 @@ interface AuthState {
   toggleWhoOpened: () => void
 }
 
-export const useModalStore = create<AuthState>(set => ({
+export const useModalStore = create<ModalState>(set => ({
   isOpen: false,
   whoOpened: '',
   setIsOpen: value => set({ isOpen: value }),
