@@ -66,7 +66,7 @@ export function CourseCreate({ reload }: CourseCreateProps) {
         {
           courseId: course.id,
           semester: data.semester,
-          year: 2025,
+          year: new Date().getFullYear(),
         },
         {
           headers: {
