@@ -19,7 +19,7 @@ export function SemesterGrid({ semesters }: SemesterGridProps) {
             type="button"
             onClick={() => setSelectedSemester(semester.id)}
             key={semester.id}
-            className={`bg-background text-foreground p-4 rounded cursor-pointer duration-300 hover:opacity-80 ${selectedSemester === semester.id ? 'ring-2 ring-blue-500' : ''}`}
+            className={`bg-background text-foreground px-4 py-6 rounded cursor-pointer duration-300 hover:opacity-80 ${selectedSemester === semester.id ? 'ring-2 ring-blue-500' : ''}`}
           >
             {semester.year}
             {semester.semester === 'first' ? ' / 1' : ' / 2'}
