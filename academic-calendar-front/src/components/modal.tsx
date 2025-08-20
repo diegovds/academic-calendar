@@ -9,7 +9,7 @@ type ModalProps = {
 }
 
 export function Modal({ onClose, title, children }: ModalProps) {
-  const { isOpen } = useModalStore()
+  const { isOpen, toggleWhoOpened } = useModalStore()
   const [show, setShow] = useState(isOpen)
   const [exiting, setExiting] = useState(false)
 
@@ -25,7 +25,10 @@ export function Modal({ onClose, title, children }: ModalProps) {
 
   // Fecha o modal do DOM após animação de saída
   const handleAnimationEnd = () => {
-    if (exiting) setShow(false)
+    if (exiting) {
+      setShow(false)
+      toggleWhoOpened()
+    }
   }
 
   // Fecha com tecla ESC
