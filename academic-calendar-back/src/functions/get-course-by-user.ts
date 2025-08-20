@@ -11,8 +11,13 @@ export async function getCourseByUser({ userId, courseId }: GetCoursesByUserProp
   where: (fields) =>
     and(eq(fields.id, courseId), eq(fields.userId, userId)),
     with: {
-      semesters: true,
-    }
+      semesters: {
+        orderBy: (semesters, { desc, asc }) => [
+          desc(semesters.year),
+          asc(semesters.semester)
+        ],
+      },
+    },
   })
 
   return { course }
