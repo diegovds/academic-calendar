@@ -84,7 +84,7 @@ function CoursePage() {
 
       <Button
         type="button"
-        className="md:w-fit w-full px-3 p-2 mb-4 mt-0 text-base"
+        className="md:w-fit w-full px-3 p-2 mb-6 mt-0 text-base"
         onClick={() => {
           setIsOpen(true)
           setWhoOpened('father')
