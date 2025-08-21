@@ -15,8 +15,8 @@ export function SemesterGrid({ semesters }: SemesterGridProps) {
   const { task, reset, name } = useTaskStore()
 
   return (
-    <div className="flex gap-6 items-start">
-      <div className="w-40 flex flex-col gap-4">
+    <div className="flex gap-6 items-start md:flex-row flex-col">
+      <div className="flex md:flex-col gap-4 w-full md:w-fit p-0.5 md:p-0 overflow-x-scroll md:overflow-x-visible">
         {semesters.map(semester => (
           <button
             type="button"
@@ -25,7 +25,7 @@ export function SemesterGrid({ semesters }: SemesterGridProps) {
               reset()
             }}
             key={semester.id}
-            className={`bg-background text-foreground px-4 py-6 rounded cursor-pointer duration-300 hover:opacity-80 ${selectedSemester === semester.id ? 'ring-2 ring-blue-500' : ''}`}
+            className={`text-sm md:text-base text-nowrap bg-background text-foreground px-4 py-2 md:py-6 rounded cursor-pointer duration-300 hover:opacity-80 ${selectedSemester === semester.id ? 'ring-2 ring-blue-500' : ''}`}
           >
             {semester.year}
             {semester.semester === 'first' ? ' / 1' : ' / 2'}

@@ -50,12 +50,12 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
   if (isLoading) return <EmptyMessage text="Carregando disciplinas..." />
 
   return (
-    <div className="flex-1 flex flex-col gap-4  rounded">
+    <div className="w-full md:flex-1 flex flex-col gap-4  rounded">
       <div className="flex justify-between items-center bg-background p-4 rounded">
-        <h3 className="text-foreground text-base">Disciplinas</h3>
+        <h3 className="text-foreground text-sm md:text-base">Disciplinas</h3>
         <Button
           type="button"
-          className="md:w-fit w-full px-3 p-2 mb-0 mt-0 text-base"
+          className="w-fit px-3 p-2 mb-0 mt-0"
           onClick={() => {
             setIsOpen(true)
             setWhoOpened('discipline')
@@ -65,19 +65,23 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
         </Button>
       </div>
       {disciplines && (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {disciplines.map(discipline => (
-            <button
-              type="button"
+            <div
               key={discipline.id}
-              onClick={() => {
-                setTask(discipline.id)
-                setName(discipline.title)
-              }}
-              className="flex cursor-pointer items-center justify-center text-center bg-background p-4 rounded text-foreground"
+              className="p-2 md:p-4 bg-background flex justify-center"
             >
-              {discipline.title}
-            </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setTask(discipline.id)
+                  setName(discipline.title)
+                }}
+                className="text-sm md:text-base line-clamp-1 cursor-pointer bg-background rounded text-foreground"
+              >
+                {discipline.title}
+              </button>
+            </div>
           ))}
         </div>
       )}
