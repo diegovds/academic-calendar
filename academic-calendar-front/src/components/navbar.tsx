@@ -1,33 +1,40 @@
 import { useAuthStore } from '@/stores/useAuthStore'
 import { Link } from '@tanstack/react-router'
 import Cookies from 'js-cookie'
+import { HiAcademicCap } from 'react-icons/hi2'
 
 export default function Navbar() {
   const { reset } = useAuthStore()
 
   return (
-    <header className="container mx-auto p-2 flex gap-2 bg-white text-black justify-between">
-      <nav className="flex flex-row">
-        <div className="px-2 font-bold">
-          <Link to="/">Home</Link>
-        </div>
+    <nav className="bg-background py-3 md:py-4 shadow">
+      <div className="container mx-auto px-4 flex flex-row items-center justify-between">
+        <Link
+          to="/my-calendar"
+          className="flex gap-2 items-center w-fit bg-blue-500 text-sm md:text-base text-background p-2.5 rounded-4xl"
+        >
+          <HiAcademicCap size={25} />
+          <h1>Agenda Acadêmica</h1>
+        </Link>
 
-        <div className="px-2 font-bold">
-          <Link to="/my-calendar">Meu calendario</Link>
-        </div>
+        <div className="flex gap-4">
+          <div className="font-medium text-sm md:text-base">
+            <Link to="/my-calendar">Minha dashboard</Link>
+          </div>
 
-        <div className="px-2 font-bold">
-          <button
-            type="button"
-            onClick={() => {
-              reset()
-              Cookies.remove('token', { path: '/' })
-            }}
-          >
-            Sair
-          </button>
+          <div className="font-medium text-sm md:text-base">
+            <button
+              type="button"
+              onClick={() => {
+                reset()
+                Cookies.remove('token', { path: '/' })
+              }}
+            >
+              Sair
+            </button>
+          </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
   )
 }
