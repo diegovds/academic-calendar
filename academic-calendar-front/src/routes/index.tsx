@@ -28,14 +28,14 @@ function Homepage() {
   }
 
   return (
-    <Page className="flex items-center gap-8 flex-col md:flex-row">
-      <div className="flex-1 rounded text-foreground  space-y-5">
-        <div className="flex gap-2 items-center text-blue-500">
-          <HiAcademicCap size={52} />
-          <h1 className="text-4xl">Agenda Acadêmica</h1>
+    <Page className="flex items-center gap-8 flex-col lg:flex-row">
+      <div className="flex-1 flex flex-col items-center lg:items-start rounded text-foreground  gap-5">
+        <div className="flex gap-2 items-center w-fit bg-blue-500 text-2xl lg:text-4xl text-background p-2.5 rounded-4xl">
+          <HiAcademicCap />
+          <h1>Agenda Acadêmica</h1>
         </div>
-        <div className="space-y-5 text-base">
-          <p className="text-foreground">
+        <div className="space-y-5 text-sm md:text-base">
+          <p className="text-foreground text-center lg:text-start">
             Agenda Acadêmica é uma aplicação desenvolvida para auxiliar
             estudantes na organização de sua vida acadêmica de forma simples e
             eficiente.
@@ -47,7 +47,7 @@ function Homepage() {
                 trabalho ou prova.
               </p>
               <div className="bg-blue-200 w-fit place-self-center p-2.5 rounded-full">
-                <LiaBookSolid size={32} className="text-blue-600" />
+                <LiaBookSolid className="text-blue-600 text-2xl lg:text-3xl" />
               </div>
             </div>
             <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-background shadow shadow-gray-300">
@@ -56,7 +56,7 @@ function Homepage() {
                 estresse.
               </p>
               <div className="bg-blue-200 w-fit place-self-center p-2.5 rounded-full">
-                <PiStudentFill size={32} className="text-blue-600" />
+                <PiStudentFill className="text-blue-600 text-2xl lg:text-3xl" />
               </div>
             </div>
           </div>
