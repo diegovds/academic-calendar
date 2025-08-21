@@ -63,7 +63,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
         </Button>
       </div>
       {tasks && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 items-start">
           {tasks.map(task => (
             <div
               key={task.id}
