@@ -69,14 +69,14 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
           {disciplines.map(discipline => (
             <div
               key={discipline.id}
-              className="p-2 md:p-4 bg-background flex justify-center"
+              onClick={() => {
+                setTask(discipline.id)
+                setName(discipline.title)
+              }}
+              className="p-2 md:p-4 bg-background flex justify-center cursor-pointer"
             >
               <button
                 type="button"
-                onClick={() => {
-                  setTask(discipline.id)
-                  setName(discipline.title)
-                }}
                 className="text-sm md:text-base line-clamp-1 cursor-pointer bg-background rounded text-foreground"
               >
                 {discipline.title}
