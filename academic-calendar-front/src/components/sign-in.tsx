@@ -1,17 +1,23 @@
-import { Form } from '@/components/form'
-import { FormError } from '@/components/form/form-error'
-import { FormInput } from '@/components/form/form-input'
-import { FormItem } from '@/components/form/form-item'
-import { postSignin } from '@/http/api'
-import { useAuthStore } from '@/stores/useAuthStore'
-import type { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import * as z from 'zod'
-import { Button } from './button'
+
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+
+import { postSignin } from '@/http/api'
+import { useAuthStore } from '@/stores/useAuthStore'
+import type { User } from '@/types/user'
 
 const formSchema = z.object({
   email: z.email('Email inválido'),
@@ -26,12 +32,10 @@ type SignInProps = {
 
 export function SignIn({ formMessage }: SignInProps) {
   const { setName, setToken } = useAuthStore()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: { email: '', password: '' },
   })
 
   const onSubmit = async (data: FormData) => {
@@ -39,6 +43,7 @@ export function SignIn({ formMessage }: SignInProps) {
 
     if (response.message) {
       toast.error(response.message)
+      return
     }
 
     if (response.token) {
@@ -51,52 +56,60 @@ export function SignIn({ formMessage }: SignInProps) {
       })
 
       const user: User = jwtDecode(token)
-
       setName(user.name)
       setToken(token)
     }
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="flex-1">
-      <FormItem>
-        <FormInput
-          id="email"
-          type="email"
-          placeholder="E-mail"
-          {...register('email')}
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 w-full p-10 rounded bg-background shadow text-foreground"
+      >
+        {/* Email */}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="email" placeholder="E-mail" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError error={errors.email?.message}>
-          {errors.email?.message || '.'}
-        </FormError>
-      </FormItem>
 
-      <FormItem>
-        <FormInput
-          id="password"
-          type="password"
-          placeholder="Senha"
-          {...register('password')}
+        {/* Senha */}
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="password" placeholder="Senha" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError error={errors.password?.message}>
-          {errors.password?.message || '.'}
-        </FormError>
-      </FormItem>
 
-      <Button type="submit" disabled={isSubmitting}>
-        Entrar
-      </Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          Entrar
+        </Button>
 
-      <FormItem className="flex gap-2 justify-center text-sm">
-        <span>Ainda não possui uma conta?</span>
-        <button
-          type="button"
-          onClick={() => formMessage('signup')}
-          className="cursor-pointer hover:opacity-90 duration-300 font-medium"
-        >
-          Clique aqui!
-        </button>
-      </FormItem>
+        <FormItem className="flex gap-2 justify-center text-sm">
+          <span>Ainda não possui uma conta?</span>
+          <button
+            type="button"
+            onClick={() => formMessage('signup')}
+            className="cursor-pointer hover:opacity-90 duration-300 font-medium"
+          >
+            Clique aqui!
+          </button>
+        </FormItem>
+      </form>
     </Form>
   )
 }
