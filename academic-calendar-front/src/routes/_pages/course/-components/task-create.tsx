@@ -112,12 +112,7 @@ export function TaskCreate({ reload, disciplineId }: TaskCreateProps) {
       </FormItem>
 
       <FormItem>
-        <FormInput
-          id="date"
-          type="date"
-          placeholder="Data"
-          {...register('dueDate')}
-        />
+        <FormInput id="date" type="date" {...register('dueDate')} />
         <FormError error={errors.dueDate?.message}>
           {errors.dueDate?.message || '.'}
         </FormError>
