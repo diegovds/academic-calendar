@@ -11,7 +11,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 flex flex-row items-center justify-between">
         <Link
           to="/my-calendar"
-          className="flex gap-2 items-center w-fit bg-blue-500 text-sm md:text-base text-background p-2.5 rounded-4xl"
+          className="flex gap-2 items-center w-fit bg-blue-500 text-sm md:text-base text-background p-2 md:p-2.5 rounded-4xl"
         >
           <HiAcademicCap size={25} />
           <h1>Agenda Acadêmica</h1>
@@ -25,6 +25,7 @@ export default function Navbar() {
           <div className="font-medium text-sm md:text-base">
             <button
               type="button"
+              className="cursor-pointer"
               onClick={() => {
                 reset()
                 Cookies.remove('token', { path: '/' })
