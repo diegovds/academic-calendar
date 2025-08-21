@@ -1,31 +1,53 @@
-import { Button } from '@/components/button'
-import { Form } from '@/components/form'
-import { FormError } from '@/components/form/form-error'
-import { FormInput } from '@/components/form/form-input'
-import { FormItem } from '@/components/form/form-item'
-import { postTasks } from '@/http/api'
-import { useAuthStore } from '@/stores/useAuthStore'
-import { useModalStore } from '@/stores/useModalStore'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+import { Calendar as CalendarIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
 
-const formSchema = z
-  .object({
-    title: z
-      .string()
-      .min(3, { message: 'O título precisa ter no mínimo 3 caracteres' }),
-    description: z
-      .string()
-      .min(5, { message: 'A descrição precisa ter no mínimo 5 caracteres' }),
-    dueDate: z.string().min(1, { message: 'Data é obrigatória' }), // obrigatório, mas string
-    type: z.enum(['exam', 'activity']).optional(),
-  })
-  .refine(data => !!data.type, {
-    message: 'Selecione prova ou tarefa',
-    path: ['type'],
-  })
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Textarea } from '@/components/ui/textarea'
+
+import { postTasks } from '@/http/api'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { useModalStore } from '@/stores/useModalStore'
+
+const TaskEnum = z.enum(['exam', 'activity'])
+type TaskType = z.infer<typeof TaskEnum>
+
+const formSchema = z.object({
+  title: z
+    .string()
+    .min(3, { message: 'O título precisa ter no mínimo 3 caracteres' }),
+  description: z
+    .string()
+    .min(5, { message: 'A descrição precisa ter no mínimo 5 caracteres' }),
+  dueDate: z
+    .union([z.date(), z.undefined()])
+    .refine(val => val instanceof Date, { message: 'A data é obrigatória' }),
+  type: z
+    .union([TaskEnum, z.undefined()])
+    .refine((val): val is TaskType => !!val, {
+      message: 'Selecione prova ou tarefa',
+    }),
+})
 
 type FormData = z.infer<typeof formSchema>
 
@@ -37,40 +59,30 @@ type TaskCreateProps = {
 export function TaskCreate({ reload, disciplineId }: TaskCreateProps) {
   const { token } = useAuthStore()
   const { setIsOpen } = useModalStore()
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-  })
 
-  const selectedType = watch('type')
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      dueDate: undefined,
+      type: undefined,
+    },
+  })
 
   const onSubmit = async (data: FormData) => {
     if (data.type) {
       const toastId = toast.loading('Cadastrando...')
-      const dueDate = new Date(data.dueDate)
-
-      if (Number.isNaN(dueDate.getTime())) {
-        toast.dismiss(toastId)
-        toast.error('Erro ao cadastrar tarefa.')
-        return
-      }
 
       const { task } = await postTasks(
         {
           disciplineId,
           title: data.title,
           description: data.description,
-          dueDate,
+          dueDate: data.dueDate,
           type: data.type,
         },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       )
 
       toast.dismiss(toastId)
@@ -86,84 +98,121 @@ export function TaskCreate({ reload, disciplineId }: TaskCreateProps) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="p-0 shadow-none">
-      <FormItem>
-        <FormInput
-          id="name"
-          type="text"
-          placeholder="Nome"
-          {...register('title')}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {/* Título */}
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Nome" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError error={errors.title?.message}>
-          {errors.title?.message || '.'}
-        </FormError>
-      </FormItem>
 
-      <FormItem>
-        <textarea
-          id="description"
-          className="p-2 rounded w-full outline-none bg-[#f3f4f8] text-foreground shadow shadow-gray-300 resize-none h-30"
-          placeholder="Descrição"
-          {...register('description')}
+        {/* Descrição */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Textarea
+                  placeholder="Descrição"
+                  className="resize-none h-30"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError error={errors.description?.message}>
-          {errors.description?.message || '.'}
-        </FormError>
-      </FormItem>
 
-      <FormItem>
-        <FormInput id="date" type="date" {...register('dueDate')} />
-        <FormError error={errors.dueDate?.message}>
-          {errors.dueDate?.message || '.'}
-        </FormError>
-      </FormItem>
+        {/* Data */}
+        <FormField
+          control={form.control}
+          name="dueDate"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      className={`w-[280px] justify-start text-left font-normal ${
+                        !field.value && 'text-muted-foreground'
+                      }`}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {field.value ? (
+                        format(field.value, 'PPP', { locale: ptBR })
+                      ) : (
+                        <span>Data</span>
+                      )}
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    locale={ptBR}
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <div className="flex flex-col">
-        <div className="flex gap-6">
-          <FormItem className="space-x-2 flex items-center">
-            <FormInput
-              id="activity"
-              type="checkbox"
-              checked={selectedType === 'activity'}
-              onChange={() =>
-                setValue(
-                  'type',
-                  selectedType === 'activity' ? undefined : 'activity',
-                  { shouldValidate: true }
-                )
-              }
-              className="w-fit shadow-none"
-            />
-            <label className="text-sm" htmlFor="activity">
-              Tarefa
-            </label>
-          </FormItem>
+        {/* Tipo (Radio) */}
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tipo</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  className="flex gap-6"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="activity" id="activity" />
+                    <FormLabel
+                      htmlFor="activity"
+                      className="text-sm font-normal"
+                    >
+                      Tarefa
+                    </FormLabel>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="exam" id="exam" />
+                    <FormLabel htmlFor="exam" className="text-sm font-normal">
+                      Prova
+                    </FormLabel>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormItem className="space-x-2 flex items-center">
-            <FormInput
-              id="exam"
-              type="checkbox"
-              checked={selectedType === 'exam'}
-              onChange={() =>
-                setValue('type', selectedType === 'exam' ? undefined : 'exam', {
-                  shouldValidate: true,
-                })
-              }
-              className="w-fit shadow-none"
-            />
-            <label className="text-sm" htmlFor="exam">
-              Prova
-            </label>
-          </FormItem>
-        </div>
-        <FormError error={errors.type?.message}>
-          {errors.type?.message || '.'}
-        </FormError>
-      </div>
-
-      <Button type="submit" disabled={isSubmitting} className="mb-0 mt-0">
-        Cadastrar
-      </Button>
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          variant="academic"
+        >
+          Cadastrar
+        </Button>
+      </form>
     </Form>
   )
 }
