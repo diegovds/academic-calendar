@@ -5,6 +5,7 @@ import { Page } from '@/components/page'
 import { type GetCourses200CoursesItem, getCourses } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
+import { useTaskStore } from '@/stores/useTaskStore'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
@@ -19,10 +20,12 @@ function MyCalendarComponent() {
   const navigate = useNavigate()
   const { token, name } = useAuthStore()
   const { setIsOpen } = useModalStore()
+  const { reset } = useTaskStore()
 
   useEffect(() => {
     if (!token) navigate({ to: '/' })
-  }, [token, navigate])
+    reset()
+  }, [token, navigate, reset])
 
   const coursesQuery = useQuery<GetCourses200CoursesItem[]>({
     queryKey: ['courses', token],
