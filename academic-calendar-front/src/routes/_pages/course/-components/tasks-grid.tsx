@@ -48,12 +48,14 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
   if (isLoading) return <EmptyMessage text="Carregando disciplina..." />
 
   return (
-    <div className="flex-1 flex flex-col gap-4  rounded">
+    <div className="w-full md:flex-1 flex flex-col gap-4  rounded">
       <div className="flex justify-between items-center bg-background p-4 rounded">
-        <h3 className="text-foreground text-base">{disciplineName}</h3>
+        <h3 className="text-foreground text-sm md:text-base">
+          {disciplineName}
+        </h3>
         <Button
           type="button"
-          className="md:w-fit w-full px-3 p-2 mb-0 mt-0 text-base"
+          className="w-fit px-3 p-2 mb-0 mt-0"
           onClick={() => {
             setIsOpen(true)
             setWhoOpened('task')
@@ -63,20 +65,26 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
         </Button>
       </div>
       {tasks && (
-        <div className="grid grid-cols-2 gap-4 items-start">
+        <div className="grid md:grid-cols-2 gap-4 items-start">
           {tasks.map(task => (
             <div
               key={task.id}
               className="bg-background p-4 rounded text-foreground"
             >
-              <h3 className="text-center">{task.title}</h3>
-              <div className="flex justify-between">
-                <div>{task.type}</div>
-                <div>
+              <h3 className="text-center text-sm md:text-base">{task.title}</h3>
+              <div className="flex justify-between items-center">
+                <div
+                  className={`p-1 rounded text-sm ${task.type === 'activity' ? 'bg-blue-200' : 'bg-yellow-200'}`}
+                >
+                  {task.type === 'activity' ? 'Tarefa' : 'Prova'}
+                </div>
+                <div className="text-sm md:text-base">
                   {task.dueDate ? formatDate(new Date(task.dueDate)) : ''}
                 </div>
               </div>
-              <p className="mt-5 text-justify">{task.description}</p>
+              <p className="mt-5 text-justify text-sm md:text-base tracking-wide">
+                {task.description}
+              </p>
             </div>
           ))}
         </div>
