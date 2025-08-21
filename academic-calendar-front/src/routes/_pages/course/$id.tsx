@@ -78,7 +78,7 @@ function CoursePage() {
       <h1 className="text-foreground text-lg line-clamp-1 md:text-2xl">
         Curso: {course.title}
       </h1>
-      <p className="md:text-base text-foreground mt-1 mb-4">
+      <p className="text-sm md:text-base text-foreground mt-1 mb-4">
         {course.description}
       </p>
 
