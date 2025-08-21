@@ -14,7 +14,16 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <div className="flex min-h-dvh flex-col">
       <Outlet />
-      <Toaster position="top-center" richColors />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            fontFamily: 'Outfit, sans-serif',
+            fontSize: '15px',
+          },
+        }}
+        richColors
+      />
       <TanstackDevtools
         config={{
           position: 'bottom-left',
