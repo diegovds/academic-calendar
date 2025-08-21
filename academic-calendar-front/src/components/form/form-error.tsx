@@ -14,7 +14,7 @@ export function FormError({
   return (
     <span
       className={cn(
-        `${error ? 'opacity-100' : 'opacity-0'} text-red-500 text-sm`,
+        `${error ? 'opacity-100' : 'opacity-0'} text-red-500 text-xs md:text-sm`,
         className
       )}
       {...props}
