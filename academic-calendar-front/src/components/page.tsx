@@ -6,7 +6,10 @@ type PageProps = FormHTMLAttributes<HTMLDivElement>
 export function Page({ children, className, ...props }: PageProps) {
   return (
     <div
-      className={cn('container flex-1 mx-auto my-10 px-4 md:px-10', className)}
+      className={cn(
+        'container flex-1 mx-auto my-5 md:my-10 px-4 md:px-10',
+        className
+      )}
       {...props}
     >
       {children}
