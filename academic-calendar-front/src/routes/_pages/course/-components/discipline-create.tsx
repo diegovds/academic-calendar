@@ -9,7 +9,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -70,7 +69,6 @@ export function DisciplineCreate({
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome da disciplina</FormLabel>
               <FormControl>
                 <Input placeholder="Nome" {...field} />
               </FormControl>
