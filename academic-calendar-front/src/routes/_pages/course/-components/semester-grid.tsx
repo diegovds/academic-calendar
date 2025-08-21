@@ -16,7 +16,7 @@ export function SemesterGrid({ semesters }: SemesterGridProps) {
 
   return (
     <div className="flex gap-6 items-start md:flex-row flex-col">
-      <div className="flex md:flex-col gap-4 w-full md:w-fit p-0.5 md:p-0 overflow-x-scroll md:overflow-x-visible">
+      <div className="flex md:flex-col gap-4 w-full md:w-fit p-0.5 md:p-0 overflow-x-auto md:overflow-x-visible">
         {semesters.map(semester => (
           <button
             type="button"

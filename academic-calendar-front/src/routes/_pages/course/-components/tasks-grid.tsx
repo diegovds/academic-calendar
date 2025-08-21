@@ -82,7 +82,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
                   {task.dueDate ? formatDate(new Date(task.dueDate)) : ''}
                 </div>
               </div>
-              <p className="mt-5 text-justify text-sm md:text-base tracking-wide">
+              <p className="mt-5 text-justify max-h-60 overflow-y-auto text-sm md:text-base tracking-wide">
                 {task.description}
               </p>
             </div>
