@@ -1,3 +1,4 @@
+import { Brand } from '@/components/brand'
 import { Link } from '@tanstack/react-router'
 
 type CourseItemProps = {
@@ -14,10 +15,13 @@ export function CourseItem({ description, id, title, to }: CourseItemProps) {
       params={{
         id: id,
       }}
-      className="bg-background text-foreground p-4 rounded"
+      className="bg-background text-foreground p-4 rounded flex justify-between group"
     >
-      <h3 className="text-base md:text-lg line-clamp-1">{title}</h3>
-      <p className="text-xs md:text-sm line-clamp-3">{description}</p>
+      <div>
+        <h3 className="text-base md:text-lg line-clamp-1">{title}</h3>
+        <p className="text-xs md:text-sm line-clamp-3">{description}</p>
+      </div>
+      <Brand />
     </Link>
   )
 }
