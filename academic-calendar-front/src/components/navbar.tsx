@@ -18,11 +18,11 @@ export default function Navbar() {
         </Link>
 
         <div className="flex gap-4">
-          <div className="font-medium text-sm md:text-base">
+          <div className="font-semibold text-sm md:text-base">
             <Link to="/my-calendar">Minha dashboard</Link>
           </div>
 
-          <div className="font-medium text-sm md:text-base">
+          <div className="font-semibold text-sm md:text-base">
             <button
               type="button"
               className="cursor-pointer"
