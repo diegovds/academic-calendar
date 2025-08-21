@@ -1,22 +1,28 @@
-import { Form } from '@/components/form'
-import { FormError } from '@/components/form/form-error'
-import { FormInput } from '@/components/form/form-input'
-import { FormItem } from '@/components/form/form-item'
-import { postSignup } from '@/http/api'
-import { useAuthStore } from '@/stores/useAuthStore'
-import type { User } from '@/types/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import * as z from 'zod'
-import { Button } from './button'
+
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+
+import { postSignup } from '@/http/api'
+import { useAuthStore } from '@/stores/useAuthStore'
+import type { User } from '@/types/user'
 
 const formSchema = z
   .object({
     name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres'),
-    email: z.email('Email inválido'),
+    email: z.string().email('Email inválido'),
     password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
     confirmPassword: z.string().min(6, 'A confirmação de senha é obrigatória'),
   })
@@ -33,12 +39,10 @@ type SignUpProps = {
 
 export function SignUp({ formMessage }: SignUpProps) {
   const { setName, setToken } = useAuthStore()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   })
 
   const onSubmit = async (data: FormData) => {
@@ -46,6 +50,7 @@ export function SignUp({ formMessage }: SignUpProps) {
 
     if (response.message) {
       toast.error(response.message)
+      return
     }
 
     if (response.token) {
@@ -58,76 +63,92 @@ export function SignUp({ formMessage }: SignUpProps) {
       })
 
       const user: User = jwtDecode(token)
-
       setName(user.name)
       setToken(token)
     }
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="flex-1">
-      <FormItem>
-        <FormInput
-          id="name"
-          type="text"
-          placeholder="Nome"
-          {...register('name')}
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 w-full px-5 py-7 md:p-10 rounded bg-background shadow text-foreground"
+      >
+        {/* Nome */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Nome" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError error={errors.name?.message}>
-          {errors.name?.message || '.'}
-        </FormError>
-      </FormItem>
 
-      <FormItem>
-        <FormInput
-          id="email"
-          type="email"
-          placeholder="E-mail"
-          {...register('email')}
+        {/* E-mail */}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="email" placeholder="E-mail" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError error={errors.email?.message}>
-          {errors.email?.message || '.'}
-        </FormError>
-      </FormItem>
 
-      <FormItem>
-        <FormInput
-          id="password"
-          type="password"
-          placeholder="Senha"
-          {...register('password')}
+        {/* Senha */}
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="password" placeholder="Senha" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError error={errors.password?.message}>
-          {errors.password?.message || '.'}
-        </FormError>
-      </FormItem>
 
-      <FormItem>
-        <FormInput
-          id="confirmPassword"
-          type="password"
-          placeholder="Senha novamente"
-          {...register('confirmPassword')}
+        {/* Confirmação de senha */}
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Senha novamente"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError error={errors.confirmPassword?.message}>
-          {errors.confirmPassword?.message || '.'}
-        </FormError>
-      </FormItem>
 
-      <Button type="submit" disabled={isSubmitting}>
-        Cadastrar
-      </Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          Cadastrar
+        </Button>
 
-      <FormItem className="flex gap-2 justify-center text-sm">
-        <span>Já possui uma conta?</span>
-        <button
-          type="button"
-          onClick={() => formMessage('signin')}
-          className="cursor-pointer hover:opacity-90 duration-300 font-medium"
-        >
-          Clique aqui!
-        </button>
-      </FormItem>
+        <FormItem className="flex gap-2 justify-center text-sm">
+          <span>Já possui uma conta?</span>
+          <button
+            type="button"
+            onClick={() => formMessage('signin')}
+            className="cursor-pointer hover:opacity-90 duration-300 font-medium"
+          >
+            Clique aqui!
+          </button>
+        </FormItem>
+      </form>
     </Form>
   )
 }
