@@ -80,7 +80,6 @@ export function SemesterCreate({ courseId, reload }: SemesterCreateProps) {
           name="semester"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Semestre</FormLabel>
               <FormControl>
                 <RadioGroup
                   className="flex flex-row gap-6"
