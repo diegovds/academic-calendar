@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { asc, eq } from 'drizzle-orm'
 import { db } from '../drizzle/drizzle'
 
 interface GetTasksProps {
@@ -28,6 +28,7 @@ export async function getTasksByDiscipline({
 
   const tasks = await db.query.tasks.findMany({
     where: (fields) => eq(fields.disciplineId, disciplineId),
+    orderBy: (fields) => asc(fields.dueDate),
   })
 
   return { tasks }
