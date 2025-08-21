@@ -1,6 +1,6 @@
-import { Button } from '@/components/button'
 import { EmptyMessage } from '@/components/empty-message'
 import { Modal } from '@/components/modal'
+import { Button } from '@/components/ui/button'
 import {
   type GetSemestersSemesterIdDisciplines200DisciplinesItem,
   getSemestersSemesterIdDisciplines,
@@ -55,7 +55,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
         <h3 className="text-foreground text-sm md:text-base">Disciplinas</h3>
         <Button
           type="button"
-          className="w-fit px-3 p-2 mb-0 mt-0"
+          className="w-fit px-3"
           onClick={() => {
             setIsOpen(true)
             setWhoOpened('discipline')

@@ -1,7 +1,7 @@
-import { Button } from '@/components/button'
 import { EmptyMessage } from '@/components/empty-message'
 import { Modal } from '@/components/modal'
 import { Page } from '@/components/page'
+import { Button } from '@/components/ui/button'
 import { type GetCourses200CoursesItem, getCourses } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
@@ -59,7 +59,7 @@ function MyCalendarComponent() {
         {courses && courses.length > 0 && (
           <Button
             type="button"
-            className="md:w-fit w-full px-3 p-2 mb-0 mt-0 text-sm md:text-base"
+            className="md:w-fit w-full px-3"
             onClick={() => setIsOpen(true)}
           >
             Cadastrar curso
@@ -71,7 +71,7 @@ function MyCalendarComponent() {
         <EmptyMessage text="Você não possui cursos">
           <Button
             type="button"
-            className="w-fit px-3 p-2"
+            className="w-fit px-3"
             onClick={() => setIsOpen(true)}
           >
             Cadastrar curso

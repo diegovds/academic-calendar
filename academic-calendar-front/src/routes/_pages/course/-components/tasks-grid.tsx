@@ -1,6 +1,6 @@
-import { Button } from '@/components/button'
 import { EmptyMessage } from '@/components/empty-message'
 import { Modal } from '@/components/modal'
+import { Button } from '@/components/ui/button'
 import {
   type GetDisciplinesDisciplineIdTasks200TasksItem,
   getDisciplinesDisciplineIdTasks,
@@ -55,7 +55,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
         </h3>
         <Button
           type="button"
-          className="w-fit px-3 p-2 mb-0 mt-0"
+          className="w-fit px-3"
           onClick={() => {
             setIsOpen(true)
             setWhoOpened('task')

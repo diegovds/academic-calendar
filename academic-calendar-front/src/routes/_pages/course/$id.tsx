@@ -1,7 +1,7 @@
-import { Button } from '@/components/button'
 import { EmptyMessage } from '@/components/empty-message'
 import { Modal } from '@/components/modal'
 import { Page } from '@/components/page'
+import { Button } from '@/components/ui/button'
 import {
   type GetCoursesCourseId200Course,
   getCoursesCourseId,
@@ -84,7 +84,7 @@ function CoursePage() {
 
       <Button
         type="button"
-        className="md:w-fit w-full px-3 p-2 mb-6 mt-0"
+        className="md:w-fit w-full px-3 mb-6"
         onClick={() => {
           setIsOpen(true)
           setWhoOpened('semester')
