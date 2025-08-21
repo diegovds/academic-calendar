@@ -205,11 +205,7 @@ export function TaskCreate({ reload, disciplineId }: TaskCreateProps) {
           )}
         />
 
-        <Button
-          type="submit"
-          disabled={form.formState.isSubmitting}
-          variant="academic"
-        >
+        <Button type="submit" disabled={form.formState.isSubmitting}>
           Cadastrar
         </Button>
       </form>
