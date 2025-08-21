@@ -15,7 +15,7 @@ export function CourseItem({ description, id, title, to }: CourseItemProps) {
       params={{
         id: id,
       }}
-      className="bg-background text-foreground p-4 rounded flex justify-between group"
+      className="bg-background text-foreground shadow p-4 rounded flex justify-between group"
     >
       <div>
         <h3 className="text-base md:text-lg line-clamp-1">{title}</h3>

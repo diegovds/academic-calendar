@@ -51,7 +51,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
 
   return (
     <div className="w-full md:flex-1 flex flex-col gap-4  rounded">
-      <div className="flex justify-between items-center bg-background p-4 rounded">
+      <div className="flex justify-between items-center bg-background shadow p-4 rounded">
         <h3 className="text-foreground text-sm md:text-base">Disciplinas</h3>
         <Button
           type="button"
@@ -73,11 +73,11 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
                 setTask(discipline.id)
                 setName(discipline.title)
               }}
-              className="p-2 md:p-4 bg-background flex justify-center cursor-pointer"
+              className="p-2 md:p-4 bg-background shadow rounded flex justify-center cursor-pointer"
             >
               <button
                 type="button"
-                className="text-sm md:text-base line-clamp-1 cursor-pointer bg-background rounded text-foreground"
+                className="text-sm md:text-base line-clamp-1 cursor-pointer bg-background text-foreground"
               >
                 {discipline.title}
               </button>

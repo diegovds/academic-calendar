@@ -25,7 +25,7 @@ export function SemesterGrid({ semesters }: SemesterGridProps) {
               reset()
             }}
             key={semester.id}
-            className={`text-sm md:text-base text-nowrap bg-background text-foreground px-4 py-2 md:py-6 rounded cursor-pointer duration-300 hover:opacity-80 ${selectedSemester === semester.id ? 'ring-2 ring-blue-500' : ''}`}
+            className={`text-sm md:text-base text-nowrap bg-background shadow text-foreground px-4 py-2 md:py-6 rounded cursor-pointer duration-300 hover:opacity-80 ${selectedSemester === semester.id ? 'ring-2 ring-blue-500' : ''}`}
           >
             {semester.year}
             {semester.semester === 'first' ? ' / 1' : ' / 2'}

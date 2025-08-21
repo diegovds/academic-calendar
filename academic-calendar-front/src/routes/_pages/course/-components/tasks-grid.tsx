@@ -49,7 +49,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
 
   return (
     <div className="w-full md:flex-1 flex flex-col gap-4  rounded">
-      <div className="flex justify-between items-center bg-background p-4 rounded">
+      <div className="flex justify-between items-center bg-background shadow p-4 rounded">
         <h3 className="text-foreground text-sm md:text-base">
           {disciplineName}
         </h3>
@@ -69,7 +69,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
           {tasks.map(task => (
             <div
               key={task.id}
-              className="bg-background p-4 rounded text-foreground"
+              className="bg-background shadow p-4 rounded text-foreground"
             >
               <h3 className="text-center text-sm md:text-base">{task.title}</h3>
               <div className="flex justify-between items-center">
