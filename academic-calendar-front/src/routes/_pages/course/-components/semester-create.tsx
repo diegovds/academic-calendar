@@ -1,24 +1,33 @@
-import { Button } from '@/components/button'
-import { Form } from '@/components/form'
-import { FormError } from '@/components/form/form-error'
-import { FormInput } from '@/components/form/form-input'
-import { FormItem } from '@/components/form/form-item'
-import { postSemesters } from '@/http/api'
-import { useAuthStore } from '@/stores/useAuthStore'
-import { useModalStore } from '@/stores/useModalStore'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import z from 'zod'
+import { z } from 'zod'
 
-const formSchema = z
-  .object({
-    semester: z.enum(['first', 'second']).optional(),
-  })
-  .refine(data => !!data.semester, {
-    message: 'Selecione o semestre',
-    path: ['semester'],
-  })
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+
+import { postSemesters } from '@/http/api'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { useModalStore } from '@/stores/useModalStore'
+
+const SemesterEnum = z.enum(['first', 'second'])
+type SemesterType = z.infer<typeof SemesterEnum>
+
+const formSchema = z.object({
+  semester: z
+    .union([SemesterEnum, z.undefined()])
+    .refine((val): val is SemesterType => !!val, {
+      message: 'Selecione o semestre',
+    }),
+})
 
 type FormData = z.infer<typeof formSchema>
 
@@ -30,20 +39,16 @@ type SemesterCreateProps = {
 export function SemesterCreate({ courseId, reload }: SemesterCreateProps) {
   const { token } = useAuthStore()
   const { setIsOpen } = useModalStore()
-  const {
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: { semester: undefined },
   })
 
-  const selectedSemester = watch('semester')
-
   const onSubmit = async (data: FormData) => {
-    const toastId = toast.loading('Cadastrando...')
     if (data.semester) {
+      const toastId = toast.loading('Cadastrando...')
+
       const { semester } = await postSemesters(
         {
           courseId,
@@ -51,9 +56,7 @@ export function SemesterCreate({ courseId, reload }: SemesterCreateProps) {
           year: new Date().getFullYear(),
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       )
 
@@ -70,55 +73,44 @@ export function SemesterCreate({ courseId, reload }: SemesterCreateProps) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="p-0 shadow-none">
-      <div className="flex flex-col">
-        <div className="flex gap-6">
-          <FormItem className="space-x-2 flex items-center">
-            <FormInput
-              id="first"
-              type="checkbox"
-              checked={selectedSemester === 'first'}
-              onChange={() =>
-                setValue(
-                  'semester',
-                  selectedSemester === 'first' ? undefined : 'first',
-                  { shouldValidate: true }
-                )
-              }
-              className="w-fit shadow-none"
-            />
-            <label className="text-sm" htmlFor="first">
-              1º semestre
-            </label>
-          </FormItem>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="semester"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Semestre</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  className="flex flex-row gap-6"
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
+                  <FormItem className="flex items-center space-x-2">
+                    <FormControl>
+                      <RadioGroupItem value="first" />
+                    </FormControl>
+                    <FormLabel>1º semestre</FormLabel>
+                  </FormItem>
 
-          <FormItem className="space-x-2 flex items-center">
-            <FormInput
-              id="second"
-              type="checkbox"
-              checked={selectedSemester === 'second'}
-              onChange={() =>
-                setValue(
-                  'semester',
-                  selectedSemester === 'second' ? undefined : 'second',
-                  { shouldValidate: true }
-                )
-              }
-              className="w-fit shadow-none"
-            />
-            <label className="text-sm" htmlFor="second">
-              2º semestre
-            </label>
-          </FormItem>
-        </div>
-        <FormError error={errors.semester?.message}>
-          {errors.semester?.message || '.'}
-        </FormError>
-      </div>
+                  <FormItem className="flex items-center space-x-2">
+                    <FormControl>
+                      <RadioGroupItem value="second" />
+                    </FormControl>
+                    <FormLabel>2º semestre</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <Button type="submit" disabled={isSubmitting} className="mb-0 mt-0">
-        Cadastrar
-      </Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          Cadastrar
+        </Button>
+      </form>
     </Form>
   )
 }
