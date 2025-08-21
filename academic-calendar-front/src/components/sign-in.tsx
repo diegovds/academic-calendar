@@ -65,7 +65,7 @@ export function SignIn({ formMessage }: SignInProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-full p-10 rounded bg-background shadow text-foreground"
+        className="space-y-4 w-full px-5 py-7 md:p-10 rounded bg-background shadow text-foreground"
       >
         {/* Email */}
         <FormField
