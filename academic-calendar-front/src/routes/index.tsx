@@ -13,18 +13,26 @@ export const Route = createFileRoute('/')({
 })
 
 function Homepage() {
+  const [loading, setLoading] = useState(true)
   const [form, setForm] = useState<'signin' | 'signup'>('signin')
   const navigate = useNavigate()
   const { token } = useAuthStore()
 
   useEffect(() => {
+    // Aqui você checa o token
     if (token !== '') {
       navigate({ to: '/my-calendar' })
+    } else {
+      setLoading(false) // só termina o loading se não houver token
     }
   }, [token, navigate])
 
   function handleForm(formReturn: 'signin' | 'signup') {
     setForm(formReturn === 'signin' ? 'signin' : 'signup')
+  }
+
+  if (loading) {
+    return null
   }
 
   return (
