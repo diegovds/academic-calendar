@@ -149,7 +149,7 @@ export function TaskCreate({ reload, disciplineId }: TaskCreateProps) {
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
                       {field.value ? (
-                        format(field.value, 'PPP', { locale: ptBR })
+                        format(field.value, 'dd/MM/yyyy', { locale: ptBR })
                       ) : (
                         <span>Data</span>
                       )}
