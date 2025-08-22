@@ -468,7 +468,7 @@ export type PatchTasksTaskId404 = {
  * @summary Sign up on the platform
  */
 export const getPostSignupUrl = () => {
-  return `http://localhost:3333/signup`
+  return `https://academic-calendar-back.vercel.app/signup`
 }
 
 export const postSignup = async (
@@ -492,7 +492,7 @@ export const postSignup = async (
  * @summary Sign in on the platform
  */
 export const getPostSigninUrl = () => {
-  return `http://localhost:3333/signin`
+  return `https://academic-calendar-back.vercel.app/signin`
 }
 
 export const postSignin = async (
@@ -516,7 +516,7 @@ export const postSignin = async (
  * @summary Course creation on the platform
  */
 export const getPostCoursesUrl = () => {
-  return `http://localhost:3333/courses`
+  return `https://academic-calendar-back.vercel.app/courses`
 }
 
 export const postCourses = async (
@@ -540,7 +540,7 @@ export const postCourses = async (
  * @summary Get courses from authenticated user
  */
 export const getGetCoursesUrl = () => {
-  return `http://localhost:3333/courses`
+  return `https://academic-calendar-back.vercel.app/courses`
 }
 
 export const getCourses = async (
@@ -561,7 +561,7 @@ export const getCourses = async (
  * @summary Semester creation on the platform
  */
 export const getPostSemestersUrl = () => {
-  return `http://localhost:3333/semesters`
+  return `https://academic-calendar-back.vercel.app/semesters`
 }
 
 export const postSemesters = async (
@@ -585,7 +585,7 @@ export const postSemesters = async (
  * @summary Discipline creation on the platform
  */
 export const getPostDisciplinesUrl = () => {
-  return `http://localhost:3333/disciplines`
+  return `https://academic-calendar-back.vercel.app/disciplines`
 }
 
 export const postDisciplines = async (
@@ -609,7 +609,7 @@ export const postDisciplines = async (
  * @summary Get semesters from authenticated user course
  */
 export const getGetCoursesCourseIdSemestersUrl = (courseId: string) => {
-  return `http://localhost:3333/courses/${courseId}/semesters`
+  return `https://academic-calendar-back.vercel.app/courses/${courseId}/semesters`
 }
 
 export const getCoursesCourseIdSemesters = async (
@@ -631,7 +631,7 @@ export const getCoursesCourseIdSemesters = async (
  * @summary Get course from authenticated user
  */
 export const getGetCoursesCourseIdUrl = (courseId: string) => {
-  return `http://localhost:3333/courses/${courseId}`
+  return `https://academic-calendar-back.vercel.app/courses/${courseId}`
 }
 
 export const getCoursesCourseId = async (
@@ -653,7 +653,7 @@ export const getCoursesCourseId = async (
  * @summary Get disciplines from a semester of authenticated user
  */
 export const getGetSemestersSemesterIdDisciplinesUrl = (semesterId: string) => {
-  return `http://localhost:3333/semesters/${semesterId}/disciplines`
+  return `https://academic-calendar-back.vercel.app/semesters/${semesterId}/disciplines`
 }
 
 export const getSemestersSemesterIdDisciplines = async (
@@ -677,7 +677,7 @@ export const getSemestersSemesterIdDisciplines = async (
  * @summary Get tasks of a discipline for authenticated user
  */
 export const getGetDisciplinesDisciplineIdTasksUrl = (disciplineId: string) => {
-  return `http://localhost:3333/disciplines/${disciplineId}/tasks`
+  return `https://academic-calendar-back.vercel.app/disciplines/${disciplineId}/tasks`
 }
 
 export const getDisciplinesDisciplineIdTasks = async (
@@ -699,7 +699,7 @@ export const getDisciplinesDisciplineIdTasks = async (
  * @summary Create task for a discipline
  */
 export const getPostTasksUrl = () => {
-  return `http://localhost:3333/tasks`
+  return `https://academic-calendar-back.vercel.app/tasks`
 }
 
 export const postTasks = async (
@@ -723,7 +723,7 @@ export const postTasks = async (
  * @summary Delete a task (owned by the authenticated user)
  */
 export const getDeleteTasksTaskIdUrl = (taskId: string) => {
-  return `http://localhost:3333/tasks/${taskId}`
+  return `https://academic-calendar-back.vercel.app/tasks/${taskId}`
 }
 
 export const deleteTasksTaskId = async (
@@ -745,7 +745,7 @@ export const deleteTasksTaskId = async (
  * @summary Update a task (owned by the authenticated user)
  */
 export const getPatchTasksTaskIdUrl = (taskId: string) => {
-  return `http://localhost:3333/tasks/${taskId}`
+  return `https://academic-calendar-back.vercel.app/tasks/${taskId}`
 }
 
 export const patchTasksTaskId = async (
