@@ -48,7 +48,11 @@ function MyCalendarComponent() {
     }
   }
 
-  if (isLoading) return <EmptyMessage text="Carregando cursos..." />
+  useEffect(() => {
+    if (!isLoading && !courses) navigate({ to: '/' })
+  }, [isLoading, courses, navigate])
+
+  if (isLoading || !courses) return <EmptyMessage text="Carregando..." />
 
   return (
     <Page className="flex flex-col">
@@ -56,7 +60,7 @@ function MyCalendarComponent() {
         <h1 className="text-foreground text-lg line-clamp-1 md:text-2xl">
           Olá, {name}
         </h1>
-        {courses && courses.length > 0 && (
+        {courses.length > 0 && (
           <Button
             type="button"
             className="md:w-fit w-full px-3"
@@ -67,7 +71,7 @@ function MyCalendarComponent() {
         )}
       </div>
 
-      {courses?.length === 0 ? (
+      {courses.length === 0 ? (
         <EmptyMessage text="Você não possui cursos">
           <Button
             type="button"
@@ -81,7 +85,7 @@ function MyCalendarComponent() {
         <>
           <h3 className="md:text-xl text-foreground my-4">Cursos:</h3>
           <div className="grid md:grid-cols-2 gap-4 md:gap-10 items-center">
-            {courses?.map(course => (
+            {courses.map(course => (
               <CourseItem
                 key={course.id}
                 description={course.description}
