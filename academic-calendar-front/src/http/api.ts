@@ -5,6 +5,7 @@
  * API para o Academic Calendar
  * OpenAPI spec version: 0.0.1
  */
+import { customFetch } from '../../fetchMutator'
 export type PostSignupBody = {
   /** @minLength 2 */
   name: string
@@ -468,284 +469,234 @@ export type PatchTasksTaskId404 = {
  * @summary Sign up on the platform
  */
 export const getPostSignupUrl = () => {
-  return `https://academic-calendar-back.vercel.app/signup`
+  return `/signup`
 }
 
 export const postSignup = async (
   postSignupBody: PostSignupBody,
   options?: RequestInit
 ): Promise<PostSignup201> => {
-  const res = await fetch(getPostSignupUrl(), {
+  return customFetch<PostSignup201>(getPostSignupUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(postSignupBody),
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PostSignup201 = body ? JSON.parse(body) : {}
-
-  return data
 }
 
 /**
  * @summary Sign in on the platform
  */
 export const getPostSigninUrl = () => {
-  return `https://academic-calendar-back.vercel.app/signin`
+  return `/signin`
 }
 
 export const postSignin = async (
   postSigninBody: PostSigninBody,
   options?: RequestInit
 ): Promise<PostSignin200> => {
-  const res = await fetch(getPostSigninUrl(), {
+  return customFetch<PostSignin200>(getPostSigninUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(postSigninBody),
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PostSignin200 = body ? JSON.parse(body) : {}
-
-  return data
 }
 
 /**
  * @summary Course creation on the platform
  */
 export const getPostCoursesUrl = () => {
-  return `https://academic-calendar-back.vercel.app/courses`
+  return `/courses`
 }
 
 export const postCourses = async (
   postCoursesBody: PostCoursesBody,
   options?: RequestInit
 ): Promise<PostCourses201> => {
-  const res = await fetch(getPostCoursesUrl(), {
+  return customFetch<PostCourses201>(getPostCoursesUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(postCoursesBody),
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PostCourses201 = body ? JSON.parse(body) : {}
-
-  return data
 }
 
 /**
  * @summary Get courses from authenticated user
  */
 export const getGetCoursesUrl = () => {
-  return `https://academic-calendar-back.vercel.app/courses`
+  return `/courses`
 }
 
 export const getCourses = async (
   options?: RequestInit
 ): Promise<GetCourses200> => {
-  const res = await fetch(getGetCoursesUrl(), {
+  return customFetch<GetCourses200>(getGetCoursesUrl(), {
     ...options,
     method: 'GET',
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: GetCourses200 = body ? JSON.parse(body) : {}
-
-  return data
 }
 
 /**
  * @summary Semester creation on the platform
  */
 export const getPostSemestersUrl = () => {
-  return `https://academic-calendar-back.vercel.app/semesters`
+  return `/semesters`
 }
 
 export const postSemesters = async (
   postSemestersBody: PostSemestersBody,
   options?: RequestInit
 ): Promise<PostSemesters201> => {
-  const res = await fetch(getPostSemestersUrl(), {
+  return customFetch<PostSemesters201>(getPostSemestersUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(postSemestersBody),
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PostSemesters201 = body ? JSON.parse(body) : {}
-
-  return data
 }
 
 /**
  * @summary Discipline creation on the platform
  */
 export const getPostDisciplinesUrl = () => {
-  return `https://academic-calendar-back.vercel.app/disciplines`
+  return `/disciplines`
 }
 
 export const postDisciplines = async (
   postDisciplinesBody: PostDisciplinesBody,
   options?: RequestInit
 ): Promise<PostDisciplines201> => {
-  const res = await fetch(getPostDisciplinesUrl(), {
+  return customFetch<PostDisciplines201>(getPostDisciplinesUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(postDisciplinesBody),
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PostDisciplines201 = body ? JSON.parse(body) : {}
-
-  return data
 }
 
 /**
  * @summary Get semesters from authenticated user course
  */
 export const getGetCoursesCourseIdSemestersUrl = (courseId: string) => {
-  return `https://academic-calendar-back.vercel.app/courses/${courseId}/semesters`
+  return `/courses/${courseId}/semesters`
 }
 
 export const getCoursesCourseIdSemesters = async (
   courseId: string,
   options?: RequestInit
 ): Promise<GetCoursesCourseIdSemesters200> => {
-  const res = await fetch(getGetCoursesCourseIdSemestersUrl(courseId), {
-    ...options,
-    method: 'GET',
-  })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: GetCoursesCourseIdSemesters200 = body ? JSON.parse(body) : {}
-
-  return data
+  return customFetch<GetCoursesCourseIdSemesters200>(
+    getGetCoursesCourseIdSemestersUrl(courseId),
+    {
+      ...options,
+      method: 'GET',
+    }
+  )
 }
 
 /**
  * @summary Get course from authenticated user
  */
 export const getGetCoursesCourseIdUrl = (courseId: string) => {
-  return `https://academic-calendar-back.vercel.app/courses/${courseId}`
+  return `/courses/${courseId}`
 }
 
 export const getCoursesCourseId = async (
   courseId: string,
   options?: RequestInit
 ): Promise<GetCoursesCourseId200> => {
-  const res = await fetch(getGetCoursesCourseIdUrl(courseId), {
-    ...options,
-    method: 'GET',
-  })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: GetCoursesCourseId200 = body ? JSON.parse(body) : {}
-
-  return data
+  return customFetch<GetCoursesCourseId200>(
+    getGetCoursesCourseIdUrl(courseId),
+    {
+      ...options,
+      method: 'GET',
+    }
+  )
 }
 
 /**
  * @summary Get disciplines from a semester of authenticated user
  */
 export const getGetSemestersSemesterIdDisciplinesUrl = (semesterId: string) => {
-  return `https://academic-calendar-back.vercel.app/semesters/${semesterId}/disciplines`
+  return `/semesters/${semesterId}/disciplines`
 }
 
 export const getSemestersSemesterIdDisciplines = async (
   semesterId: string,
   options?: RequestInit
 ): Promise<GetSemestersSemesterIdDisciplines200> => {
-  const res = await fetch(getGetSemestersSemesterIdDisciplinesUrl(semesterId), {
-    ...options,
-    method: 'GET',
-  })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: GetSemestersSemesterIdDisciplines200 = body
-    ? JSON.parse(body)
-    : {}
-
-  return data
+  return customFetch<GetSemestersSemesterIdDisciplines200>(
+    getGetSemestersSemesterIdDisciplinesUrl(semesterId),
+    {
+      ...options,
+      method: 'GET',
+    }
+  )
 }
 
 /**
  * @summary Get tasks of a discipline for authenticated user
  */
 export const getGetDisciplinesDisciplineIdTasksUrl = (disciplineId: string) => {
-  return `https://academic-calendar-back.vercel.app/disciplines/${disciplineId}/tasks`
+  return `/disciplines/${disciplineId}/tasks`
 }
 
 export const getDisciplinesDisciplineIdTasks = async (
   disciplineId: string,
   options?: RequestInit
 ): Promise<GetDisciplinesDisciplineIdTasks200> => {
-  const res = await fetch(getGetDisciplinesDisciplineIdTasksUrl(disciplineId), {
-    ...options,
-    method: 'GET',
-  })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: GetDisciplinesDisciplineIdTasks200 = body ? JSON.parse(body) : {}
-
-  return data
+  return customFetch<GetDisciplinesDisciplineIdTasks200>(
+    getGetDisciplinesDisciplineIdTasksUrl(disciplineId),
+    {
+      ...options,
+      method: 'GET',
+    }
+  )
 }
 
 /**
  * @summary Create task for a discipline
  */
 export const getPostTasksUrl = () => {
-  return `https://academic-calendar-back.vercel.app/tasks`
+  return `/tasks`
 }
 
 export const postTasks = async (
   postTasksBody: PostTasksBody,
   options?: RequestInit
 ): Promise<PostTasks201> => {
-  const res = await fetch(getPostTasksUrl(), {
+  return customFetch<PostTasks201>(getPostTasksUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(postTasksBody),
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PostTasks201 = body ? JSON.parse(body) : {}
-
-  return data
 }
 
 /**
  * @summary Delete a task (owned by the authenticated user)
  */
 export const getDeleteTasksTaskIdUrl = (taskId: string) => {
-  return `https://academic-calendar-back.vercel.app/tasks/${taskId}`
+  return `/tasks/${taskId}`
 }
 
 export const deleteTasksTaskId = async (
   taskId: string,
   options?: RequestInit
 ): Promise<DeleteTasksTaskId200> => {
-  const res = await fetch(getDeleteTasksTaskIdUrl(taskId), {
+  return customFetch<DeleteTasksTaskId200>(getDeleteTasksTaskIdUrl(taskId), {
     ...options,
     method: 'DELETE',
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: DeleteTasksTaskId200 = body ? JSON.parse(body) : {}
-
-  return data
 }
 
 /**
  * @summary Update a task (owned by the authenticated user)
  */
 export const getPatchTasksTaskIdUrl = (taskId: string) => {
-  return `https://academic-calendar-back.vercel.app/tasks/${taskId}`
+  return `/tasks/${taskId}`
 }
 
 export const patchTasksTaskId = async (
@@ -753,15 +704,10 @@ export const patchTasksTaskId = async (
   patchTasksTaskIdBody: PatchTasksTaskIdBody,
   options?: RequestInit
 ): Promise<PatchTasksTaskId200> => {
-  const res = await fetch(getPatchTasksTaskIdUrl(taskId), {
+  return customFetch<PatchTasksTaskId200>(getPatchTasksTaskIdUrl(taskId), {
     ...options,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(patchTasksTaskIdBody),
   })
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PatchTasksTaskId200 = body ? JSON.parse(body) : {}
-
-  return data
 }

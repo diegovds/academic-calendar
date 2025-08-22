@@ -1,17 +1,18 @@
 import { defineConfig } from 'orval'
-import { env } from './env'
 
 export default defineConfig({
   api: {
-    input: `${env.BACKEND_URL}/docs/json`,
+    input: 'http://localhost:3333/docs/json',
     output: {
       target: './src/http/api.ts',
       client: 'fetch',
       httpClient: 'fetch',
       clean: true,
-      baseUrl: env.BACKEND_URL,
-
       override: {
+        mutator: {
+          path: './fetchMutator.ts',
+          name: 'customFetch',
+        },
         fetch: {
           includeHttpResponseReturnType: false,
         },
