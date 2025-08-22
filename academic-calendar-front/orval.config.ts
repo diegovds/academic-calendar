@@ -1,14 +1,15 @@
 import { defineConfig } from 'orval'
+import { env } from './env'
 
 export default defineConfig({
   api: {
-    input: 'https://academic-calendar-back.vercel.app/docs/json',
+    input: `${env.BACKEND_URL}/docs/json`,
     output: {
       target: './src/http/api.ts',
       client: 'fetch',
       httpClient: 'fetch',
       clean: true,
-      baseUrl: 'https://academic-calendar-back.vercel.app',
+      baseUrl: env.BACKEND_URL,
 
       override: {
         fetch: {
