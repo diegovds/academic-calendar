@@ -4,8 +4,8 @@ import { Page } from '@/components/page'
 import { Button } from '@/components/ui/button'
 import { type GetCourses200CoursesItem, getCourses } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
+import { useDisciplineStore } from '@/stores/useDisciplineStore'
 import { useModalStore } from '@/stores/useModalStore'
-import { useTaskStore } from '@/stores/useTaskStore'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
@@ -20,7 +20,7 @@ function MyCalendarComponent() {
   const navigate = useNavigate()
   const { token, name } = useAuthStore()
   const { setIsOpen } = useModalStore()
-  const { reset } = useTaskStore()
+  const { reset } = useDisciplineStore()
 
   useEffect(() => {
     if (!token) navigate({ to: '/' })

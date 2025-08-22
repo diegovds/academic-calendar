@@ -1,5 +1,5 @@
 import type { GetCoursesCourseId200CourseAnyOfSemestersItem } from '@/http/api'
-import { useTaskStore } from '@/stores/useTaskStore'
+import { useDisciplineStore } from '@/stores/useDisciplineStore'
 import { useState } from 'react'
 import { DisciplineContainer } from './discipline-container'
 import { TasksGrid } from './tasks-grid'
@@ -12,7 +12,7 @@ export function SemesterGrid({ semesters }: SemesterGridProps) {
   const [selectedSemester, setSelectedSemester] = useState<string | null>(
     semesters ? semesters[0].id : null
   )
-  const { task, reset, name } = useTaskStore()
+  const { disciplineId, reset, disciplineName } = useDisciplineStore()
 
   return (
     <div className="flex gap-6 items-start md:flex-row flex-col">
@@ -32,11 +32,16 @@ export function SemesterGrid({ semesters }: SemesterGridProps) {
           </button>
         ))}
       </div>
-      {selectedSemester && task === '' && (
+      {selectedSemester && disciplineId === '' && (
         <DisciplineContainer semesterId={selectedSemester} />
       )}
 
-      {task !== '' && <TasksGrid disciplineId={task} disciplineName={name} />}
+      {disciplineId !== '' && (
+        <TasksGrid
+          disciplineId={disciplineId}
+          disciplineName={disciplineName}
+        />
+      )}
     </div>
   )
 }

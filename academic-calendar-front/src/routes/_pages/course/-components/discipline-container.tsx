@@ -6,8 +6,8 @@ import {
   getSemestersSemesterIdDisciplines,
 } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
+import { useDisciplineStore } from '@/stores/useDisciplineStore'
 import { useModalStore } from '@/stores/useModalStore'
-import { useTaskStore } from '@/stores/useTaskStore'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { DisciplineCreate } from './discipline-create'
 
@@ -17,7 +17,7 @@ type DisciplineContainerProps = {
 
 export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
   const { token } = useAuthStore()
-  const { setTask, setName } = useTaskStore()
+  const { setDisciplineId, setDisciplineName } = useDisciplineStore()
   const { setIsOpen, whoOpened, setWhoOpened, toggleWhoOpened } =
     useModalStore()
 
@@ -70,8 +70,8 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
             <div
               key={discipline.id}
               onClick={() => {
-                setTask(discipline.id)
-                setName(discipline.title)
+                setDisciplineId(discipline.id)
+                setDisciplineName(discipline.title)
               }}
               className="p-2 md:p-4 bg-background shadow rounded flex justify-center cursor-pointer"
             >
