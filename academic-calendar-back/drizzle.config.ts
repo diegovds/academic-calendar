@@ -1,9 +1,12 @@
-import type { Config } from 'drizzle-kit'
-import { env } from './src/env'
+import { defineConfig } from "drizzle-kit";
+import path from "path";
+import { env } from "./src/env";
 
-export default {
-  schema: 'src/drizzle/schema/*',
-  out: 'src/drizzle/migrations',
-  dialect: 'postgresql',
-  dbCredentials: { url: env.POSTGRES_URL },
-} satisfies Config
+export default defineConfig({
+  dialect: "postgresql",
+  schema: "./src/drizzle/schema/schema.ts", // caminho pro schema
+  out: path.resolve("./src/drizzle/migrations"), // migrations vão aqui
+  dbCredentials: {
+    url: env.POSTGRES_URL,
+  },
+});

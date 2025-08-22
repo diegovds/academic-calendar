@@ -1,24 +1,24 @@
-import { drizzle } from "drizzle-orm/postgres-js"
-import { migrate } from "drizzle-orm/postgres-js/migrator"
-import path from "path"
-import postgres from "postgres"
-import { env } from "../env"
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import path from "path";
+import postgres from "postgres";
+import { env } from "../env";
 
-const sql = postgres(env.POSTGRES_URL, { max: 1 })
-const db = drizzle(sql)
+const sql = postgres(env.POSTGRES_URL, { max: 1 });
+const db = drizzle(sql);
 
 async function main() {
-  console.log("🚀 Rodando migrations...")
+  console.log("🚀 Rodando migrations...");
 
   await migrate(db, {
-    migrationsFolder: path.resolve(__dirname, "../drizzle/migrations"),
-  })
+    migrationsFolder: path.resolve("./src/drizzle/migrations"),
+  });
 
-  console.log("✅ Migrations aplicadas com sucesso!")
-  process.exit(0)
+  console.log("✅ Migrations aplicadas com sucesso!");
+  process.exit(0);
 }
 
 main().catch((err) => {
-  console.error("❌ Erro ao rodar migrations:", err)
-  process.exit(1)
-})
+  console.error("❌ Erro ao rodar migrations:", err);
+  process.exit(1);
+});
