@@ -33,13 +33,7 @@ export const getTasksRoute: FastifyPluginAsyncZod = async (app) => {
       const { disciplineId } = request.params
 
       const { tasks } = await getTasksByDiscipline({ userId, disciplineId })
-
-      if (tasks.length === 0) {
-        return reply.status(404).send({
-          message: 'Nenhuma task encontrada para essa disciplina.',
-        })
-      }
-
+      
       return reply.status(200).send({ tasks })
     },
   )
