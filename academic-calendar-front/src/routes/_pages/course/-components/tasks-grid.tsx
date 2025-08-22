@@ -9,6 +9,7 @@ import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
 import { formatDate } from '@/utils/format'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { CalendarDays, FilePenLine, NotebookPen } from 'lucide-react'
 import { TaskCreate } from './task-create'
 
 type TasksGridProps = {
@@ -74,11 +75,22 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
               <h3 className="text-center text-sm md:text-base">{task.title}</h3>
               <div className="flex justify-between items-center">
                 <div
-                  className={`p-1 rounded text-sm ${task.type === 'activity' ? 'bg-blue-200' : 'bg-yellow-200'}`}
+                  className={`flex gap-1 items-center p-1 rounded font-semibold text-sm ${task.type === 'activity' ? 'bg-blue-200' : 'bg-yellow-200'}`}
                 >
-                  {task.type === 'activity' ? 'Tarefa' : 'Prova'}
+                  {task.type === 'activity' ? (
+                    <>
+                      <NotebookPen size={20} />
+                      Tarefa
+                    </>
+                  ) : (
+                    <>
+                      <FilePenLine size={20} />
+                      Prova
+                    </>
+                  )}
                 </div>
-                <div className="text-sm md:text-base">
+                <div className="flex gap-1 items-center text-sm md:text-base">
+                  <CalendarDays size={22} />
                   {task.dueDate ? formatDate(new Date(task.dueDate)) : ''}
                 </div>
               </div>
