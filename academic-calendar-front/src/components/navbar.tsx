@@ -8,7 +8,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-background py-3 md:py-4 shadow">
-      <div className="container mx-auto px-4 flex flex-row items-center justify-between">
+      <div className="container mx-auto px-4 md:px-10 flex flex-row items-center justify-between">
         <Link
           to="/my-calendar"
           className="flex gap-2 items-center w-fit bg-blue-500 text-sm md:text-base text-background p-2 md:p-2.5 rounded-4xl"
