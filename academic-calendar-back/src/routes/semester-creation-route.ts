@@ -47,7 +47,7 @@ export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
 
       if (!_semester) {
         return reply.status(400).send({
-          message: 'Semestre não cadastrado.',
+          message: 'Semestre não cadastrado ou o limite de semestres por ano foi atingido.',
         })
       }
 
