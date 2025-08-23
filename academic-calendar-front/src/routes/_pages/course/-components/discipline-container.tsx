@@ -1,3 +1,4 @@
+import { Brand } from '@/components/brand'
 import { EmptyMessage } from '@/components/empty-message'
 import { Modal } from '@/components/modal'
 import { Button } from '@/components/ui/button'
@@ -9,6 +10,8 @@ import { useAuthStore } from '@/stores/useAuthStore'
 import { useDisciplineStore } from '@/stores/useDisciplineStore'
 import { useModalStore } from '@/stores/useModalStore'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Settings2 } from 'lucide-react'
+import { useState } from 'react'
 import { DisciplineCreate } from './discipline-create'
 
 type DisciplineContainerProps = {
@@ -17,6 +20,8 @@ type DisciplineContainerProps = {
 
 export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
   const { token } = useAuthStore()
+  const [selectedDiscipline, setSelectedDiscipline] =
+    useState<GetSemestersSemesterIdDisciplines200DisciplinesItem | null>(null)
   const { setDisciplineId, setDisciplineName } = useDisciplineStore()
   const { setIsOpen, whoOpened, setWhoOpened, toggleWhoOpened } =
     useModalStore()
@@ -44,6 +49,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
         queryKey: ['disciplines', token, semesterId],
       })
       toggleWhoOpened()
+      setSelectedDiscipline(null)
     }
   }
 
@@ -59,6 +65,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
           onClick={() => {
             setIsOpen(true)
             setWhoOpened('discipline')
+            setSelectedDiscipline(null)
           }}
         >
           Cadastrar disciplina
@@ -73,22 +80,46 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
                 setDisciplineId(discipline.id)
                 setDisciplineName(discipline.title)
               }}
-              className="p-2 md:p-4 bg-background shadow rounded flex justify-center cursor-pointer"
+              className="p-2 md:p-4 bg-background shadow rounded flex gap-4 items-center cursor-pointer group"
             >
-              <button
-                type="button"
-                className="text-sm md:text-base line-clamp-1 cursor-pointer bg-background text-foreground"
+              <Button
+                variant="default"
+                size="icon"
+                className="w-fit p-0"
+                onClick={e => {
+                  e.stopPropagation()
+                  e.preventDefault()
+                  setSelectedDiscipline(discipline)
+                  setIsOpen(true)
+                  setWhoOpened('discipline')
+                }}
               >
-                {discipline.title}
-              </button>
+                <Settings2 size={20} />
+              </Button>
+              <div className="flex-1 flex justify-between">
+                <div className="text-sm md:text-base line-clamp-1 cursor-pointer bg-background text-foreground">
+                  {discipline.title}
+                </div>
+                <Brand />
+              </div>
             </div>
           ))}
         </div>
       )}
 
       {whoOpened === 'discipline' && (
-        <Modal onClose={() => setIsOpen(false)} title="Cadastro de disciplina">
-          <DisciplineCreate semesterId={semesterId} reload={handleReload} />
+        <Modal
+          onClose={() => {
+            setIsOpen(false)
+            setSelectedDiscipline(null)
+          }}
+          title={
+            selectedDiscipline
+              ? 'Edição de disciplina'
+              : 'Cadastro de disciplina'
+          }
+        >
+          <DisciplineCreate semesterId={semesterId} reload={handleReload} discipline={selectedDiscipline} />
         </Modal>
       )}
     </div>

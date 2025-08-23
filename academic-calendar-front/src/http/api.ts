@@ -482,6 +482,21 @@ export type PutTasksTaskId404 = {
   message?: PutTasksTaskId404Message
 }
 
+export type PutDisciplinesDisciplineIdBody = {
+  /** @minLength 1 */
+  title?: string
+}
+
+export type PutDisciplinesDisciplineId200 = {
+  success: boolean
+}
+
+export type PutDisciplinesDisciplineId404Message = string | null
+
+export type PutDisciplinesDisciplineId404 = {
+  message?: PutDisciplinesDisciplineId404Message
+}
+
 /**
  * @summary Sign up on the platform
  */
@@ -750,4 +765,27 @@ export const putTasksTaskId = async (
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(putTasksTaskIdBody),
   })
+}
+
+/**
+ * @summary Update a discipline (owned by the authenticated user)
+ */
+export const getPutDisciplinesDisciplineIdUrl = (disciplineId: string) => {
+  return `/disciplines/${disciplineId}`
+}
+
+export const putDisciplinesDisciplineId = async (
+  disciplineId: string,
+  putDisciplinesDisciplineIdBody: PutDisciplinesDisciplineIdBody,
+  options?: RequestInit
+): Promise<PutDisciplinesDisciplineId200> => {
+  return customFetch<PutDisciplinesDisciplineId200>(
+    getPutDisciplinesDisciplineIdUrl(disciplineId),
+    {
+      ...options,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(putDisciplinesDisciplineIdBody),
+    }
+  )
 }

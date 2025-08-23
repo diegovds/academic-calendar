@@ -13,7 +13,11 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { postDisciplines } from '@/http/api'
+import {
+  type GetSemestersSemesterIdDisciplines200DisciplinesItem,
+  postDisciplines,
+  putDisciplinesDisciplineId,
+} from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
 
@@ -28,36 +32,58 @@ type FormData = z.infer<typeof formSchema>
 type DisciplineCreateProps = {
   semesterId: string
   reload: (reload: boolean) => void
+  discipline: GetSemestersSemesterIdDisciplines200DisciplinesItem | null
 }
 
 export function DisciplineCreate({
   reload,
   semesterId,
+  discipline,
 }: DisciplineCreateProps) {
   const { token } = useAuthStore()
   const { setIsOpen } = useModalStore()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: { title: '' },
+    defaultValues: { title: discipline ? discipline.title : '' },
   })
 
   const onSubmit = async (data: FormData) => {
-    const toastId = toast.loading('Cadastrando...')
+    if (!discipline) {
+      const toastId = toast.loading('Cadastrando...')
 
-    const { discipline } = await postDisciplines(
-      { title: data.title, semesterId },
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
+      const { discipline } = await postDisciplines(
+        { title: data.title, semesterId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
 
-    toast.dismiss(toastId)
+      toast.dismiss(toastId)
 
-    if (discipline) {
-      toast.success('Disciplina cadastrada!')
-      setIsOpen(false)
-      reload(true)
-    } else {
-      toast.error('Erro ao cadastrar disciplina.')
+      if (discipline) {
+        toast.success('Disciplina cadastrada!')
+        setIsOpen(false)
+        reload(true)
+      } else {
+        toast.error('Erro ao cadastrar disciplina.')
+      }
+    } else if (form.formState.defaultValues?.title !== data.title) {
+      const toastId = toast.loading('Atualizando...')
+
+      const { success } = await putDisciplinesDisciplineId(
+        discipline.id,
+        { title: data.title },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+
+      toast.dismiss(toastId)
+
+      if (success) {
+        toast.success('Disciplina atualizada!')
+        setIsOpen(false)
+        reload(true)
+      } else {
+        toast.error('Erro ao atualizar disciplina.')
+      }
     }
   }
 
@@ -78,7 +104,7 @@ export function DisciplineCreate({
         />
 
         <Button type="submit" disabled={form.formState.isSubmitting}>
-          Cadastrar
+          {discipline ? 'Editar' : 'Cadastrar'}
         </Button>
       </form>
     </Form>
