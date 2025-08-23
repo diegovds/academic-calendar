@@ -117,6 +117,7 @@ export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
           !isSameDay(form.formState.defaultValues.dueDate, data.dueDate)
 
         // se update faça o update
+        console.log(update)
       }
     }
   }
