@@ -11,7 +11,7 @@ export const deleteTaskRoute: FastifyPluginAsyncZod = async (app) => {
         tags: ['tasks'],
         security: [{ bearerAuth: [] }],
         params: z.object({
-          taskId: z.string().uuid(),
+          taskId: z.uuid(),
         }),
         response: {
           200: z.object({ success: z.literal(true) }),
