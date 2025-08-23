@@ -24,6 +24,7 @@ import { semesterCreationRoute } from '../src/routes/semester-creation-route'
 import { signinRoute } from '../src/routes/signin-route'
 import { signupRoute } from '../src/routes/signup-route'
 import { updateCourseRoute } from '../src/routes/update-course-route'
+import { updateDisciplineRoute } from '../src/routes/update-discipline'
 import { updateTaskRoute } from '../src/routes/update-task-route'
 
 
@@ -110,6 +111,7 @@ app.register(createTaskRoute)
 app.register(deleteTaskRoute)
 app.register(updateTaskRoute)
 app.register(updateCourseRoute)
+app.register(updateDisciplineRoute)
 
 export default async (req: any, res: any) => {
   await app.ready()

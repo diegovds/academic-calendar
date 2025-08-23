@@ -24,6 +24,7 @@ import { semesterCreationRoute } from './routes/semester-creation-route'
 import { signinRoute } from './routes/signin-route'
 import { signupRoute } from './routes/signup-route'
 import { updateCourseRoute } from './routes/update-course-route'
+import { updateDisciplineRoute } from './routes/update-discipline'
 import { updateTaskRoute } from './routes/update-task-route'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -109,6 +110,7 @@ app.register(createTaskRoute)
 app.register(deleteTaskRoute)
 app.register(updateTaskRoute)
 app.register(updateCourseRoute)
+app.register(updateDisciplineRoute)
 
 app.listen({ port: env.PORT }).then(() => {
   console.log(`🚀 HTTP Server Running! http://localhost:${env.PORT}`)
