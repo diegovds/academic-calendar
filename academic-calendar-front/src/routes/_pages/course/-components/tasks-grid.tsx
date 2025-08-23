@@ -10,6 +10,7 @@ import { useModalStore } from '@/stores/useModalStore'
 import { formatDate } from '@/utils/format'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { CalendarDays, FilePenLine, NotebookPen } from 'lucide-react'
+import { useState } from 'react'
 import { TaskCreate } from './task-create'
 
 type TasksGridProps = {
@@ -19,6 +20,8 @@ type TasksGridProps = {
 
 export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
   const { token } = useAuthStore()
+  const [selectedTask, setSelectedTask] =
+    useState<GetDisciplinesDisciplineIdTasks200TasksItem | null>(null)
   const { setIsOpen, setWhoOpened, whoOpened, toggleWhoOpened } =
     useModalStore()
 
@@ -43,6 +46,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
         queryKey: ['tasks', token, disciplineId],
       })
       toggleWhoOpened()
+      setSelectedTask(null)
     }
   }
 
@@ -59,6 +63,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
           className="w-fit px-3"
           onClick={() => {
             setIsOpen(true)
+            setSelectedTask(null)
             setWhoOpened('task')
           }}
         >
@@ -94,9 +99,20 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
                   {task.dueDate ? formatDate(new Date(task.dueDate)) : ''}
                 </div>
               </div>
-              <p className="mt-5 text-justify max-h-60 overflow-y-auto text-sm md:text-base tracking-wide">
+              <p className="my-5 text-justify max-h-60 overflow-y-auto text-sm md:text-base tracking-wide">
                 {task.description}
               </p>
+              <Button
+                className="w-fit"
+                variant="default"
+                onClick={() => {
+                  setSelectedTask(task)
+                  setIsOpen(true)
+                  setWhoOpened('task')
+                }}
+              >
+                Editar
+              </Button>
             </div>
           ))}
         </div>
@@ -105,9 +121,19 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
       {whoOpened === 'task' && (
         <Modal
           onClose={() => setIsOpen(false)}
-          title="Cadastro de tatefa ou prova"
+          title={
+            selectedTask === null
+              ? 'Cadastro de tatefa ou prova'
+              : selectedTask.type === 'activity'
+                ? 'Edição de tarefa'
+                : 'Edição de prova'
+          }
         >
-          <TaskCreate disciplineId={disciplineId} reload={handleReload} />
+          <TaskCreate
+            disciplineId={disciplineId}
+            reload={handleReload}
+            task={selectedTask}
+          />
         </Modal>
       )}
     </div>
