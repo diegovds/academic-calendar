@@ -20,10 +20,10 @@ export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
           201: z.object({
             semester: semesterSchema,
           }),
-          404: z.object({
+          400: z.object({
             message: z.string(),
           }),
-          400: z.object({
+          500: z.object({
             message: z.string(),
           }),
         },
@@ -46,12 +46,12 @@ export const semesterCreationRoute: FastifyPluginAsyncZod = async (app) => {
       }
 
       if (!_semester) {
-        return reply.status(404).send({
+        return reply.status(400).send({
           message: 'Semestre não cadastrado.',
         })
       }
 
-      return reply.status(400).send({ message: 'Ocorreu um erro no servidor.' })
+      return reply.status(500).send({ message: 'Ocorreu um erro no servidor.' })
     },
   )
 }
