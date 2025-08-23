@@ -48,6 +48,7 @@ function MyCalendarComponent() {
   function handleReload(reload: boolean) {
     if (reload) {
       queryClient.invalidateQueries({ queryKey: ['courses', token] })
+      setSelectedCourse(null)
     }
   }
 

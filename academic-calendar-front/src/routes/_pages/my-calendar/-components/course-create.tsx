@@ -87,7 +87,10 @@ export function CourseCreate({ reload, course }: CourseCreateProps) {
       } else {
         toast.error('Erro ao cadastrar curso.')
       }
-    } else {
+    } else if (
+      form.formState.defaultValues?.title !== data.title ||
+      form.formState.defaultValues?.description !== data.description
+    ) {
       const toastId = toast.loading('Atualizando...')
 
       const { success } = await putCoursesCourseId(
