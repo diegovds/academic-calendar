@@ -27,6 +27,7 @@ import { Textarea } from '@/components/ui/textarea'
 
 import {
   type GetDisciplinesDisciplineIdTasks200TasksItem,
+  deleteTasksTaskId,
   postTasks,
   putTasksTaskId,
 } from '@/http/api'
@@ -145,6 +146,26 @@ export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
     }
   }
 
+  const handleDelete = async () => {
+    if (task) {
+      const toastId = toast.loading('Deletando...')
+
+      const { success } = await deleteTasksTaskId(task.id, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+
+      toast.dismiss(toastId)
+
+      if (success) {
+        toast.success('Tarefa deletada!')
+        setIsOpen(false)
+        reload(true)
+      } else {
+        toast.error('Erro ao deletar tarefa.')
+      }
+    }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -253,9 +274,24 @@ export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
           )}
         />
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          {task ? 'Editar' : 'Adicionar'}
-        </Button>
+        <div className="flex gap-4">
+          <Button
+            type="submit"
+            className="flex-1"
+            disabled={form.formState.isSubmitting}
+          >
+            {task ? 'Editar' : 'Adicionar'}
+          </Button>
+          <Button
+            type="button"
+            variant="destructive"
+            className="flex-1"
+            disabled={form.formState.isSubmitting}
+            onClick={() => handleDelete()}
+          >
+            Deletar
+          </Button>
+        </div>
       </form>
     </Form>
   )

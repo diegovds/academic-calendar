@@ -10,7 +10,7 @@ import { useModalStore } from '@/stores/useModalStore'
 import { formatDate } from '@/utils/format'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { CalendarDays, FilePenLine, NotebookPen } from 'lucide-react'
+import { CalendarDays, FilePenLine, NotebookPen, Settings2 } from 'lucide-react'
 import { useState } from 'react'
 import { TaskCreate } from './task-create'
 
@@ -77,7 +77,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
           {tasks.map(task => (
             <div
               key={task.id}
-              className="bg-background shadow p-4 rounded text-foreground"
+              className="flex flex-col bg-background shadow p-4 rounded text-foreground"
             >
               <h3 className="text-center text-sm md:text-base">{task.title}</h3>
               <div className="flex justify-between items-center">
@@ -105,15 +105,16 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
                 {task.description}
               </p>
               <Button
-                className="w-fit"
                 variant="default"
+                size="icon"
+                className="place-self-end"
                 onClick={() => {
                   setSelectedTask(task)
                   setIsOpen(true)
                   setWhoOpened('task')
                 }}
               >
-                Editar
+                <Settings2 size={20} />
               </Button>
             </div>
           ))}
