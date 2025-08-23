@@ -10,7 +10,7 @@ import { useModalStore } from '@/stores/useModalStore'
 import { formatDate } from '@/utils/format'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { CalendarDays, FilePenLine, NotebookPen, Settings2 } from 'lucide-react'
+import { Calendar, Settings2 } from 'lucide-react'
 import { useState } from 'react'
 import { TaskCreate } from './task-create'
 
@@ -81,23 +81,17 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
             >
               <h3 className="text-center text-sm md:text-base">{task.title}</h3>
               <div className="flex justify-between items-center">
-                <div
-                  className={`flex gap-1 items-center p-1 rounded font-semibold text-sm ${task.type === 'activity' ? 'bg-blue-200' : 'bg-yellow-200'}`}
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    task.type === 'activity'
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-yellow-100 text-yellow-700'
+                  }`}
                 >
-                  {task.type === 'activity' ? (
-                    <>
-                      <NotebookPen size={20} />
-                      Tarefa
-                    </>
-                  ) : (
-                    <>
-                      <FilePenLine size={20} />
-                      Prova
-                    </>
-                  )}
-                </div>
-                <div className="flex gap-1 items-center text-sm md:text-base">
-                  <CalendarDays size={22} />
+                  {task.type === 'activity' ? 'Tarefa' : 'Prova'}
+                </span>
+                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                  <Calendar size={18} />
                   {task.dueDate ? formatDate(new Date(task.dueDate)) : ''}
                 </div>
               </div>
@@ -105,7 +99,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
                 {task.description}
               </p>
               <Button
-                variant="default"
+                variant="ghost"
                 size="icon"
                 className="place-self-end"
                 onClick={() => {
