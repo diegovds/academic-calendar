@@ -173,7 +173,7 @@ export type PostSemesters400 = {
   message: string
 }
 
-export type PostSemesters404 = {
+export type PostSemesters500 = {
   message: string
 }
 
