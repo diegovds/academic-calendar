@@ -5,10 +5,10 @@ import { fastifySwaggerUi } from '@fastify/swagger-ui'
 import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import fastifyBcrypt from 'fastify-bcrypt'
 import {
-    jsonSchemaTransform,
-    serializerCompiler,
-    validatorCompiler,
-    ZodTypeProvider,
+  jsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler,
+  ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from '../src/env'
 import { courseCreationRoute } from '../src/routes/course-creation-route'
@@ -33,6 +33,7 @@ app.setValidatorCompiler(validatorCompiler)
 
 app.register(fastifyCors, {
   origin: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 })
 
 app.register(fastifyBcrypt, {

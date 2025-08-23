@@ -32,6 +32,7 @@ app.setValidatorCompiler(validatorCompiler)
 
 app.register(fastifyCors, {
   origin: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 })
 
 app.register(fastifyBcrypt, {

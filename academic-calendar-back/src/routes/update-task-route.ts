@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { updateTask } from '../functions/update-task'
 
 export const updateTaskRoute: FastifyPluginAsyncZod = async (app) => {
-  app.patch(
+  app.put(
     '/tasks/:taskId',
     {
       schema: {
