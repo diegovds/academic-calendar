@@ -1,3 +1,4 @@
+import { Brand } from '@/components/brand'
 import { EmptyMessage } from '@/components/empty-message'
 import { Modal } from '@/components/modal'
 import { Page } from '@/components/page'
@@ -7,10 +8,10 @@ import { useAuthStore } from '@/stores/useAuthStore'
 import { useDisciplineStore } from '@/stores/useDisciplineStore'
 import { useModalStore } from '@/stores/useModalStore'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useEffect } from 'react'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Settings2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { CourseCreate } from './-components/course-create'
-import { CourseItem } from './-components/course-item'
 
 export const Route = createFileRoute('/_pages/my-calendar/')({
   component: MyCalendarComponent,
@@ -21,6 +22,8 @@ function MyCalendarComponent() {
   const { token, name } = useAuthStore()
   const { setIsOpen } = useModalStore()
   const { reset } = useDisciplineStore()
+  const [selectedCourse, setSelectedCourse] =
+    useState<GetCourses200CoursesItem | null>(null)
 
   useEffect(() => {
     if (!token) navigate({ to: '/' })
@@ -86,20 +89,52 @@ function MyCalendarComponent() {
           <h3 className="md:text-xl text-foreground my-4">Cursos:</h3>
           <div className="grid md:grid-cols-2 gap-4 md:gap-10 items-center">
             {courses.map(course => (
-              <CourseItem
+              <Link
                 key={course.id}
-                description={course.description}
-                id={course.id}
-                title={course.title}
                 to="/course/$id"
-              />
+                params={{
+                  id: course.id,
+                }}
+                className="bg-background text-foreground shadow p-4 rounded flex items-center gap-4 group"
+              >
+                <Button
+                  variant="default"
+                  size="icon"
+                  className="w-fit p-0"
+                  onClick={e => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    setSelectedCourse(course)
+                    setIsOpen(true)
+                  }}
+                >
+                  <Settings2 size={20} />
+                </Button>
+                <div className="flex-1 flex justify-between">
+                  <div>
+                    <h3 className="text-base md:text-lg line-clamp-1">
+                      {course.title}
+                    </h3>
+                    <p className="text-xs md:text-sm line-clamp-3">
+                      {course.description}
+                    </p>
+                  </div>
+                  <Brand />
+                </div>
+              </Link>
             ))}
           </div>
         </>
       )}
 
-      <Modal onClose={() => setIsOpen(false)} title="Cadastro de curso">
-        <CourseCreate reload={handleReload} />
+      <Modal
+        onClose={() => {
+          setIsOpen(false)
+          setSelectedCourse(null)
+        }}
+        title={selectedCourse ? 'Edição de curso' : 'Cadastro de curso'}
+      >
+        <CourseCreate reload={handleReload} course={selectedCourse} />
       </Modal>
     </Page>
   )

@@ -299,6 +299,23 @@ export type GetCoursesCourseId401 = {
   message: string
 }
 
+export type PutCoursesCourseIdBody = {
+  /** @minLength 1 */
+  title?: string
+  /** @minLength 1 */
+  description?: string
+}
+
+export type PutCoursesCourseId200 = {
+  success: boolean
+}
+
+export type PutCoursesCourseId404Message = string | null
+
+export type PutCoursesCourseId404 = {
+  message?: PutCoursesCourseId404Message
+}
+
 export type GetSemestersSemesterIdDisciplines200DisciplinesItemCreatedAt =
   | string
   | null
@@ -612,6 +629,29 @@ export const getCoursesCourseId = async (
     {
       ...options,
       method: 'GET',
+    }
+  )
+}
+
+/**
+ * @summary Update a course (owned by the authenticated user)
+ */
+export const getPutCoursesCourseIdUrl = (courseId: string) => {
+  return `/courses/${courseId}`
+}
+
+export const putCoursesCourseId = async (
+  courseId: string,
+  putCoursesCourseIdBody: PutCoursesCourseIdBody,
+  options?: RequestInit
+): Promise<PutCoursesCourseId200> => {
+  return customFetch<PutCoursesCourseId200>(
+    getPutCoursesCourseIdUrl(courseId),
+    {
+      ...options,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(putCoursesCourseIdBody),
     }
   )
 }
