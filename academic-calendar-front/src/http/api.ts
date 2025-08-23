@@ -437,32 +437,32 @@ export type DeleteTasksTaskId404 = {
   message?: DeleteTasksTaskId404Message
 }
 
-export type PatchTasksTaskIdBodyType =
-  (typeof PatchTasksTaskIdBodyType)[keyof typeof PatchTasksTaskIdBodyType]
+export type PutTasksTaskIdBodyType =
+  (typeof PutTasksTaskIdBodyType)[keyof typeof PutTasksTaskIdBodyType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PatchTasksTaskIdBodyType = {
+export const PutTasksTaskIdBodyType = {
   exam: 'exam',
   activity: 'activity',
 } as const
 
-export type PatchTasksTaskIdBody = {
+export type PutTasksTaskIdBody = {
   /** @minLength 1 */
   title?: string
   /** @minLength 1 */
   description?: string
   dueDate?: unknown
-  type?: PatchTasksTaskIdBodyType
+  type?: PutTasksTaskIdBodyType
 }
 
-export type PatchTasksTaskId200 = {
+export type PutTasksTaskId200 = {
   success: boolean
 }
 
-export type PatchTasksTaskId404Message = string | null
+export type PutTasksTaskId404Message = string | null
 
-export type PatchTasksTaskId404 = {
-  message?: PatchTasksTaskId404Message
+export type PutTasksTaskId404 = {
+  message?: PutTasksTaskId404Message
 }
 
 /**
@@ -695,19 +695,19 @@ export const deleteTasksTaskId = async (
 /**
  * @summary Update a task (owned by the authenticated user)
  */
-export const getPatchTasksTaskIdUrl = (taskId: string) => {
+export const getPutTasksTaskIdUrl = (taskId: string) => {
   return `/tasks/${taskId}`
 }
 
-export const patchTasksTaskId = async (
+export const putTasksTaskId = async (
   taskId: string,
-  patchTasksTaskIdBody: PatchTasksTaskIdBody,
+  putTasksTaskIdBody: PutTasksTaskIdBody,
   options?: RequestInit
-): Promise<PatchTasksTaskId200> => {
-  return customFetch<PatchTasksTaskId200>(getPatchTasksTaskIdUrl(taskId), {
+): Promise<PutTasksTaskId200> => {
+  return customFetch<PutTasksTaskId200>(getPutTasksTaskIdUrl(taskId), {
     ...options,
-    method: 'PATCH',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(patchTasksTaskIdBody),
+    body: JSON.stringify(putTasksTaskIdBody),
   })
 }

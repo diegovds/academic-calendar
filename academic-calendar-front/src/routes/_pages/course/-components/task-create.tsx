@@ -28,6 +28,7 @@ import { Textarea } from '@/components/ui/textarea'
 import {
   type GetDisciplinesDisciplineIdTasks200TasksItem,
   postTasks,
+  putTasksTaskId,
 } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
@@ -116,8 +117,30 @@ export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
           form.formState.defaultValues?.type !== data.type ||
           !isSameDay(form.formState.defaultValues.dueDate, data.dueDate)
 
-        // se update faça o update
-        console.log(update)
+        if (update) {
+          const toastId = toast.loading('Atualizando...')
+
+          const { success } = await putTasksTaskId(
+            task.id,
+            {
+              title: data.title,
+              description: data.description,
+              dueDate: data.dueDate,
+              type: data.type,
+            },
+            { headers: { Authorization: `Bearer ${token}` } }
+          )
+
+          toast.dismiss(toastId)
+
+          if (success) {
+            toast.success('Tarefa atualizada!')
+            setIsOpen(false)
+            reload(true)
+          } else {
+            toast.error('Erro ao atualizar tarefa.')
+          }
+        }
       }
     }
   }
