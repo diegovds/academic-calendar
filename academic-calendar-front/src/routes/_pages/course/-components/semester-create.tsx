@@ -70,9 +70,10 @@ export function SemesterCreate({ courseId, reload }: SemesterCreateProps) {
         } else {
           toast.error('Erro ao cadastrar semestre.')
         }
-      } catch (error) {
+      } catch (error: unknown) {
         toast.dismiss(toastId)
-        toast.error('Ocorreu um erro inesperado ao cadastrar.')
+
+        toast.error((error as Error).message)
       }
     }
   }
