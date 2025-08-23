@@ -49,25 +49,30 @@ export function SemesterCreate({ courseId, reload }: SemesterCreateProps) {
     if (data.semester) {
       const toastId = toast.loading('Cadastrando...')
 
-      const { semester } = await postSemesters(
-        {
-          courseId,
-          semester: data.semester,
-          year: new Date().getFullYear(),
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
+      try {
+        const { semester } = await postSemesters(
+          {
+            courseId,
+            semester: data.semester,
+            year: new Date().getFullYear(),
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+
+        toast.dismiss(toastId)
+
+        if (semester) {
+          toast.success('Semestre cadastrado!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao cadastrar semestre.')
         }
-      )
-
-      toast.dismiss(toastId)
-
-      if (semester) {
-        toast.success('Semestre cadastrado!')
-        setIsOpen(false)
-        reload(true)
-      } else {
-        toast.error('Erro ao cadastrar semestre.')
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao cadastrar.')
       }
     }
   }

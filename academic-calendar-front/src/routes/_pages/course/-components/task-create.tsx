@@ -83,25 +83,31 @@ export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
     if (data.type && !task) {
       const toastId = toast.loading('Cadastrando...')
 
-      const { task } = await postTasks(
-        {
-          disciplineId,
-          title: data.title,
-          description: data.description,
-          dueDate: data.dueDate,
-          type: data.type,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+      try {
+        const { task } = await postTasks(
+          {
+            disciplineId,
+            title: data.title,
+            description: data.description,
+            dueDate: data.dueDate,
+            type: data.type,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
 
-      toast.dismiss(toastId)
+        toast.dismiss(toastId)
 
-      if (task) {
-        toast.success('Tarefa cadastrada!')
-        setIsOpen(false)
-        reload(true)
-      } else {
-        toast.error('Erro ao cadastrar tarefa.')
+        if (task) {
+          toast.success('Tarefa cadastrada!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao cadastrar tarefa.')
+        }
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao cadastrar tarefa.')
+        console.error(error)
       }
     }
 
@@ -121,25 +127,31 @@ export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
         if (update) {
           const toastId = toast.loading('Atualizando...')
 
-          const { success } = await putTasksTaskId(
-            task.id,
-            {
-              title: data.title,
-              description: data.description,
-              dueDate: data.dueDate,
-              type: data.type,
-            },
-            { headers: { Authorization: `Bearer ${token}` } }
-          )
+          try {
+            const { success } = await putTasksTaskId(
+              task.id,
+              {
+                title: data.title,
+                description: data.description,
+                dueDate: data.dueDate,
+                type: data.type,
+              },
+              { headers: { Authorization: `Bearer ${token}` } }
+            )
 
-          toast.dismiss(toastId)
+            toast.dismiss(toastId)
 
-          if (success) {
-            toast.success('Tarefa atualizada!')
-            setIsOpen(false)
-            reload(true)
-          } else {
-            toast.error('Erro ao atualizar tarefa.')
+            if (success) {
+              toast.success('Tarefa atualizada!')
+              setIsOpen(false)
+              reload(true)
+            } else {
+              toast.error('Erro ao atualizar tarefa.')
+            }
+          } catch (error) {
+            toast.dismiss(toastId)
+            toast.error('Ocorreu um erro inesperado ao atualizar tarefa.')
+            console.error(error)
           }
         }
       }
@@ -150,18 +162,24 @@ export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
     if (task) {
       const toastId = toast.loading('Deletando...')
 
-      const { success } = await deleteTasksTaskId(task.id, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      try {
+        const { success } = await deleteTasksTaskId(task.id, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
 
-      toast.dismiss(toastId)
+        toast.dismiss(toastId)
 
-      if (success) {
-        toast.success('Tarefa deletada!')
-        setIsOpen(false)
-        reload(true)
-      } else {
-        toast.error('Erro ao deletar tarefa.')
+        if (success) {
+          toast.success('Tarefa deletada!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao deletar tarefa.')
+        }
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao deletar tarefa.')
+        console.error(error)
       }
     }
   }

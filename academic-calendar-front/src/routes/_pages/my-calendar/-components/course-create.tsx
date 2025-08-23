@@ -61,31 +61,41 @@ export function CourseCreate({ reload, course }: CourseCreateProps) {
     if (!course) {
       const toastId = toast.loading('Cadastrando...')
 
-      const { course } = await postCourses(data, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      try {
+        const { course } = await postCourses(data, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
 
-      if (data.semester && course) {
-        await postSemesters(
-          {
-            courseId: course.id,
-            semester: data.semester,
-            year: new Date().getFullYear(),
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
+        if (data.semester && course) {
+          try {
+            await postSemesters(
+              {
+                courseId: course.id,
+                semester: data.semester,
+                year: new Date().getFullYear(),
+              },
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
+          } catch (error) {
+            console.error('Erro ao cadastrar semestre inicial:', error)
           }
-        )
-      }
+        }
 
-      toast.dismiss(toastId)
+        toast.dismiss(toastId)
 
-      if (course) {
-        toast.success('Curso cadastrado!')
-        setIsOpen(false)
-        reload(true)
-      } else {
-        toast.error('Erro ao cadastrar curso.')
+        if (course) {
+          toast.success('Curso cadastrado!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao cadastrar curso.')
+        }
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao cadastrar curso.')
+        console.error(error)
       }
     } else if (
       form.formState.defaultValues?.title !== data.title ||
@@ -93,22 +103,28 @@ export function CourseCreate({ reload, course }: CourseCreateProps) {
     ) {
       const toastId = toast.loading('Atualizando...')
 
-      const { success } = await putCoursesCourseId(
-        course.id,
-        { description: data.description, title: data.title },
-        {
-          headers: { Authorization: `Bearer ${token}` },
+      try {
+        const { success } = await putCoursesCourseId(
+          course.id,
+          { description: data.description, title: data.title },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+
+        toast.dismiss(toastId)
+
+        if (success) {
+          toast.success('Curso atualizado!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao atualizar curso.')
         }
-      )
-
-      toast.dismiss(toastId)
-
-      if (success) {
-        toast.success('Curso atualizado!')
-        setIsOpen(false)
-        reload(true)
-      } else {
-        toast.error('Erro ao atualizar curso.')
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao atualizar curso.')
+        console.error(error)
       }
     }
   }

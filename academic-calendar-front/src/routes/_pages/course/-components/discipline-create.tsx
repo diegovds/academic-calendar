@@ -52,37 +52,49 @@ export function DisciplineCreate({
     if (!discipline) {
       const toastId = toast.loading('Cadastrando...')
 
-      const { discipline } = await postDisciplines(
-        { title: data.title, semesterId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+      try {
+        const { discipline } = await postDisciplines(
+          { title: data.title, semesterId },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
 
-      toast.dismiss(toastId)
+        toast.dismiss(toastId)
 
-      if (discipline) {
-        toast.success('Disciplina cadastrada!')
-        setIsOpen(false)
-        reload(true)
-      } else {
-        toast.error('Erro ao cadastrar disciplina.')
+        if (discipline) {
+          toast.success('Disciplina cadastrada!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao cadastrar disciplina.')
+        }
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao cadastrar disciplina.')
+        console.error(error)
       }
     } else if (form.formState.defaultValues?.title !== data.title) {
       const toastId = toast.loading('Atualizando...')
 
-      const { success } = await putDisciplinesDisciplineId(
-        discipline.id,
-        { title: data.title },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+      try {
+        const { success } = await putDisciplinesDisciplineId(
+          discipline.id,
+          { title: data.title },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
 
-      toast.dismiss(toastId)
+        toast.dismiss(toastId)
 
-      if (success) {
-        toast.success('Disciplina atualizada!')
-        setIsOpen(false)
-        reload(true)
-      } else {
-        toast.error('Erro ao atualizar disciplina.')
+        if (success) {
+          toast.success('Disciplina atualizada!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao atualizar disciplina.')
+        }
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao atualizar disciplina.')
+        console.error(error)
       }
     }
   }
