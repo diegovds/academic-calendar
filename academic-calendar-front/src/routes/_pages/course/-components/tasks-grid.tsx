@@ -8,6 +8,7 @@ import {
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
 import { formatDate } from '@/utils/format'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { CalendarDays, FilePenLine, NotebookPen } from 'lucide-react'
 import { useState } from 'react'
@@ -20,6 +21,7 @@ type TasksGridProps = {
 
 export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
   const { token } = useAuthStore()
+  const [parent] = useAutoAnimate({ duration: 300 })
   const [selectedTask, setSelectedTask] =
     useState<GetDisciplinesDisciplineIdTasks200TasksItem | null>(null)
   const { setIsOpen, setWhoOpened, whoOpened, toggleWhoOpened } =
@@ -71,7 +73,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
         </Button>
       </div>
       {tasks && (
-        <div className="grid md:grid-cols-2 gap-4 items-start">
+        <div ref={parent} className="grid md:grid-cols-2 gap-4 items-start">
           {tasks.map(task => (
             <div
               key={task.id}

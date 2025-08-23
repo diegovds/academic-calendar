@@ -9,6 +9,7 @@ import {
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useDisciplineStore } from '@/stores/useDisciplineStore'
 import { useModalStore } from '@/stores/useModalStore'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Settings2 } from 'lucide-react'
 import { useState } from 'react'
@@ -20,6 +21,7 @@ type DisciplineContainerProps = {
 
 export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
   const { token } = useAuthStore()
+  const [parent] = useAutoAnimate({ duration: 300 })
   const [selectedDiscipline, setSelectedDiscipline] =
     useState<GetSemestersSemesterIdDisciplines200DisciplinesItem | null>(null)
   const { setDisciplineId, setDisciplineName } = useDisciplineStore()
@@ -72,7 +74,10 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
         </Button>
       </div>
       {disciplines && (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div
+          ref={parent}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
           {disciplines.map(discipline => (
             <div
               key={discipline.id}
@@ -119,7 +124,11 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
               : 'Cadastro de disciplina'
           }
         >
-          <DisciplineCreate semesterId={semesterId} reload={handleReload} discipline={selectedDiscipline} />
+          <DisciplineCreate
+            semesterId={semesterId}
+            reload={handleReload}
+            discipline={selectedDiscipline}
+          />
         </Modal>
       )}
     </div>

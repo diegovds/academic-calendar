@@ -1,5 +1,6 @@
 import type { GetCoursesCourseId200CourseAnyOfSemestersItem } from '@/http/api'
 import { useDisciplineStore } from '@/stores/useDisciplineStore'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useState } from 'react'
 import { DisciplineContainer } from './discipline-container'
 import { TasksGrid } from './tasks-grid'
@@ -13,10 +14,14 @@ export function SemesterGrid({ semesters }: SemesterGridProps) {
     semesters ? semesters[0].id : null
   )
   const { disciplineId, reset, disciplineName } = useDisciplineStore()
+  const [parent] = useAutoAnimate({ duration: 300 })
 
   return (
     <div className="flex gap-6 items-start md:flex-row flex-col">
-      <div className="flex md:flex-col gap-4 w-full md:w-fit p-0.5 md:p-0 overflow-x-auto md:overflow-x-visible">
+      <div
+        ref={parent}
+        className="flex md:flex-col gap-4 w-full md:w-fit p-0.5 md:p-0 overflow-x-auto md:overflow-x-visible"
+      >
         {semesters.map(semester => (
           <button
             type="button"

@@ -7,6 +7,7 @@ import { type GetCourses200CoursesItem, getCourses } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useDisciplineStore } from '@/stores/useDisciplineStore'
 import { useModalStore } from '@/stores/useModalStore'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Settings2 } from 'lucide-react'
@@ -19,6 +20,7 @@ export const Route = createFileRoute('/_pages/my-calendar/')({
 
 function MyCalendarComponent() {
   const navigate = useNavigate()
+  const [parent] = useAutoAnimate({ duration: 300 })
   const { token, name } = useAuthStore()
   const { setIsOpen } = useModalStore()
   const { reset } = useDisciplineStore()
@@ -88,7 +90,10 @@ function MyCalendarComponent() {
       ) : (
         <>
           <h3 className="md:text-xl text-foreground my-4">Cursos:</h3>
-          <div className="grid md:grid-cols-2 gap-4 md:gap-10 items-center">
+          <div
+            ref={parent}
+            className="grid md:grid-cols-2 gap-4 md:gap-10 items-center"
+          >
             {courses.map(course => (
               <Link
                 key={course.id}
