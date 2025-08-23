@@ -25,7 +25,10 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Textarea } from '@/components/ui/textarea'
 
-import { postTasks } from '@/http/api'
+import {
+  type GetDisciplinesDisciplineIdTasks200TasksItem,
+  postTasks,
+} from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
 
@@ -54,24 +57,28 @@ type FormData = z.infer<typeof formSchema>
 type TaskCreateProps = {
   reload: (reload: boolean) => void
   disciplineId: string
+  task: GetDisciplinesDisciplineIdTasks200TasksItem | null
 }
 
-export function TaskCreate({ reload, disciplineId }: TaskCreateProps) {
+export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
   const { token } = useAuthStore()
   const { setIsOpen } = useModalStore()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      description: '',
-      dueDate: undefined,
-      type: undefined,
+      title: task ? task.title : '',
+      description: task ? task.description : '',
+      dueDate:
+        task && typeof task.dueDate === 'string'
+          ? new Date(task.dueDate)
+          : undefined,
+      type: task ? task.type : undefined,
     },
   })
 
   const onSubmit = async (data: FormData) => {
-    if (data.type) {
+    if (data.type && !task) {
       const toastId = toast.loading('Cadastrando...')
 
       const { task } = await postTasks(
@@ -93,6 +100,23 @@ export function TaskCreate({ reload, disciplineId }: TaskCreateProps) {
         reload(true)
       } else {
         toast.error('Erro ao cadastrar tarefa.')
+      }
+    }
+
+    if (data.type && task) {
+      const isSameDay = (d1: Date, d2: Date) =>
+        d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate()
+
+      if (form.formState.defaultValues?.dueDate && data.dueDate) {
+        const update =
+          form.formState.defaultValues?.title !== data.title ||
+          form.formState.defaultValues?.description !== data.description ||
+          form.formState.defaultValues?.type !== data.type ||
+          !isSameDay(form.formState.defaultValues.dueDate, data.dueDate)
+
+        // se update faça o update
       }
     }
   }
@@ -206,7 +230,7 @@ export function TaskCreate({ reload, disciplineId }: TaskCreateProps) {
         />
 
         <Button type="submit" disabled={form.formState.isSubmitting}>
-          Cadastrar
+          {task ? 'Editar' : 'Adicionar'}
         </Button>
       </form>
     </Form>
