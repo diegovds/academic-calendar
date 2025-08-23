@@ -37,9 +37,13 @@ export const customFetch = async <T>(
     headers: headersObj,
   })
 
+  const data = await response.json()
+
   if (!response.ok) {
-    throw new Error(`HTTP error ${response.status}`)
+    // lança o erro usando o message do backend se existir
+    const message = (data as { message?: string }).message
+    throw new Error(message ?? `HTTP error ${response.status}`)
   }
 
-  return response.json()
+  return data
 }
