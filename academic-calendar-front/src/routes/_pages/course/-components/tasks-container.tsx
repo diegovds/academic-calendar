@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import type { GetDisciplinesDisciplineIdTasks200TasksItem } from '@/http/api'
 import { formatDate } from '@/utils/format'
 import { ArrowDown, Calendar, Settings2 } from 'lucide-react'
-import { type FormHTMLAttributes, forwardRef, useState } from 'react'
+import { type FormHTMLAttributes, forwardRef, useRef, useState } from 'react'
 
 type OnTaskSettingsClick = (
   selectedTask: GetDisciplinesDisciplineIdTasks200TasksItem,
@@ -19,6 +19,7 @@ export const TasksContainer = forwardRef<HTMLDivElement, TasksContainerProps>(
   ({ children, className, tasks, onTaskSettingsClick, ...props }, ref) => {
     const [accordion, setAccordion] =
       useState<GetDisciplinesDisciplineIdTasks200TasksItem | null>(null)
+    const paragraphRef = useRef<HTMLParagraphElement>(null)
 
     return (
       <div
@@ -47,26 +48,28 @@ export const TasksContainer = forwardRef<HTMLDivElement, TasksContainerProps>(
                 {task.dueDate ? formatDate(new Date(task.dueDate)) : ''}
               </div>
             </div>
-            <div className="my-5 flex gap-0.5">
+            <div className="my-5 flex gap-2">
               <p
-                className={`flex-1 text-justify text-sm md:text-base tracking-wide ${
+                ref={accordion?.id === task.id ? paragraphRef : null}
+                className={`flex-1 duration-300 text-justify text-sm md:text-base tracking-wide ${
                   accordion?.id === task.id
                     ? 'max-h-60 overflow-y-auto'
-                    : 'line-clamp-1'
+                    : 'max-h-16 md:max-h-18 overflow-y-hidden'
                 }`}
               >
                 {task.description}
               </p>
               <ArrowDown
                 size={20}
-                className={`duration-300 ${
+                className={`cursor-pointer duration-300 ${
                   accordion?.id === task.id ? 'rotate-180' : 'rotate-0'
                 }`}
-                onClick={() =>
+                onClick={() => {
+                  if (paragraphRef.current) paragraphRef.current.scrollTop = 0
                   setAccordion(
                     accordion && accordion.id === task.id ? null : task
                   )
-                }
+                }}
               />
             </div>
             <Button
