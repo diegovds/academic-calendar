@@ -7,12 +7,11 @@ import {
 } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useModalStore } from '@/stores/useModalStore'
-import { formatDate } from '@/utils/format'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Calendar, Settings2 } from 'lucide-react'
 import { useState } from 'react'
 import { TaskCreate } from './task-create'
+import { TasksContainer } from './tasks-container'
 
 type TasksGridProps = {
   disciplineId: string
@@ -73,46 +72,15 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
         </Button>
       </div>
       {tasks && (
-        <div ref={parent} className="grid md:grid-cols-2 gap-4 items-start">
-          {tasks.map(task => (
-            <div
-              key={task.id}
-              className="flex flex-col bg-background shadow p-4 rounded text-foreground"
-            >
-              <h3 className="text-center text-sm md:text-base">{task.title}</h3>
-              <div className="flex justify-between items-center">
-                <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    task.type === 'activity'
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'bg-yellow-100 text-yellow-700'
-                  }`}
-                >
-                  {task.type === 'activity' ? 'Tarefa' : 'Prova'}
-                </span>
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <Calendar size={18} />
-                  {task.dueDate ? formatDate(new Date(task.dueDate)) : ''}
-                </div>
-              </div>
-              <p className="my-5 text-justify max-h-60 overflow-y-auto text-sm md:text-base tracking-wide">
-                {task.description}
-              </p>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="place-self-end"
-                onClick={() => {
-                  setSelectedTask(task)
-                  setIsOpen(true)
-                  setWhoOpened('task')
-                }}
-              >
-                <Settings2 size={20} />
-              </Button>
-            </div>
-          ))}
-        </div>
+        <TasksContainer
+          ref={parent}
+          tasks={tasks}
+          onTaskSettingsClick={(selectedTask, isOpen, whoOpened) => {
+            setSelectedTask(selectedTask)
+            setIsOpen(isOpen)
+            setWhoOpened(whoOpened)
+          }}
+        />
       )}
 
       {whoOpened === 'task' && (
