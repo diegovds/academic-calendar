@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input'
 
 import {
   type GetSemestersSemesterIdDisciplines200DisciplinesItem,
+  deleteDisciplinesDisciplineId,
   postDisciplines,
   putDisciplinesDisciplineId,
 } from '@/http/api'
@@ -99,6 +100,32 @@ export function DisciplineCreate({
     }
   }
 
+  const handleDelete = async () => {
+    if (discipline) {
+      const toastId = toast.loading('Deletando...')
+
+      try {
+        const { success } = await deleteDisciplinesDisciplineId(discipline.id, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+
+        toast.dismiss(toastId)
+
+        if (success) {
+          toast.success('Disciplina deletada!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao deletar disciplina.')
+        }
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao deletar disciplina.')
+        console.error(error)
+      }
+    }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -115,9 +142,26 @@ export function DisciplineCreate({
           )}
         />
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          {discipline ? 'Editar' : 'Cadastrar'}
-        </Button>
+        <div className="flex gap-4">
+          <Button
+            type="submit"
+            className="flex-1"
+            disabled={form.formState.isSubmitting}
+          >
+            {discipline ? 'Editar' : 'Adicionar'}
+          </Button>
+          {discipline && (
+            <Button
+              type="button"
+              variant="destructive"
+              className="flex-1"
+              disabled={form.formState.isSubmitting}
+              onClick={() => handleDelete()}
+            >
+              Deletar
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   )
