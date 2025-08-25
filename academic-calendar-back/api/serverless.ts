@@ -20,6 +20,7 @@ import { disciplineCreationRoute } from '../src/routes/discipline-creation-route
 import { getCourseRoute } from '../src/routes/get-course-route'
 import { getCoursesRoute } from '../src/routes/get-courses-route'
 import { getDisciplinesRoute } from '../src/routes/get-disciplines-route'
+import { nextTasksRoute } from '../src/routes/get-next-tasks-route'
 import { getSemestersRoute } from '../src/routes/get-semesters-route'
 import { getTasksRoute } from '../src/routes/get-tasks-route'
 import { semesterCreationRoute } from '../src/routes/semester-creation-route'
@@ -116,6 +117,7 @@ app.register(updateCourseRoute)
 app.register(updateDisciplineRoute)
 app.register(deleteDisciplineRoute)
 app.register(deleteCourseRoute)
+app.register(nextTasksRoute)
 
 export default async (req: any, res: any) => {
   await app.ready()
