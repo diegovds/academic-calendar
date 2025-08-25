@@ -497,6 +497,26 @@ export type PutDisciplinesDisciplineId404 = {
   message?: PutDisciplinesDisciplineId404Message
 }
 
+export type DeleteDisciplinesDisciplineId200 = {
+  success: boolean
+}
+
+export type DeleteDisciplinesDisciplineId404Message = string | null
+
+export type DeleteDisciplinesDisciplineId404 = {
+  message?: DeleteDisciplinesDisciplineId404Message
+}
+
+export type DeleteCoursesId200 = {
+  success: boolean
+}
+
+export type DeleteCoursesId404Message = string | null
+
+export type DeleteCoursesId404 = {
+  message?: DeleteCoursesId404Message
+}
+
 /**
  * @summary Sign up on the platform
  */
@@ -788,4 +808,41 @@ export const putDisciplinesDisciplineId = async (
       body: JSON.stringify(putDisciplinesDisciplineIdBody),
     }
   )
+}
+
+/**
+ * @summary Delete a discipline (owned by the authenticated user)
+ */
+export const getDeleteDisciplinesDisciplineIdUrl = (disciplineId: string) => {
+  return `/disciplines/${disciplineId}`
+}
+
+export const deleteDisciplinesDisciplineId = async (
+  disciplineId: string,
+  options?: RequestInit
+): Promise<DeleteDisciplinesDisciplineId200> => {
+  return customFetch<DeleteDisciplinesDisciplineId200>(
+    getDeleteDisciplinesDisciplineIdUrl(disciplineId),
+    {
+      ...options,
+      method: 'DELETE',
+    }
+  )
+}
+
+/**
+ * @summary Delete a course
+ */
+export const getDeleteCoursesIdUrl = (id: string) => {
+  return `/courses/${id}`
+}
+
+export const deleteCoursesId = async (
+  id: string,
+  options?: RequestInit
+): Promise<DeleteCoursesId200> => {
+  return customFetch<DeleteCoursesId200>(getDeleteCoursesIdUrl(id), {
+    ...options,
+    method: 'DELETE',
+  })
 }

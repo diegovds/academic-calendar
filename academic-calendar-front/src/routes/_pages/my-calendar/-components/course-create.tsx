@@ -18,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea'
 
 import {
   type GetCourses200CoursesItem,
+  deleteCoursesId,
   postCourses,
   postSemesters,
   putCoursesCourseId,
@@ -129,6 +130,32 @@ export function CourseCreate({ reload, course }: CourseCreateProps) {
     }
   }
 
+  const handleDelete = async () => {
+    if (course) {
+      const toastId = toast.loading('Deletando...')
+
+      try {
+        const { success } = await deleteCoursesId(course.id, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+
+        toast.dismiss(toastId)
+
+        if (success) {
+          toast.success('Curso deletado!')
+          setIsOpen(false)
+          reload(true)
+        } else {
+          toast.error('Erro ao deletar curso.')
+        }
+      } catch (error) {
+        toast.dismiss(toastId)
+        toast.error('Ocorreu um erro inesperado ao deletar curso.')
+        console.error(error)
+      }
+    }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -198,9 +225,26 @@ export function CourseCreate({ reload, course }: CourseCreateProps) {
           />
         )}
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          {course ? 'Editar' : 'Cadastrar'}
-        </Button>
+        <div className="flex gap-4">
+          <Button
+            type="submit"
+            className="flex-1"
+            disabled={form.formState.isSubmitting}
+          >
+            {course ? 'Editar' : 'Adicionar'}
+          </Button>
+          {course && (
+            <Button
+              type="button"
+              variant="destructive"
+              className="flex-1"
+              disabled={form.formState.isSubmitting}
+              onClick={() => handleDelete()}
+            >
+              Deletar
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   )
