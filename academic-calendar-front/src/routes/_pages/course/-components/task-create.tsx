@@ -300,15 +300,17 @@ export function TaskCreate({ reload, disciplineId, task }: TaskCreateProps) {
           >
             {task ? 'Editar' : 'Adicionar'}
           </Button>
-          <Button
-            type="button"
-            variant="destructive"
-            className="flex-1"
-            disabled={form.formState.isSubmitting}
-            onClick={() => handleDelete()}
-          >
-            Deletar
-          </Button>
+          {task && (
+            <Button
+              type="button"
+              variant="destructive"
+              className="flex-1"
+              disabled={form.formState.isSubmitting}
+              onClick={() => handleDelete()}
+            >
+              Deletar
+            </Button>
+          )}
         </div>
       </form>
     </Form>
