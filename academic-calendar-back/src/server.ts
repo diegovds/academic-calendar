@@ -13,6 +13,8 @@ import {
 import { env } from './env'
 import { courseCreationRoute } from './routes/course-creation-route'
 import { createTaskRoute } from './routes/create-task'
+import { deleteCourseRoute } from './routes/delete-course-route'
+import { deleteDisciplineRoute } from './routes/delete-discipline-route'
 import { deleteTaskRoute } from './routes/delete-task-route'
 import { disciplineCreationRoute } from './routes/discipline-creation-route'
 import { getCourseRoute } from './routes/get-course-route'
@@ -111,6 +113,8 @@ app.register(deleteTaskRoute)
 app.register(updateTaskRoute)
 app.register(updateCourseRoute)
 app.register(updateDisciplineRoute)
+app.register(deleteDisciplineRoute)
+app.register(deleteCourseRoute)
 
 app.listen({ port: env.PORT }).then(() => {
   console.log(`🚀 HTTP Server Running! http://localhost:${env.PORT}`)

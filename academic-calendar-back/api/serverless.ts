@@ -13,6 +13,8 @@ import {
 import { env } from '../src/env'
 import { courseCreationRoute } from '../src/routes/course-creation-route'
 import { createTaskRoute } from '../src/routes/create-task'
+import { deleteCourseRoute } from '../src/routes/delete-course-route'
+import { deleteDisciplineRoute } from '../src/routes/delete-discipline-route'
 import { deleteTaskRoute } from '../src/routes/delete-task-route'
 import { disciplineCreationRoute } from '../src/routes/discipline-creation-route'
 import { getCourseRoute } from '../src/routes/get-course-route'
@@ -112,6 +114,8 @@ app.register(deleteTaskRoute)
 app.register(updateTaskRoute)
 app.register(updateCourseRoute)
 app.register(updateDisciplineRoute)
+app.register(deleteDisciplineRoute)
+app.register(deleteCourseRoute)
 
 export default async (req: any, res: any) => {
   await app.ready()
