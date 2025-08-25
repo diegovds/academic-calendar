@@ -87,10 +87,15 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
               }}
               className="p-2 md:p-4 bg-background shadow rounded flex gap-4 items-center cursor-pointer group"
             >
+              <div className="flex-1 flex gap-4">
+                <Brand />
+                <div className="text-sm md:text-base line-clamp-1 cursor-pointer bg-background text-foreground">
+                  {discipline.title}
+                </div>
+              </div>
               <Button
-                variant="default"
+                variant="ghost"
                 size="icon"
-                className="w-fit p-0"
                 onClick={e => {
                   e.stopPropagation()
                   e.preventDefault()
@@ -101,12 +106,6 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
               >
                 <Settings2 size={20} />
               </Button>
-              <div className="flex-1 flex justify-between">
-                <div className="text-sm md:text-base line-clamp-1 cursor-pointer bg-background text-foreground">
-                  {discipline.title}
-                </div>
-                <Brand />
-              </div>
             </div>
           ))}
         </div>

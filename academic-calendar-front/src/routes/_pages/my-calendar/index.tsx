@@ -103,10 +103,20 @@ function MyCalendarComponent() {
                 }}
                 className="bg-background text-foreground shadow p-4 rounded flex items-center gap-4 group"
               >
+                <div className="flex-1 flex gap-4">
+                  <Brand />
+                  <div>
+                    <h3 className="text-base md:text-lg line-clamp-1">
+                      {course.title}
+                    </h3>
+                    <p className="text-xs md:text-sm line-clamp-3">
+                      {course.description}
+                    </p>
+                  </div>
+                </div>
                 <Button
-                  variant="default"
+                  variant="ghost"
                   size="icon"
-                  className="w-fit p-0"
                   onClick={e => {
                     e.stopPropagation()
                     e.preventDefault()
@@ -116,17 +126,6 @@ function MyCalendarComponent() {
                 >
                   <Settings2 size={20} />
                 </Button>
-                <div className="flex-1 flex justify-between">
-                  <div>
-                    <h3 className="text-base md:text-lg line-clamp-1">
-                      {course.title}
-                    </h3>
-                    <p className="text-xs md:text-sm line-clamp-3">
-                      {course.description}
-                    </p>
-                  </div>
-                  <Brand />
-                </div>
               </Link>
             ))}
           </div>
