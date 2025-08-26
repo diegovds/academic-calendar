@@ -10,6 +10,18 @@ import { PiStudentFill } from 'react-icons/pi'
 
 export const Route = createFileRoute('/')({
   component: Homepage,
+  head: () => ({
+    meta: [
+      {
+        name: 'description',
+        content:
+          'Agenda Acadêmica é uma aplicação desenvolvida para auxiliar estudantes na organização de sua vida acadêmica de forma simples e eficiente.',
+      },
+      {
+        title: 'Agenda Acadêmica',
+      },
+    ],
+  }),
 })
 
 function Homepage() {

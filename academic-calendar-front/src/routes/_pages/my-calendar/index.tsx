@@ -21,6 +21,18 @@ import { NextTasks } from './-components/next-tasks'
 
 export const Route = createFileRoute('/_pages/my-calendar/')({
   component: MyCalendarComponent,
+  head: () => ({
+    meta: [
+      {
+        name: 'description',
+        content:
+          'Agenda Acadêmica é uma aplicação desenvolvida para auxiliar estudantes na organização de sua vida acadêmica de forma simples e eficiente.',
+      },
+      {
+        title: 'Minha dashboard | Agenda Acadêmica',
+      },
+    ],
+  }),
 })
 
 function MyCalendarComponent() {
