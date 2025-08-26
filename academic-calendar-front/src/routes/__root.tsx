@@ -1,6 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query'
 
 import { Footer } from '@/components/footer'
+import { ThemeProvider } from '@/components/ui/theme-provider'
 import { TanstackDevtools } from '@tanstack/react-devtools'
 import {
   HeadContent,
@@ -19,34 +20,36 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <>
       <HeadContent />
-      <div className="flex min-h-dvh flex-col">
-        <Outlet />
-        <Footer />
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            style: {
-              fontFamily: 'Outfit, sans-serif',
-              fontSize: '15px',
-            },
-          }}
-          richColors
-        />
-        {import.meta.env.DEV && (
-          <TanstackDevtools
-            config={{
-              position: 'bottom-left',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <div className="flex min-h-dvh flex-col bg-background">
+          <Outlet />
+          <Footer />
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                fontFamily: 'Outfit, sans-serif',
+                fontSize: '15px',
               },
-              TanStackQueryDevtools,
-            ]}
+            }}
+            richColors
           />
-        )}
-      </div>
+          {import.meta.env.DEV && (
+            <TanstackDevtools
+              config={{
+                position: 'bottom-left',
+              }}
+              plugins={[
+                {
+                  name: 'Tanstack Router',
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+                TanStackQueryDevtools,
+              ]}
+            />
+          )}
+        </div>
+      </ThemeProvider>
     </>
   ),
 })
