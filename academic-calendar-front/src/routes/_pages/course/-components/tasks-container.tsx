@@ -43,7 +43,7 @@ export function TasksContainer({
       {tasks.map(task => (
         <div
           key={task.id}
-          className="flex flex-col bg-background shadow p-4 rounded text-foreground"
+          className="flex flex-col bg-secondary shadow shadow-gray-300 p-4 rounded text-foreground"
         >
           <h3 className="text-center text-sm md:text-base">{task.title}</h3>
           <div className="flex justify-between items-center">

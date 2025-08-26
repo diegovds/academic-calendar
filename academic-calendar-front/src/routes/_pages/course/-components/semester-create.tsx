@@ -112,7 +112,12 @@ export function SemesterCreate({ courseId, reload }: SemesterCreateProps) {
           )}
         />
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <Button
+          type="submit"
+          variant="default"
+          className="w-full"
+          disabled={form.formState.isSubmitting}
+        >
           Cadastrar
         </Button>
       </form>

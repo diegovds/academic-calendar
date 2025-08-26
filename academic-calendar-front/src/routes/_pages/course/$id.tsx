@@ -96,6 +96,7 @@ function CoursePage() {
 
       <Button
         type="button"
+        variant="default"
         className="md:w-fit w-full px-3 mb-6"
         onClick={() => {
           setIsOpen(true)

@@ -55,12 +55,13 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
 
   return (
     <div className="w-full md:flex-1 flex flex-col gap-4  rounded">
-      <div className="flex justify-between items-center bg-background shadow p-4 rounded">
+      <div className="flex justify-between items-center bg-secondary shadow shadow-gray-300 p-4 rounded">
         <h3 className="text-foreground text-sm md:text-base">
           {disciplineName}
         </h3>
         <Button
           type="button"
+          variant="default"
           className="w-fit px-3"
           onClick={() => {
             setIsOpen(true)

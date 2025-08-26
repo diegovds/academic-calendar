@@ -145,6 +145,7 @@ export function DisciplineCreate({
         <div className="flex gap-4">
           <Button
             type="submit"
+            variant="default"
             className="flex-1"
             disabled={form.formState.isSubmitting}
           >
