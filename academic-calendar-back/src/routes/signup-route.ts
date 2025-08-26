@@ -28,7 +28,11 @@ export const signupRoute: FastifyPluginAsyncZod = async (app) => {
             token: z.string().nullable(),
             message: z.string(),
           }),
-          400: z.object({
+          409: z.object({
+            token: z.string().nullable(),
+            message: z.string(),
+          }),
+          500: z.object({
             token: z.string().nullable(),
             message: z.string(),
           }),
@@ -40,7 +44,7 @@ export const signupRoute: FastifyPluginAsyncZod = async (app) => {
 
       const passwordHash = await app.bcrypt.hash(password)
 
-      const { user } = await signup({
+      const { user, error } = await signup({
         name,
         email,
         password: passwordHash,
@@ -60,14 +64,19 @@ export const signupRoute: FastifyPluginAsyncZod = async (app) => {
         return reply.status(201).send({ token, message: null })
       }
 
-      if (!user) {
+      if (!user && !error) {
         return reply.status(404).send({
           token: null,
           message: 'Usuário não cadastrado.',
         })
+      } else if (error) {
+          return reply.status(409).send({
+            token: null,
+            message: error,
+          })
       }
 
-      return reply.status(400).send({ token: null, message: 'Ocorreu um erro no servidor.' })
+      return reply.status(500).send({ token: null, message: 'Ocorreu um erro no servidor.' })
     },
   )
 }
