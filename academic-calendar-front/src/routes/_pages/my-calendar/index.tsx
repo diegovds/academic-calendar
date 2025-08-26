@@ -1,18 +1,23 @@
-import { Brand } from '@/components/brand'
 import { EmptyMessage } from '@/components/empty-message'
 import { Modal } from '@/components/modal'
 import { Page } from '@/components/page'
 import { Button } from '@/components/ui/button'
-import { type GetCourses200CoursesItem, getCourses } from '@/http/api'
+import {
+  type GetCourses200CoursesItem,
+  type GetTasksNext200TasksItem,
+  getCourses,
+  getTasksNext,
+} from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import { useDisciplineStore } from '@/stores/useDisciplineStore'
 import { useModalStore } from '@/stores/useModalStore'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Settings2 } from 'lucide-react'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
+import { CourseList } from './-components/course-container'
 import { CourseCreate } from './-components/course-create'
+import { NextTasks } from './-components/next-tasks'
 
 export const Route = createFileRoute('/_pages/my-calendar/')({
   component: MyCalendarComponent,
@@ -45,6 +50,19 @@ function MyCalendarComponent() {
 
   const { data: courses, isLoading } = coursesQuery
 
+  const nextTasksQuery = useQuery<GetTasksNext200TasksItem[]>({
+    queryKey: ['next_tasks', token],
+    queryFn: async () => {
+      const res = await getTasksNext({
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      return res.tasks
+    },
+    enabled: !!token,
+  })
+
+  const { data: nextTasks, isLoading: isLoadingNextTasks } = nextTasksQuery
+
   const queryClient = useQueryClient()
 
   function handleReload(reload: boolean) {
@@ -58,7 +76,8 @@ function MyCalendarComponent() {
     if (!isLoading && !courses) navigate({ to: '/' })
   }, [isLoading, courses, navigate])
 
-  if (isLoading || !courses) return <EmptyMessage text="Carregando..." />
+  if (isLoading || !courses || isLoadingNextTasks || !nextTasks)
+    return <EmptyMessage text="Carregando..." />
 
   return (
     <Page className="flex flex-col">
@@ -88,48 +107,15 @@ function MyCalendarComponent() {
           </Button>
         </EmptyMessage>
       ) : (
-        <>
-          <h3 className="md:text-xl text-foreground my-4">Cursos:</h3>
-          <div
-            ref={parent}
-            className="grid md:grid-cols-2 gap-4 md:gap-10 items-center"
-          >
-            {courses.map(course => (
-              <Link
-                key={course.id}
-                to="/course/$id"
-                params={{
-                  id: course.id,
-                }}
-                className="bg-background text-foreground shadow p-4 rounded flex items-center gap-4 group"
-              >
-                <div className="flex-1 flex gap-4">
-                  <Brand />
-                  <div>
-                    <h3 className="text-base md:text-lg line-clamp-1">
-                      {course.title}
-                    </h3>
-                    <p className="text-xs md:text-sm line-clamp-3">
-                      {course.description}
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={e => {
-                    e.stopPropagation()
-                    e.preventDefault()
-                    setSelectedCourse(course)
-                    setIsOpen(true)
-                  }}
-                >
-                  <Settings2 size={20} />
-                </Button>
-              </Link>
-            ))}
-          </div>
-        </>
+        <div className="flex flex-col-reverse md:flex-col">
+          {nextTasks.length > 0 && <NextTasks tasks={nextTasks} />}
+          <CourseList
+            courses={courses}
+            setIsOpen={setIsOpen}
+            setSelectedCourse={setSelectedCourse}
+            parent={parent}
+          />
+        </div>
       )}
 
       <Modal

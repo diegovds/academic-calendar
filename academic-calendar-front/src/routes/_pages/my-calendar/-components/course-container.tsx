@@ -19,7 +19,7 @@ export function CourseList({
   parent,
 }: CourseListProps) {
   return (
-    <>
+    <div>
       <h3 className="md:text-xl text-foreground my-4">Cursos:</h3>
       <div
         ref={parent}
@@ -38,7 +38,7 @@ export function CourseList({
                 <h3 className="text-base md:text-lg line-clamp-1">
                   {course.title}
                 </h3>
-                <p className="text-xs md:text-sm line-clamp-3">
+                <p className="text-xs md:text-sm line-clamp-3 text-muted-foreground">
                   {course.description}
                 </p>
               </div>
@@ -58,6 +58,6 @@ export function CourseList({
           </Link>
         ))}
       </div>
-    </>
+    </div>
   )
 }
