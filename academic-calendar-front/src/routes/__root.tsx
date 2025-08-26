@@ -1,5 +1,6 @@
 import type { QueryClient } from '@tanstack/react-query'
 
+import { Footer } from '@/components/footer'
 import { TanstackDevtools } from '@tanstack/react-devtools'
 import {
   HeadContent,
@@ -20,6 +21,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       <HeadContent />
       <div className="flex min-h-dvh flex-col">
         <Outlet />
+        <Footer />
         <Toaster
           position="top-center"
           toastOptions={{
