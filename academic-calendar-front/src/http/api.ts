@@ -22,17 +22,24 @@ export type PostSignup201 = {
   message: PostSignup201Message
 }
 
-export type PostSignup400Token = string | null
-
-export type PostSignup400 = {
-  token: PostSignup400Token
-  message: string
-}
-
 export type PostSignup404Token = string | null
 
 export type PostSignup404 = {
   token: PostSignup404Token
+  message: string
+}
+
+export type PostSignup409Token = string | null
+
+export type PostSignup409 = {
+  token: PostSignup409Token
+  message: string
+}
+
+export type PostSignup500Token = string | null
+
+export type PostSignup500 = {
+  token: PostSignup500Token
   message: string
 }
 
