@@ -102,7 +102,10 @@ function MyCalendarComponent() {
             type="button"
             variant="default"
             className="md:w-fit w-full px-3"
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setIsOpen(true)
+              setSelectedCourse(null)
+            }}
           >
             Cadastrar curso
           </Button>
@@ -115,7 +118,10 @@ function MyCalendarComponent() {
             type="button"
             variant="default"
             className="w-fit px-3"
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setIsOpen(true)
+              setSelectedCourse(null)
+            }}
           >
             Cadastrar curso
           </Button>
@@ -135,7 +141,6 @@ function MyCalendarComponent() {
       <Modal
         onClose={() => {
           setIsOpen(false)
-          setSelectedCourse(null)
         }}
         title={selectedCourse ? 'Edição de curso' : 'Cadastro de curso'}
       >
