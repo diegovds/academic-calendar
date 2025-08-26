@@ -517,6 +517,48 @@ export type DeleteCoursesId404 = {
   message?: DeleteCoursesId404Message
 }
 
+export type GetTasksNext200TasksItemDisciplinesItemTasksItemType =
+  (typeof GetTasksNext200TasksItemDisciplinesItemTasksItemType)[keyof typeof GetTasksNext200TasksItemDisciplinesItemTasksItemType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetTasksNext200TasksItemDisciplinesItemTasksItemType = {
+  exam: 'exam',
+  activity: 'activity',
+} as const
+
+export type GetTasksNext200TasksItemDisciplinesItemTasksItem = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
+  id: string
+  title: string
+  description: string
+  dueDate: string
+  type: GetTasksNext200TasksItemDisciplinesItemTasksItemType
+}
+
+export type GetTasksNext200TasksItemDisciplinesItem = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
+  disciplineId: string
+  disciplineName: string
+  tasks: GetTasksNext200TasksItemDisciplinesItemTasksItem[]
+}
+
+export type GetTasksNext200TasksItem = {
+  /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$ */
+  courseId: string
+  courseName: string
+  disciplines: GetTasksNext200TasksItemDisciplinesItem[]
+}
+
+export type GetTasksNext200 = {
+  tasks: GetTasksNext200TasksItem[]
+}
+
+export type GetTasksNext404Message = string | null
+
+export type GetTasksNext404 = {
+  message?: GetTasksNext404Message
+}
+
 /**
  * @summary Sign up on the platform
  */
@@ -844,5 +886,21 @@ export const deleteCoursesId = async (
   return customFetch<DeleteCoursesId200>(getDeleteCoursesIdUrl(id), {
     ...options,
     method: 'DELETE',
+  })
+}
+
+/**
+ * @summary Get the next 6 tasks for the authenticated user
+ */
+export const getGetTasksNextUrl = () => {
+  return `/tasks/next`
+}
+
+export const getTasksNext = async (
+  options?: RequestInit
+): Promise<GetTasksNext200> => {
+  return customFetch<GetTasksNext200>(getGetTasksNextUrl(), {
+    ...options,
+    method: 'GET',
   })
 }
