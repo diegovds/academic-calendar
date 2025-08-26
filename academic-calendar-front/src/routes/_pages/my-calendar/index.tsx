@@ -29,7 +29,7 @@ export const Route = createFileRoute('/_pages/my-calendar/')({
           'Agenda Acadêmica é uma aplicação desenvolvida para auxiliar estudantes na organização de sua vida acadêmica de forma simples e eficiente.',
       },
       {
-        title: 'Minha dashboard | Agenda Acadêmica',
+        title: 'Minha Dashboard | Agenda Acadêmica',
       },
     ],
   }),
