@@ -11,7 +11,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 md:px-10 flex flex-row items-center justify-between">
         <Link
           to="/my-calendar"
-          className="flex gap-2 items-center w-fit bg-blue-500 text-sm md:text-base text-white p-2 md:p-2.5 rounded-4xl"
+          className="flex gap-2 items-center w-fit bg-primary text-sm md:text-base text-primary-foreground p-2 md:p-2.5 rounded-4xl"
         >
           <HiAcademicCap size={25} />
           <h1>Agenda Acadêmica</h1>

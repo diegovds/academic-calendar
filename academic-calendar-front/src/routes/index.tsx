@@ -50,7 +50,7 @@ function Homepage() {
   return (
     <Page className="flex items-center gap-8 flex-col lg:flex-row">
       <div className="flex-1 flex flex-col items-center lg:items-start rounded text-foreground  gap-5">
-        <div className="flex gap-2 items-center w-fit bg-blue-500 text-2xl lg:text-4xl text-white p-2.5 rounded-4xl">
+        <div className="flex gap-2 items-center w-fit bg-primary text-2xl lg:text-4xl text-primary-foreground p-2.5 rounded-4xl">
           <HiAcademicCap />
           <h1>Agenda Acadêmica</h1>
         </div>
@@ -66,8 +66,8 @@ function Homepage() {
                 Cadastre seus cursos, semestres, disciplinas e não perca nenhum
                 trabalho ou prova.
               </p>
-              <div className="bg-blue-100 w-fit place-self-center p-2.5 rounded-full">
-                <LiaBookSolid className="text-blue-500 text-2xl lg:text-3xl" />
+              <div className="bg-background shadow shadow-primary w-fit place-self-center p-2.5 rounded-full">
+                <LiaBookSolid className="text-primary text-2xl lg:text-3xl" />
               </div>
             </div>
             <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-secondary shadow shadow-gray-300">
@@ -75,8 +75,8 @@ function Homepage() {
                 Você tem tudo em um só lugar para estudar com mais foco e menos
                 estresse.
               </p>
-              <div className="bg-blue-100 w-fit place-self-center p-2.5 rounded-full">
-                <PiStudentFill className="text-blue-500 text-2xl lg:text-3xl" />
+              <div className="bg-background shadow shadow-primary w-fit place-self-center p-2.5 rounded-full">
+                <PiStudentFill className="text-primary text-2xl lg:text-3xl" />
               </div>
             </div>
           </div>
