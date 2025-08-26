@@ -59,7 +59,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
 
   return (
     <div className="w-full md:flex-1 flex flex-col gap-4  rounded">
-      <div className="flex justify-between items-center bg-secondary shadow shadow-gray-300 p-4 rounded">
+      <div className="flex justify-between items-center bg-secondary shadow dark:shadow-zinc-800 shadow-gray-300 p-4 rounded">
         <h3 className="text-foreground text-sm md:text-base">Disciplinas</h3>
         <Button
           type="button"
@@ -86,7 +86,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
                 setDisciplineId(discipline.id)
                 setDisciplineName(discipline.title)
               }}
-              className="p-2 md:p-4 bg-secondary shadow shadow-gray-300 rounded flex gap-4 items-center cursor-pointer group"
+              className="p-2 md:p-4 bg-secondary shadow dark:shadow-zinc-800 shadow-gray-300 rounded flex gap-4 items-center cursor-pointer group"
             >
               <div className="flex-1 flex gap-4">
                 <Brand />

@@ -69,7 +69,7 @@ export function SignUp({ formMessage }: SignUpProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-full px-5 py-7 md:p-10 rounded bg-secondary shadow shadow-gray-300 text-foreground"
+        className="space-y-4 w-full px-5 py-7 md:p-10 rounded bg-secondary shadow dark:shadow-zinc-800 shadow-gray-300 text-foreground"
       >
         {/* Nome */}
         <FormField

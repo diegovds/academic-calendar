@@ -61,7 +61,7 @@ function Homepage() {
             eficiente.
           </p>
           <div className="flex gap-6 flex-col md:flex-row">
-            <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-secondary shadow shadow-gray-300">
+            <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-secondary shadow dark:shadow-zinc-800 shadow-gray-300">
               <p className="text-foreground text-sm text-center">
                 Cadastre seus cursos, semestres, disciplinas e não perca nenhum
                 trabalho ou prova.
@@ -70,7 +70,7 @@ function Homepage() {
                 <LiaBookSolid className="text-primary text-2xl lg:text-3xl" />
               </div>
             </div>
-            <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-secondary shadow shadow-gray-300">
+            <div className="flex flex-1 flex-col-reverse p-4 gap-4 rounded bg-secondary shadow dark:shadow-zinc-800 shadow-gray-300">
               <p className="text-foreground text-sm text-center">
                 Você tem tudo em um só lugar para estudar com mais foco e menos
                 estresse.

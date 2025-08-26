@@ -55,7 +55,7 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
 
   return (
     <div className="w-full md:flex-1 flex flex-col gap-4  rounded">
-      <div className="flex justify-between items-center bg-secondary shadow shadow-gray-300 p-4 rounded">
+      <div className="flex justify-between items-center bg-secondary shadow dark:shadow-zinc-800 shadow-gray-300 p-4 rounded">
         <h3 className="text-foreground text-sm md:text-base">
           {disciplineName}
         </h3>
