@@ -73,13 +73,11 @@ export function TasksGrid({ disciplineId, disciplineName }: TasksGridProps) {
       </div>
       {tasks && (
         <TasksContainer
-          ref={parent}
           tasks={tasks}
-          onTaskSettingsClick={(selectedTask, isOpen, whoOpened) => {
-            setSelectedTask(selectedTask)
-            setIsOpen(isOpen)
-            setWhoOpened(whoOpened)
-          }}
+          setSelectedTask={setSelectedTask}
+          setIsOpen={setIsOpen}
+          setWhoOpened={setWhoOpened}
+          parent={parent}
         />
       )}
 
