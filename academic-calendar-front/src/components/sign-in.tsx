@@ -39,25 +39,24 @@ export function SignIn({ formMessage }: SignInProps) {
   })
 
   const onSubmit = async (data: FormData) => {
-    const response = await postSignin(data)
+    try {
+      const response = await postSignin(data)
 
-    if (response.message) {
-      toast.error(response.message)
-      return
-    }
+      if (response.token) {
+        const token = response.token
+        const cookieExpiresInSeconds = 60 * 60 * 24 * 30
 
-    if (response.token) {
-      const token = response.token
-      const cookieExpiresInSeconds = 60 * 60 * 24 * 30
+        Cookies.set('token', token, {
+          expires: cookieExpiresInSeconds,
+          path: '/',
+        })
 
-      Cookies.set('token', token, {
-        expires: cookieExpiresInSeconds,
-        path: '/',
-      })
-
-      const user: User = jwtDecode(token)
-      setName(user.name)
-      setToken(token)
+        const user: User = jwtDecode(token)
+        setName(user.name)
+        setToken(token)
+      }
+    } catch (error: unknown) {
+      toast.error((error as Error).message)
     }
   }
 
