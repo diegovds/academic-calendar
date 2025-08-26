@@ -16,7 +16,7 @@ export function NextTasks({ tasks }: NextTasksProps) {
         {tasks.map(course => (
           <div
             key={course.courseId}
-            className="bg-background text-foreground shadow p-4 rounded space-y-4"
+            className="bg-secondary text-foreground shadow shadow-gray-300 p-4 rounded space-y-4"
           >
             <h3 className="text-base md:text-lg line-clamp-1">
               {course.courseName}

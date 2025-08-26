@@ -30,7 +30,7 @@ export function CourseList({
             key={course.id}
             to="/course/$id"
             params={{ id: course.id }}
-            className="bg-background text-foreground shadow p-4 rounded flex items-center gap-4 group"
+            className="bg-secondary text-foreground shadow shadow-gray-300 p-4 rounded flex items-center gap-4 group"
           >
             <div className="flex-1 flex gap-4">
               <Brand />

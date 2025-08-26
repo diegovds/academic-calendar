@@ -52,14 +52,14 @@ export function Modal({ onClose, title, children }: ModalProps) {
         onAnimationEnd={handleAnimationEnd}
       />
       <div
-        className={`relative z-10 w-full max-w-lg rounded-2xl bg-background text-foreground shadow-xl mx-4 p-5 md:p-8 ${
+        className={`relative z-10 w-full max-w-lg rounded-2xl bg-secondary text-foreground shadow-xl mx-4 p-5 md:p-8 ${
           exiting ? 'modal-exit' : 'modal-animate'
         }`}
         onAnimationEnd={handleAnimationEnd}
       >
         <MdClose
           onClick={onClose}
-          className="absolute right-3 top-3 text-2xl md:text-3xl cursor-pointer bg-foreground text-white rounded-full p-1 hover:opacity-95 duration-300"
+          className="absolute right-3 top-3 text-2xl md:text-3xl cursor-pointer bg-foreground text-secondary rounded-full p-1 hover:opacity-95 duration-300"
         />
         {title && <h2 className="text-xl mb-4  text-foreground">{title}</h2>}
         <div>{children}</div>

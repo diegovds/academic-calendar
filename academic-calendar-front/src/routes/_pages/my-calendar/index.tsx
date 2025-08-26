@@ -100,6 +100,7 @@ function MyCalendarComponent() {
         {courses.length > 0 && (
           <Button
             type="button"
+            variant="default"
             className="md:w-fit w-full px-3"
             onClick={() => setIsOpen(true)}
           >
@@ -112,6 +113,7 @@ function MyCalendarComponent() {
         <EmptyMessage text="Você não possui cursos">
           <Button
             type="button"
+            variant="default"
             className="w-fit px-3"
             onClick={() => setIsOpen(true)}
           >
