@@ -1,10 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import Cookies from 'js-cookie'
-import { jwtDecode } from 'jwt-decode'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -14,10 +7,15 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-
 import { postSignin } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import type { User } from '@/types/user'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import * as z from 'zod'
 
 const formSchema = z.object({
   email: z.email('Email inválido'),
