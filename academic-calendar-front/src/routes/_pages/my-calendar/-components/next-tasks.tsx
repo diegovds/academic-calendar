@@ -23,7 +23,7 @@ export function NextTasks({ tasks }: NextTasksProps) {
             </h3>
             {course.disciplines.map(discipline => (
               <div key={discipline.disciplineId} className="mx-4">
-                <h4 className="text-sm line-clamp-1">
+                <h4 className="text-sm line-clamp-1 mb-1.5">
                   {discipline.disciplineName}
                 </h4>
                 <div className="grid grid-cols-3 items-center gap-4 text-xs md:text-sm mx-4">
