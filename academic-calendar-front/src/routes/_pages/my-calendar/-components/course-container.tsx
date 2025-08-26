@@ -34,7 +34,7 @@ export function CourseList({
           >
             <div className="flex-1 flex gap-4">
               <Brand />
-              <div>
+              <div className="flex-1">
                 <h3 className="text-base md:text-lg line-clamp-1">
                   {course.title}
                 </h3>
