@@ -69,7 +69,7 @@ export function SignUp({ formMessage }: SignUpProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-full px-5 py-7 md:p-10 rounded bg-background shadow text-foreground"
+        className="space-y-4 w-full px-5 py-7 md:p-10 rounded bg-secondary shadow shadow-gray-300 text-foreground"
       >
         {/* Nome */}
         <FormField
@@ -131,7 +131,12 @@ export function SignUp({ formMessage }: SignUpProps) {
           )}
         />
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
+        <Button
+          type="submit"
+          variant="default"
+          className="w-full"
+          disabled={form.formState.isSubmitting}
+        >
           Cadastrar
         </Button>
 
