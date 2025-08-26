@@ -21,7 +21,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     <>
       <HeadContent />
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div className="flex min-h-dvh flex-col bg-background">
+        <div className="flex min-h-dvh flex-col bg-background duration-300">
           <Outlet />
           <Footer />
           <Toaster
