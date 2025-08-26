@@ -90,7 +90,7 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
             >
               <div className="flex-1 flex gap-4">
                 <Brand />
-                <div className="text-sm md:text-base line-clamp-1 cursor-pointer text-foreground">
+                <div className="text-sm flex-1 md:text-base line-clamp-1 cursor-pointer text-foreground">
                   {discipline.title}
                 </div>
               </div>
