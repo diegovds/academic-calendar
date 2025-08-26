@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -18,6 +17,7 @@ import { Input } from '@/components/ui/input'
 import { postSignup } from '@/http/api'
 import { useAuthStore } from '@/stores/useAuthStore'
 import type { User } from '@/types/user'
+import { toast } from 'sonner'
 
 const formSchema = z
   .object({
@@ -46,25 +46,24 @@ export function SignUp({ formMessage }: SignUpProps) {
   })
 
   const onSubmit = async (data: FormData) => {
-    const response = await postSignup(data)
+    try {
+      const response = await postSignup(data)
 
-    if (response.message) {
-      toast.error(response.message)
-      return
-    }
+      if (response.token) {
+        const token = response.token
+        const cookieExpiresInSeconds = 60 * 60 * 24 * 30
 
-    if (response.token) {
-      const token = response.token
-      const cookieExpiresInSeconds = 60 * 60 * 24 * 30
+        Cookies.set('token', token, {
+          expires: cookieExpiresInSeconds,
+          path: '/',
+        })
 
-      Cookies.set('token', token, {
-        expires: cookieExpiresInSeconds,
-        path: '/',
-      })
-
-      const user: User = jwtDecode(token)
-      setName(user.name)
-      setToken(token)
+        const user: User = jwtDecode(token)
+        setName(user.name)
+        setToken(token)
+      }
+    } catch (error: unknown) {
+      toast.error((error as Error).message)
     }
   }
 
