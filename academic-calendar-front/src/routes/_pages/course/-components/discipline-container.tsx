@@ -116,7 +116,6 @@ export function DisciplineContainer({ semesterId }: DisciplineContainerProps) {
         <Modal
           onClose={() => {
             setIsOpen(false)
-            setSelectedDiscipline(null)
           }}
           title={
             selectedDiscipline
