@@ -70,6 +70,27 @@ h1, h2, h3, h4, h5, h6 {
   animation: fadeOutZoom 0.2s ease-in forwards;
 }
 
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(32, 32, 32) #d1d5db;
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #d1d5db;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(32, 32, 32);
+  border-radius: 9999px;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
